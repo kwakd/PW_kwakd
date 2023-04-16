@@ -1,12 +1,18 @@
+@import url("https://fonts.googleapis.com/css?family=Lato:400,400italic,700,700italic|Source+Code+Pro:400");
+
 :root
 {
     --website-width: 1280px;
+
+    --key-width: 0.75em;
 
     --primary-color: #ffbc00;
     --secondary-color: #ff9c4c;
     --light-color: #f4f4f4;
     --medium-color: #fff;
-    --dark-color: #333;
+    --medium-dark-color: #333;
+    --dark-color: #222;
+    
 
     --test-color: beige;
 }
@@ -15,6 +21,11 @@
 {
     padding: 0;
     margin: 0;
+}
+
+body
+{
+    font-family: "Lato", sans-serif;
 }
 
 /* Utilities */
@@ -34,7 +45,7 @@ h2
 h3
 {
     font-size: 1.5em;
-    color: var(--secondary-color);
+    color: var(--medium-dark-color);
 }
 
 .py-025
@@ -60,9 +71,10 @@ h3
 
 .section-title
 {
-    font-size: 1rem;
+    font-size: 1.1rem;
     display: block;
     font-weight: 100;
+    padding-bottom: 0.5rem;
 }
 
 .bottom-line
@@ -79,88 +91,110 @@ h3
     background: blue;
 }
 
-/* Wrapper: About Me */
+/* Wrapper: Projects */
 .wrapper .main #two
 {
     border-top: solid 6px #333;
-    background: var(--test-color);
+    background: var(--light-color);
 }
-.wrapper .main #two h3
+
+.items
 {
-    padding-top: 0.75em;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.3);
 }
-.wrapper .main #two h3 a
+
+.items img
 {
+    width: 100%;
+}
+
+/* Wrapper: About Me */
+.wrapper .main #three
+{
+    border-top: solid 6px #333;
+    background: var(--light-color);
+}
+.wrapper .main #three h3
+{
+    padding-top: 1.5em;
+}
+.wrapper .main #three h3 a
+{
+    outline: solid;
+    color: var(--secondary-color);
+    border-radius: 4px;
+    padding: 10px 20px;
     text-decoration: none;
-    margin: 0.5em;
 }
-.wrapper .main #two h3 a:visited:hover,
-.wrapper .main #two h3 a:hover
+.wrapper .main #three h3 a:visited:hover,
+.wrapper .main #three h3 a:hover
 {
     color: var(--dark-color);
 }
-.wrapper .main #two h3 a:visited
+.wrapper .main #three h3 a:visited
 {
     color: var(--secondary-color);
     text-decoration: none;
 }
+
     /* Skillsets */
-.wrapper .main #two .skillsets h3
+.wrapper .main #three .skillsets .skill-key
 {
-    margin: 0.5em;
-}
-.wrapper .main #two .skillsets .skill-key
-{
-    background: red;
+    background: var(--dark-color);
+    color: var(--light-color);
     border-radius: 5px;
     padding: 1em 1em;
-    margin: 1em;
+    margin: var(--key-width) 0;
 }
-.wrapper .main #two .skillsets .skill-web
+.wrapper .main #three .skillsets .skill-web
 {
-    background: red;
+    background: var(--medium-color);
     border-radius: 5px;
     padding: 1em 1em;
-    margin: 1em;
+    margin: var(--key-width) 0;
 }
-.wrapper .main #two .skillsets .skill-game
+.wrapper .main #three .skillsets .skill-game
 {
-    background: red;
+    background: var(--dark-color);
+    color: var(--light-color);
     border-radius: 5px;
     padding: 1em 1em;
-    margin: 1em;
+    margin: var(--key-width) 0;
 }
-.wrapper .main #two .skillsets .skill-mobile
+.wrapper .main #three .skillsets .skill-mobile
 {
-    background: red;
+    background: var(--medium-color);
     border-radius: 5px;
     padding: 1em 1em;
-    margin: 1em;
+    margin: var(--key-width) 0;
 }
-.wrapper .main #two .skillsets .skill-software
+.wrapper .main #three .skillsets .skill-software
 {
-    background: red;
+    background: var(--dark-color);
+    color: var(--light-color);
     border-radius: 5px;
     padding: 1em 1em;
-    margin: 1em;
+    margin: var(--key-width) 0;
 }
-.wrapper .main #two .skillsets .skill-general
+.wrapper .main #three .skillsets .skill-general
 {
-    background: red;
+    background: var(--medium-color);
     border-radius: 5px;
     padding: 1em 1em;
-    margin: 1em;
+    margin: var(--key-width) 0;
 }
 
-.wrapper .main #two .progress
+.wrapper .main #three .progress
 {
     overflow: hidden;
     height: 20px;
-    background: var(--medium-color);
+    background: var(--medium-dark-color);
     border-radius: 5px;
     margin-bottom: 0.6rem;
 }
-.wrapper .main #two .progress div
+.wrapper .main #three .progress div
 {
     height: 100%;
     color: #fff;
@@ -168,12 +202,7 @@ h3
     background: var(--secondary-color);
 }
 
-/* Wrapper: Projects */
-.wrapper .main #three
-{
-    border-top: solid 6px #333;
-    background: var(--test-color);
-}
+
 
 /* Wrapper: Contact Form */
 .wrapper .main #four
