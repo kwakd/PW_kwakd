@@ -1,3 +1,4 @@
+@import url("fontawesome-all.min.css");
 @import url("https://fonts.googleapis.com/css?family=Lato:400,400italic,700,700italic|Source+Code+Pro:400");
 
 :root
@@ -9,6 +10,7 @@
     --primary-color: #ffbc00;
     --secondary-color: #ff9c4c;
     --light-color: #f4f4f4;
+    --light-dark-color: #E1D9D1;
     --medium-color: #fff;
     --medium-dark-color: #333;
     --dark-color: #222;
@@ -69,12 +71,26 @@ h3
     padding: 4rem 0;
 }
 
+.text-center
+{
+    text-align: center;
+}
+
 .section-title
 {
     font-size: 1.1rem;
     display: block;
     font-weight: 100;
     padding-bottom: 0.5rem;
+}
+
+.mid-line
+{
+    height: 2px;
+    width: 5rem;
+    background: var(--primary-color);
+    display: block;
+    margin: auto;
 }
 
 .bottom-line
@@ -105,10 +121,136 @@ h3
     box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.3);
 }
 
-.items img
+.item
+{
+    position: relative;
+    background: var(--light-dark-color);
+    overflow: hidden;
+}
+.item::after
+{
+    content: '';
+    position: absolute;
+    display: block;
+    background: inherit;
+    opacity: 0.9;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform: scale(2) translateX(-75%) translateY(-75%) rotate(-28deg);
+    transition: transform 3s cubic-bezier(0.2, 1, 0.3, 1);
+}
+.item:hover:after 
+{
+    transform: scale(2) translateX(0) translateY(0) rotate(-28deg); 
+}
+.item:hover .item-image 
+{
+    transform: scale(1.2); 
+}
+.item:hover .item-text 
+{
+    opacity: 1;
+    transform: translateY(0); 
+}
+
+.item-image 
+{
+    height: auto;
+    transform: translateZ(0);
+    display: block;
+    transition: transform 750ms cubic-bezier(0.2, 1, 0.3, 1); 
+}
+.item-image:before 
+{
+    content: '';
+    display: block;
+    padding-top: 75%;
+    overflow: hidden; 
+}
+.item-image img 
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    line-height: 0; 
+}
+
+.item-text 
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    opacity: 0;
+    text-align: center;
+    z-index: 1;
+    color: var(--medium-dark-color);
+    transform: translateY(-20%);
+    transition: opacity 500ms cubic-bezier(0.2, 1, 0.3, 1), 
+                transform 500ms cubic-bezier(0.2, 1, 0.3, 1);
+    transition-delay: 375ms; 
+}
+
+.item-text-wrap 
 {
     width: 100%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%); 
 }
+
+.item-text-title 
+{
+    font-size: 1.25rem;
+    padding: 0 1rem;
+    margin: 5px 0 0 0; 
+}
+.item-text-title a
+{
+    text-decoration: none;
+    color: var(--secondary-color);
+}
+.item-text-title a:hover,
+.item-text-title a:visited:hover
+{
+    text-decoration: underline;
+    color: var(--dark-color);
+}
+.item-text-title a:visited
+{
+    color: var(--secondary-color);
+}
+
+.item-text-category 
+{
+    text-transform: lowercase;
+    font-size: 1.1rem;
+    opacity: 0.7;
+    margin: 0; 
+}
+
+.item-text-software 
+{
+    text-transform: lowercase;
+    font-size: 1.1rem;
+    opacity: 0.7;
+    margin: 0; 
+    font-style: italic;
+}
+
+.item-text-paragraph 
+{
+    text-transform: lowercase;
+    font-size: 0.9rem;
+    opacity: 0.7;
+    margin: 1rem 2.5rem; 
+}
+
 
 /* Wrapper: About Me */
 .wrapper .main #three
@@ -150,7 +292,7 @@ h3
 }
 .wrapper .main #three .skillsets .skill-web
 {
-    background: var(--medium-color);
+    background: var(--light-dark-color);
     border-radius: 5px;
     padding: 1em 1em;
     margin: var(--key-width) 0;
@@ -165,7 +307,7 @@ h3
 }
 .wrapper .main #three .skillsets .skill-mobile
 {
-    background: var(--medium-color);
+    background: var(--light-dark-color);
     border-radius: 5px;
     padding: 1em 1em;
     margin: var(--key-width) 0;
@@ -180,7 +322,7 @@ h3
 }
 .wrapper .main #three .skillsets .skill-general
 {
-    background: var(--medium-color);
+    background: var(--light-dark-color);
     border-radius: 5px;
     padding: 1em 1em;
     margin: var(--key-width) 0;
