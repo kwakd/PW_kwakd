@@ -1,0 +1,198 @@
+:root
+{
+    --website-width: 1280px;
+
+    --primary-color: #ffbc00;
+    --secondary-color: #ff9c4c;
+    --light-color: #f4f4f4;
+    --medium-color: #fff;
+    --dark-color: #333;
+
+    --test-color: beige;
+}
+
+*
+{
+    padding: 0;
+    margin: 0;
+}
+
+/* Utilities */
+.container
+{
+    max-width: var(--website-width);
+    padding: 0 5rem;
+    margin: auto;
+    overflow: hidden;
+}
+
+h2
+{
+    font-size: 3em;
+    color:var(--primary-color);
+}
+h3
+{
+    font-size: 1.5em;
+    color: var(--secondary-color);
+}
+
+.py-025
+{
+    padding: 0.25rem 0;
+}
+.py-1
+{
+    padding: 1rem 0;
+}
+.py-2
+{
+    padding: 2rem 0;
+}
+.py-3
+{
+    padding: 3rem 0;
+}
+.py-4
+{
+    padding: 4rem 0;
+}
+
+.section-title
+{
+    font-size: 1rem;
+    display: block;
+    font-weight: 100;
+}
+
+.bottom-line
+{
+    height: 2px;
+    width: 5rem;
+    background: var(--primary-color);
+    display: block;
+}
+
+/* Wrapper: Home/Playground */
+.wrapper .main #one
+{
+    background: blue;
+}
+
+/* Wrapper: About Me */
+.wrapper .main #two
+{
+    border-top: solid 6px #333;
+    background: var(--test-color);
+}
+.wrapper .main #two h3
+{
+    padding-top: 0.75em;
+}
+.wrapper .main #two h3 a
+{
+    text-decoration: none;
+    margin: 0.5em;
+}
+.wrapper .main #two h3 a:visited:hover,
+.wrapper .main #two h3 a:hover
+{
+    color: var(--dark-color);
+}
+.wrapper .main #two h3 a:visited
+{
+    color: var(--secondary-color);
+    text-decoration: none;
+}
+    /* Skillsets */
+.wrapper .main #two .skillsets h3
+{
+    margin: 0.5em;
+}
+.wrapper .main #two .skillsets .skill-key
+{
+    background: red;
+    border-radius: 5px;
+    padding: 1em 1em;
+    margin: 1em;
+}
+.wrapper .main #two .skillsets .skill-web
+{
+    background: red;
+    border-radius: 5px;
+    padding: 1em 1em;
+    margin: 1em;
+}
+.wrapper .main #two .skillsets .skill-game
+{
+    background: red;
+    border-radius: 5px;
+    padding: 1em 1em;
+    margin: 1em;
+}
+.wrapper .main #two .skillsets .skill-mobile
+{
+    background: red;
+    border-radius: 5px;
+    padding: 1em 1em;
+    margin: 1em;
+}
+.wrapper .main #two .skillsets .skill-software
+{
+    background: red;
+    border-radius: 5px;
+    padding: 1em 1em;
+    margin: 1em;
+}
+.wrapper .main #two .skillsets .skill-general
+{
+    background: red;
+    border-radius: 5px;
+    padding: 1em 1em;
+    margin: 1em;
+}
+
+.wrapper .main #two .progress
+{
+    overflow: hidden;
+    height: 20px;
+    background: var(--medium-color);
+    border-radius: 5px;
+    margin-bottom: 0.6rem;
+}
+.wrapper .main #two .progress div
+{
+    height: 100%;
+    color: #fff;
+    text-align: center;
+    background: var(--secondary-color);
+}
+
+/* Wrapper: Projects */
+.wrapper .main #three
+{
+    border-top: solid 6px #333;
+    background: var(--test-color);
+}
+
+/* Wrapper: Contact Form */
+.wrapper .main #four
+{
+    border-top: solid 6px #333;
+    background: green;
+}
+
+/* FOOTER */
+.wrapper footer
+{
+    background: #333;
+    color: #fff;
+    height: 5rem;
+}
+.wrapper footer .footer-content
+{
+    display: flex;
+    justify-content: space-between;
+    height: 5rem;
+    align-items: center;
+}
