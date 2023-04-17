@@ -1,21 +1,8 @@
 <!-- 
     TODO:
     - HOME SECTION: 
-        - put small radio player
-    - PROJECTS SECTION:
-        - RECENT PROJECTS
-            - work on display for this
-        - SCHOOL/PERSONAL PROJECTS
-            - work on display for this
-    - SIDE MENU SECTION:
-        - make it interactive (close)
-        - header
-            - profile
-            - descriptions
-        - nav
-        - footer
-    - change font
-    - style color
+        - make sound-volume work
+        - add dancing waddle dee below
  -->
 
 <!DOCTYPE html>
@@ -25,7 +12,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-
+        <link rel="stylesheet" href="playground/music_nator/css/musicPlayerStyle.css">
         <link rel="stylesheet" href="css/style.css">
         <title>pw_v1.5_kwakd</title>
     </head>
@@ -40,10 +27,56 @@
         <!-- Wrapper -->
         <div class="wrapper">
             <div class="main">
+
                 <!-- Home/Playground -->
                 <section id="one" class="py-4">
                     <div class="container">
                         <h2>home/playground</h2>
+                        <div class="playGround1-music">
+                            <h3 class="py-025">music-player | 04/16/23 | #1</h3>
+                            <h4>lesson from: <a href="https://www.youtube.com/watch?v=QTHRWGn_sJw" target="_blank">traversy media</a></h4>
+                            <p>html5/css/js</p>
+                            <div class="py-3"></div>
+
+                            <div class="music-outer-container">
+                                
+                                <div class="music-container">
+                                    <div class="music-info">
+                                        <h4 id="title" class="text-center">tooCold</h4>
+                                        <div class="progress-container">
+                                            <div class="progress-bar"></div>
+                                        </div>
+                                        <div class="py-025"></div>
+                                        <h4 id="title" class="text-center">
+                                            <i class="fa fa-volume-up"></i>
+                                        </h4>
+                                        <div class="sound-container">
+                                            <div class="sound-bar"></div>
+                                        </div>
+                                    </div>
+
+                                    <audio src="playground/music_nator/music/tooCold.mp3" id="audio"></audio>
+
+                                    <div class="img-container">
+                                        <img src="playground/music_nator/img/tooCold.jpg" alt="music-cover" id="music-cover">
+                                    </div>
+                                    
+                                    <div class="music-navigation">
+                                        <button id="prev" class="action-btn">
+                                            <i class="fa fa-backward"></i>
+                                        </button>
+                                        <button id="play" class="action-btn-big" action-btn-big>
+                                            <i class="fa fa-play"></i>
+                                        </button>
+                                        <button id="next" class="action-btn">
+                                            <i class="fa fa-forward"></i>
+                                        </button>
+                                    </div>
+                                    
+                                </div> <!--.music-container END-->
+                            </div>
+
+                        </div> <!--.playGround1-music END-->
                     </div>
                 </section>
 
@@ -280,6 +313,10 @@
                                 <div class="progress">
                                     <div style="width: 25%"></div>
                                 </div>
+                                <h5>react.js:</h5>
+                                <div class="progress">
+                                    <div style="width: 25%"></div>
+                                </div>
                             </div>
 
                             <div class="skill-game">
@@ -472,5 +509,6 @@
 
         <!-- SCRIPTS -->
         <script src="js/main.js"></script>
+        <script src="js/musicPlayer.js"></script>
     </body>
 </html>

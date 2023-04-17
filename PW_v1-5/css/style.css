@@ -188,10 +188,7 @@ h3
 {
     padding: 5rem 5rem;
 }
-#header footer .icons
-{
-    
-}
+
 #header footer li
 {
     display: flex;
@@ -264,8 +261,11 @@ h3
 /* Wrapper: Home/Playground */
 .wrapper .main #one
 {
-    background: blue;
+    background: var(--light-color);
+    height: 40rem;
+    
 }
+
 
 /* Wrapper: Projects */
 .wrapper .main #two
@@ -542,7 +542,7 @@ h3
     }
     .wrapper .main #one
     {
-        background: green;
+        background: lightgreen;
     }
     .item-text-paragraph
     {
@@ -579,7 +579,11 @@ h3
     }
     .wrapper .main #one
     {
-        background: red;
+        background: lightgoldenrodyellow;
+    }
+    .items
+    {
+        grid-template-columns: 2fr;
     }
     .item-text-category
     {
@@ -588,6 +592,10 @@ h3
     .item-text-title
     {
         font-size: 1rem;
+    }
+    .item-text-paragraph
+    {
+        display: inline;
     }
 }
 
@@ -622,7 +630,7 @@ h3
     }
     .wrapper .main #one
     {
-        background: blueviolet;
+        background: lightpink;
     }
     .item-text-title
     {
@@ -645,13 +653,14 @@ h3
     {
         font-size: 0.75em;
     }
+    .showcase
+    {
+        position: fixed;
+        display: inline;
+    }
     .wrapper .main #one
     {
-        background: pink;
-    }
-    .items
-    {
-        grid-template-columns: 1fr;
+        background: lightskyblue;
     }
     .item-text-title
     {
