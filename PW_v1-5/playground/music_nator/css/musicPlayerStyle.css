@@ -9,6 +9,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding-bottom: 15rem;
 }
 .music-container
 {
@@ -102,6 +103,27 @@
     outline: 0;
 }
 
+.dancing-gif
+{
+    background-color: #5c9397;
+    border-radius: 0 0 15px 15px;
+    position: absolute;
+    bottom: 0;
+    left: 20px;
+    height: auto;
+    width: calc(100% - 40px);
+    transform: translateY(0%);
+    z-index: 0;
+    transition: 0.2s ease-in;
+    opacity: 0;
+    text-align: center;
+}
+.music-container.play .dancing-gif
+{
+    opacity: 1;
+    transform: translateY(100%);
+}
+
 .music-info
 {
     background-color: #99c4c7;
@@ -145,7 +167,18 @@
     width: 0%;
     transition: width 0.1s linear;
 }
-
+.ui-slider-handle
+{
+    width: 20px;
+  	height: 20px;
+	border-radius: 20px;
+  	background: #FFF;
+  	position: absolute;
+  	margin-left: -8px;
+  	margin-top: -8px;
+  	cursor: pointer;
+  	outline: none;
+}
 .sound-container
 {
     background-color: white;
@@ -160,7 +193,7 @@
     background-color: #fe8daa;
     border-radius: 5px;
     height: 100%;
-    width: 60%;
+    width: 20%;
     transition: width 0.1s linear;
 }
 
