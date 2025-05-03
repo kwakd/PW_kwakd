@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Liam Mews</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header>
+      <div class="logo">
+        <p>me<br />ws</p>
+      </div>
+      <nav class="top-nav">
+        <a href="#">Index</a>
+        <a href="#">Craft</a>
+        <a href="#">Things</a>
+      </nav>
+    </header>
+
+    <main>
+      <h2>Liam Mews</h2>
+      <p class="subtitle">Designer + Developer + QA</p>
+      <p>
+        A designer turned developer with over eight years of experience. I'm
+        passionate about crafting beautiful yet functional systems and websites
+        with a focus on accessibility, performance, and interactivity.
+      </p>
+      <p>
+        In the past I’ve worked solo, within agencies and in-house at global
+        organisations. I'm now focused on contracting with small craft-focused
+        teams and agencies.
+      </p>
+      <p>
+        I'm currently working as a Senior Designer & Developer at
+        <strong>MakeBuild</strong>, a London-based agency helping clients build
+        world-class marketing websites with Webflow.
+      </p>
+    </main>
+
+    <footer>
+      <span>Cambridgeshire, UK</span>
+      <span id="clock">--:--</span>
+    </footer>
+
+    <script>
+      function updateClock() {
+        const now = new Date();
+
+        const options = {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+          timeZone: "America/Los_Angeles",
+        };
+
+        const timeString = new Intl.DateTimeFormat("en-GB", options).format(
+          now
+        );
+        document.getElementById("clock").textContent = timeString;
+      }
+
+      updateClock(); // initial call
+      setInterval(updateClock, 1000); // update every second
+    </script>
+  </body>
+</html>
