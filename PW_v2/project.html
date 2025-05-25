@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DK-Portfolio2025-P</title>
+    <link rel="stylesheet" href="projectstyles.css" />
+
+    <!-- <link rel="stylesheet" href="styles.css" /> -->
+  </head>
+  <body>
+    <header>
+      <div class="logo">
+        <img src="/img/testCharA.png" />
+      </div>
+      <button id="toggle-theme">Toggle Dark Mode</button>
+      <nav class="top-nav">
+        <a href="/index.html">playground + about me</a>
+        <a href="/blog.html"><s>blog</s></a>
+        <a href="#" class="active">projects</a>
+      </nav>
+    </header>
+
+    <main>
+      <div class="blogPostTemplate">
+        <div class="image-box">
+          <img src="/img/hzTN.png" alt="Example image" />
+        </div>
+        <div class="below-image">
+          <span>October 2024 ~ <b>Present</b></span>
+          <a
+            href="/projectHtml/project-horizonWorld.html"
+            class="prototype-link"
+            >Horizon Worlds</a
+          >
+        </div>
+      </div>
+      <br />
+      <div class="blogPostTemplate">
+        <div class="image-box">
+          <img src="/img/aw2TN.jpg" alt="Example image" />
+        </div>
+        <div class="below-image">
+          <span>August 2024 ~ October 2024</span>
+          <a href="/projectHtml/project-aw2.html" class="prototype-link"
+            >Asgards Wrath 2</a
+          >
+        </div>
+      </div>
+      <br />
+      <div class="blogPostTemplate">
+        <div class="image-box">
+          <img src="https://via.placeholder.com/600x360" alt="Example image" />
+        </div>
+        <div class="below-image">
+          <span>September 2021 ~ June 2022</span>
+          <a href="/projectHtml/project-wwm-wod.html" class="prototype-link"
+            >1.Walking with Magnus / 2.W.O.D</a
+          >
+        </div>
+      </div>
+      <br />
+      <div class="blogPostTemplate">
+        <div class="image-box">
+          <img src="/img/gatchafishThumbnail.png" alt="Example image" />
+        </div>
+        <div class="below-image">
+          <span>March 27th 2024</span>
+          <span>Personal Project / Game Jam</span>
+          <a
+            href="/projectHtml/project-buttonmasher.html"
+            class="prototype-link"
+            >gat-cha fish.</a
+          >
+        </div>
+      </div>
+      <br />
+      <div class="blogPostTemplate">
+        <div class="image-box">
+          <img src="/img/buttonMasterThumbnail.png" alt="Example image" />
+        </div>
+        <div class="below-image">
+          <span>January 12th 2024</span>
+          <span>Personal Project / Game Jam</span>
+          <a
+            href="/projectHtml/project-buttonmasher.html"
+            class="prototype-link"
+            >button masher</a
+          >
+        </div>
+      </div>
+      <br />
+      <div class="blogPostTemplate">
+        <div class="image-box">
+          <img src="/img/arGLHFTN.PNG" alt="Example image" />
+        </div>
+        <div class="below-image">
+          <span>March 7th 2023</span>
+          <span>Personal Project / For Fun</span>
+          <a href="/projectHtml/project-arglhf.html" class="prototype-link"
+            >AR_GLHF</a
+          >
+        </div>
+      </div>
+      <br />
+    </main>
+
+    <script>
+      // 🌙 Theme toggle with localStorage
+      const toggleButton = document.getElementById("toggle-theme");
+      const prefersDark = localStorage.getItem("theme") === "dark";
+
+      // Apply saved theme on page load
+      if (prefersDark) {
+        document.body.classList.add("dark-mode");
+        toggleButton.textContent = "Switch to Light Mode";
+      } else {
+        toggleButton.textContent = "Switch to Dark Mode";
+      }
+
+      toggleButton.addEventListener("click", () => {
+        const isDark = document.body.classList.toggle("dark-mode");
+        localStorage.setItem("theme", isDark ? "dark" : "light");
+        toggleButton.textContent = isDark
+          ? "Switch to Light Mode"
+          : "Switch to Dark Mode";
+      });
+    </script>
+  </body>
+</html>

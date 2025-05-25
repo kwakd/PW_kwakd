@@ -3,45 +3,90 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Liam Mews</title>
+    <title>DK-Portfolio2025-PH</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <header>
       <div class="logo">
-        <p>me<br />ws</p>
+        <img src="/img/testCharA.png"/>
       </div>
       <nav class="top-nav">
-        <a href="#">Index</a>
-        <a href="#">Craft</a>
-        <a href="#">Things</a>
+        <a href="#" class="active">playground + about me</a>
+        <a href="/blog.html"><s>blog</s></a>
+        <a href="project.html">projects</a>
+        <button id="toggle-theme">Toggle Dark Mode</button>
       </nav>
     </header>
 
     <main>
-      <h2>Liam Mews</h2>
-      <p class="subtitle">Designer + Developer + QA</p>
-      <p>
-        A designer turned developer with over eight years of experience. I'm
-        passionate about crafting beautiful yet functional systems and websites
-        with a focus on accessibility, performance, and interactivity.
+      <h2>Playground: <i>GLHF-Fishing Game</i></h2>
+      <div style="width: 768px; height: 480px; overflow: hidden;"">
+      <iframe
+        src="glhf_fishGacha_htmlVer/index.html"
+        width="960"
+        height="600"
+        style="
+          transform: scale(0.8);
+          transform-origin: top left;
+          width: 960px;
+          height: 620px;
+          border: none;
+        "
+      ></iframe>
+      </div>
+      <p class="subtitle">
+        <b>About <i>GLHF-Fishing Game (Unity)</i></b>
       </p>
       <p>
-        In the past I’ve worked solo, within agencies and in-house at global
-        organisations. I'm now focused on contracting with small craft-focused
-        teams and agencies.
+        A game inspired by the idle-game category at the time. <br />My main
+        vision for this project was a game you'd put on the background, and when
+        you heard a little ping that's when you'd know you caught a fish.
+        <br />You'd quickly go back to the game and press the correct sequence
+        of buttons to reel the fish in.
       </p>
       <p>
-        I'm currently working as a Senior Designer & Developer at
-        <strong>MakeBuild</strong>, a London-based agency helping clients build
-        world-class marketing websites with Webflow.
+        Unfortunately people didn't understand the initial concept of it and
+        this was recieved poorly because people thought it was a a very-active
+        game. When it was actually the opposite.
+        <br />Which taught me how I need to make these game explanations a lot
+        more clearer, as looking back I can definiltey understand their
+        perspective.
       </p>
+      <p>
+        - THERE IS NO SAVE STATE FOR THIS GAME
+        <br>
+        - Game can only be played on 760px or wider
+      </p>
+      <a href="https://github.com/kwakd/fishGacha_htmlVer" target="_blank">GitHub Link For This Project</a>
+      <br>
+      <h2 class="needBorder"></h2>
+      <h2>David Kwak</h2>
+      <img src="/img/testCharA.png" width="150" height="150" />
+      <p class="subtitle">
+        <b>Junior Game/Software</b> [Developer + Designer + QA]
+      </p>
+      <p class="subtitle">
+         kwakd804@gmail.com
+      </p>
+      <p>
+        I'm a Junior Game Designer and Developer with over two years of experience in the video game industry. My journey began as a competitive player in platformer fighters, auto-chess, and more recently, 2D fighting games. Over time, my focus has evolved toward the creative and technical aspects of development—particularly in designing game systems and mechanics that deliver engaging, balanced gameplay experiences. I'm currently expanding my skills with the goal of creating a 3D platformer, with a strong emphasis on fluid movement and responsive controls.
+      </p>
+      <p>
+        In my free time, I’m expanding my skill set by learning 3D modeling with the goal of producing custom resin figures. Inspired by vinyl figure artists who design and produce their own collectibles, it has long been a personal ambition to create a system where people can collect both a physical figure and a corresponding digital asset. By combining what I'm learning in Unity, Blender, and JavaScript, I'm actively working toward building a prototype to bring this concept to life.
+      </p>
+      <p>
+        I’m currently working as a Test Associate II at
+        <strong>Experis</strong>, where I’m assigned to <strong>META</strong> as
+        a client. I’m part of the team supporting the
+        <strong>Horizon Worlds</strong> project, contributing to quality
+        assurance and testing efforts to ensure a seamless user experience.
+      </p>
+      <a href="kwakd_res25.pdf" download style="text-decoration: underline">Download Resume Here</a>
+      <div class="location-time">
+        <span id="clock">--:--</span>
+      </div>
     </main>
-
-    <footer>
-      <span>Cambridgeshire, UK</span>
-      <span id="clock">--:--</span>
-    </footer>
 
     <script>
       function updateClock() {
@@ -62,6 +107,26 @@
 
       updateClock(); // initial call
       setInterval(updateClock, 1000); // update every second
+
+      // 🌙 Theme toggle with localStorage
+      const toggleButton = document.getElementById("toggle-theme");
+      const prefersDark = localStorage.getItem("theme") === "dark";
+
+      // Apply saved theme on page load
+      if (prefersDark) {
+        document.body.classList.add("dark-mode");
+        toggleButton.textContent = "Switch to Light Mode";
+      } else {
+        toggleButton.textContent = "Switch to Dark Mode";
+      }
+
+      toggleButton.addEventListener("click", () => {
+        const isDark = document.body.classList.toggle("dark-mode");
+        localStorage.setItem("theme", isDark ? "dark" : "light");
+        toggleButton.textContent = isDark
+          ? "Switch to Light Mode"
+          : "Switch to Dark Mode";
+      });
     </script>
   </body>
 </html>
