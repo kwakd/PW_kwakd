@@ -181,6 +181,21 @@ body.dark-mode #toggle-theme {
   .resize_img {
     width: 75%;
   }
+
+  .iframe-wrapper {
+    width: 960px;
+    height: 620px;
+    transform: scale(0.8);
+    transform-origin: top left;
+    overflow: hidden;
+    margin-bottom: 1rem; /* adjust to control spacing below */
+  }
+
+  .iframe-wrapper iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
   /* .image-box img {
     width: 50%;
     height: 50%;
