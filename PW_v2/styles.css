@@ -171,6 +171,11 @@ body.dark-mode #toggle-theme {
     display: none;
   }
 
+  iframe,
+  .iframe-wrapper {
+    display: none;
+  }
+
   .image-box {
     width: auto;
     height: auto;
