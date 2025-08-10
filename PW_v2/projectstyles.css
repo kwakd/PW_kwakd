@@ -84,6 +84,11 @@ h2.needBorder {
   margin-bottom: 50px;
 }
 
+.above-image {
+  margin-bottom: -40px;
+  text-align: center;
+}
+
 /* Below image section: sits under image box */
 .below-image {
   display: flex;
