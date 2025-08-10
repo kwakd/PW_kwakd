@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DK-Portfolio2025-P</title>
+    <link rel="icon" href="/img/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="/blogstyles.css" />
+
+    <!-- <link rel="stylesheet" href="styles.css" /> -->
+  </head>
+  <body>
+    <div class="page-container">
+    <header>
+      <div class="logo">
+        <img id="clickable-image" src="/img/testCharA.png" alt="Click me" />
+      </div>
+
+      <nav class="top-nav">
+        <a href="/index.html">playground + about me</a>
+        <a href="/blog.html">blog</a>
+        <a href="/project.html">projects</a>
+        <button id="toggle-theme">Toggle Dark Mode</button>
+      </nav>
+    </header>
+
+    <main>
+      <div class="image-box">
+      <img src="/img/blog/8925_SC.PNG" alt="Example image" />
+      </div>
+
+   
+      <div class="below-image">
+        <h3>August 9th 2025 ~ August 16th 2025</h3>
+        </div>
+
+      <h3>Entry #1: <i>glhf-grow</i></h3>
+      <p>
+        This is my first post for the blog. My goal here is to share progress on my personal projects and keep myself accountable by regularly documenting updates. I may occasionally touch on personal life topics, but the main focus will be tracking my development work. This entry will be a bit longer than usual since I’ll also be introducing the app I’m currently working on: glhf-grow.
+        <br>
+        <br>
+        <h2>Week of August 9th</h2>
+For the week of August 9th, I focused on building the initial foundations for glhf-grow, an Android application designed to help people stay distraction-free from their phones. The app will feature a character that also acts as a journal entry—users can rename the character and add text to write about anything they like. I’m still deciding whether to use Unity’s built-in text box (which currently has a limit of around 512 characters) or implement a custom solution to allow longer journal entries.
+        <br>
+        <br>
+The main objectives for this project are to learn how Unity functions with Android, create a basic app for the Play Store, and gain experience with Android development. If possible, I’d also like to create an iOS version and a simple web version for the project’s website, though those will depend on time and feasibility.
+        <br>
+        <br>
+This week’s work was centered on a few core features:
+<ul>
+    <li>Implemented a basic save system for each character, something I missed in my last project. I wanted to handle this early to avoid future roadblocks, and a YouTube tutorial helped me get it running smoothly.</li>
+
+    <li>Added randomized character names.</li>
+
+    <li>Started work on skin variations, including rare “shiny” variants that may feature unique visual effects like trails.</li>
+
+    <li>Created a basic placeholder character with simple roaming behavior.</li>
+  </ul>
+Next, I plan to add animations for the base character, reintroduce special animations for legendary-tier characters, and build a menu for viewing all collected characters along with their details.
+      </p>
+      <br>
+      <h2>Week of August 16th</h2>
+<!-- 
+      initial summary:
+      My first entry to this blog. the idea for this is to show some progress and to keep myself a bit more accountable for finishing these projects by writing about them in these blogs. potentially be talking about personal-life things but the main idea is to show the progress of personal projects i am on. this entry will be partiularly long because I also have to discuss a bit about the app itself im currently working on: 'glhf-grow'.
+
+        For the week of August 9th 2025, mainly worked on building the small foundations for my application 'glhf-grow'. The main-idea for this app is to mainly keep people distraction free from their phones, and a character which will also double as a journal entry will spawn allowing the user to rename the character's name and text-field to write about anything they'd like. we'll see though about this because at the moment i was thinking about just using unitys textbox entry but that has a big text-cap at 512 characters or somewhere around that number. but we'll see i do want to allow the user to add big-text entries like a journal if they want to.
+
+        the main focus of this project is to learn more about how unity functions with android on top of creating a basic-app to put on the playstore along with learning on how to build in an android environment. after this im wanting to create an apple version if it's simple enough, along with creating a basic web-version to put on the website but we'll see if i do get to these, but it is the idea.
+
+        anyways time to move onto what i actually did this week. I mainly worked on a few basic things. the first thing i worked on was making a basic save system for each character because on my last project i wasn't able to implement this during the project and realized i need to do this asap before doing anything else along with understanding how it works more, luckily there was a youtube video that worked great for this. i also need to learn how to make it so that the characters could have the chance of having either a different skin and being a shiny variant (ill be adding a trail-effect or some variety for these). also made it so that the characters names will be random on top of even making a super basic character that'll walk around and such.
+
+        i think the next few plans are to add animations for the basic character along with adding back special-animations for the legendary-tier characters. afterwards ill be creating just a menu to show all the characters and allow the user to see more detailed stuff. -->
+      </div>
+    </main>
+
+    <script>
+      // 🌙 Theme toggle with localStorage
+      const toggleButton = document.getElementById("toggle-theme");
+      const prefersDark = localStorage.getItem("theme") === "dark";
+
+      // Apply saved theme on page load
+      if (prefersDark) {
+        document.body.classList.add("dark-mode");
+        toggleButton.textContent = "Switch to Light Mode";
+      } else {
+        toggleButton.textContent = "Switch to Dark Mode";
+      }
+
+      toggleButton.addEventListener("click", () => {
+        const isDark = document.body.classList.toggle("dark-mode");
+        localStorage.setItem("theme", isDark ? "dark" : "light");
+        toggleButton.textContent = isDark
+          ? "Switch to Light Mode"
+          : "Switch to Dark Mode";
+      });
+    </script>
+        <script>
+      const img = document.getElementById("clickable-image");
+      let clickCount = 0;
+      let imageIndex = 0;
+
+      const newImages = [
+        "/img/testCharA_blanka.png",
+        "/img/testCharA_bow.png",
+        "/img/testCharA_hello.png",
+      ];
+
+      img.addEventListener("click", () => {
+        clickCount++;
+
+        if (clickCount % 5 === 0) {
+          const randomIndex = Math.floor(Math.random() * newImages.length);
+          img.src = newImages[randomIndex];
+        }
+      });
+    </script>
+    </div>
+  </body>
+</html>

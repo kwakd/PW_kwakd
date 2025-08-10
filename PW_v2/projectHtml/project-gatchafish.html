@@ -10,6 +10,7 @@
     <!-- <link rel="stylesheet" href="styles.css" /> -->
   </head>
   <body>
+    <div class="page-container">
     <header>
       <div class="logo">
         <img id="clickable-image" src="/img/testCharA.png" alt="Click me" />
@@ -17,7 +18,7 @@
 
       <nav class="top-nav">
         <a href="/index.html">playground + about me</a>
-        <a href="/blog.html"><s>blog</s></a>
+        <a href="/blog.html">blog</a>
         <a href="/project.html">projects</a>
         <button id="toggle-theme">Toggle Dark Mode</button>
       </nav>
@@ -25,18 +26,14 @@
 
     <main>
       <div class="blogPostTemplate">
-      <iframe
-        src="/glhf_fishGacha_htmlVer/index.html"
-        width="960"
-        height="600"
-        style="
-          transform: scale(0.8);
-          transform-origin: top left;
-          width: 960px;
-          height: 620px;
-          border: none;
-        "
-      ></iframe>
+      <div class="iframe-wrapper">
+        <iframe
+          src="/glhf_fishGacha_htmlVer/"
+          width="920"
+          height="620"
+          allowfullscreen
+        ></iframe>
+      </div>
         <div class="image-box-hidden">
           <img src="/img/gatchafishThumbnail.png" alt="Example image" />
         </div>
@@ -118,5 +115,6 @@
         }
       });
     </script>
+    </div>
   </body>
 </html>
