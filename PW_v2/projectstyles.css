@@ -35,6 +35,9 @@ header {
 h2.needBorder {
   border-top: 1px solid #eee;
 }
+h3.needBorder {
+  border-top: 1px solid #eee;
+}
 
 /* Logo on the left */
 .logo p {

@@ -26,7 +26,7 @@
 
     <main>
       <div class="image-box">
-      <img src="/img/blog/8925_SC.PNG" alt="Example image" />
+      <img src="/img/blog/1_sc.jpg" alt="Example image" />
       </div>
 
    
@@ -36,41 +36,73 @@
 
       <h3>Entry #1: <i>glhf-grow</i></h3>
       <p>
-        This is my first post for the blog. My goal here is to share progress on my personal projects and keep myself accountable by regularly documenting updates. I may occasionally touch on personal life topics, but the main focus will be tracking my development work. This entry will be a bit longer than usual since I’ll also be introducing the app I’m currently working on: glhf-grow.
+        This is my first post for the blog. The main purpose of these posts is to track my progress and keep myself accountable for finishing projects. I might sprinkle in some personal updates, but the focus will be on development progress. This entry will be a little longer than usual because I’ll also introduce the app I’m currently working on: <b>glhf-grow</b>.
+        <br>
+        <p>The core idea behind <b>glhf-grow</b> is to help people stay focused and minimize distractions from their phones. When you open the app, a character spawns, and it doubles as a journal entry. You can rename the character and use a text field to write about anything you want.
         <br>
         <br>
-        <h2>Week of August 9th</h2>
-For the week of August 9th, I focused on building the initial foundations for glhf-grow, an Android application designed to help people stay distraction-free from their phones. The app will feature a character that also acts as a journal entry—users can rename the character and add text to write about anything they like. I’m still deciding whether to use Unity’s built-in text box (which currently has a limit of around 512 characters) or implement a custom solution to allow longer journal entries.
+        One technical challenge I’m already thinking about is handling large text storage because Unity’s default input field caps entries at 512 characters. That’s something I’ll need to solve later on.</p>
+        The primary goal of this project is to:
+        <ul>
+          <li>Learn how Unity works with Android</li>
+          <li>Build a simple app to publish on the Google Play Store</li>
+          <li>Gain experience developing in a mobile environment</li>
+        </ul>
+        If all goes well, I’d also like to create an iOS version and maybe a basic web version for my site.
         <br>
         <br>
-The main objectives for this project are to learn how Unity functions with Android, create a basic app for the Play Store, and gain experience with Android development. If possible, I’d also like to create an iOS version and a simple web version for the project’s website, though those will depend on time and feasibility.
-        <br>
-        <br>
-This week’s work was centered on a few core features:
-<ul>
-    <li>Implemented a basic save system for each character, something I missed in my last project. I wanted to handle this early to avoid future roadblocks, and a YouTube tutorial helped me get it running smoothly.</li>
-
-    <li>Added randomized character names.</li>
-
-    <li>Started work on skin variations, including rare “shiny” variants that may feature unique visual effects like trails.</li>
-
-    <li>Created a basic placeholder character with simple roaming behavior.</li>
-  </ul>
-Next, I plan to add animations for the base character, reintroduce special animations for legendary-tier characters, and build a menu for viewing all collected characters along with their details.
+        
+        <h3>Week of August 9th</h3>
+        This week focused on building the foundation for the app:
+        <ul>
+          <li><b>Basic Save System</b>: Implemented a save system for each character. I missed this feature in a previous project, so I prioritized it early this time.</li>
+          <li><b>Character Features</b>: Added random names and started planning shiny variants with visual effects like trails.</li>
+          <li><b>Basic Character Behavior</b>: Built a simple roaming character and added basic animations.</li>
+        </ul>
+        Next steps include creating a more advanced spawn system for different character tiers and starting the menu system, which will eventually include a calendar feature.
       </p>
+      <div class="image-box">
+        <img src="/img/gif/blog-1-1_grow.gif" alt="Example image" />
+      </div>
       <br>
-      <h2>Week of August 16th</h2>
+      
+      <h3>Week of August 16th</h3>
+      This week I tackled some larger features:
+      <ul>
+          <li>Added a gacha system, allowing characters to spawn with tier-based probabilities</li>
+          <li>Implemented save persistence, so characters remain between sessions</li>
+          <li>Added a delete function for proper data management</li>
+          <li>Introduced tier-based special animations</li>
+      </ul>
+      I’m considering a shift in the app’s design. Instead of a purely distraction-free app, users could “roll” for a new character once every 24 hours. They’d take a photo to generate a daily journal entry, then add text to it.
+      <br>
+      <br>
+      The challenges this introduces include:
+      <ul>
+        <li>Implementing a reliable 24-hour cooldown system</li>
+        <li>Setting up cloud storage</li>
+        <li>Detecting photo captures in Unity</li>
+      </ul>
+      It’s ambitious, but I’m excited about the potential. By the end of this project, I hope to have a fully functional app while gaining significant development experience. I also plan to eventually incorporate the original “grow” system as a future feature. Interestingly, this work aligns closely with what I envisioned for my glhf-capsule game, which could serve as the foundation for version 1.
+      <div class="image-box">
+        <img src="/img/gif/blog-1-2_grow.gif" alt="Example image" />
+      </div>
 <!-- 
       initial summary:
       My first entry to this blog. the idea for this is to show some progress and to keep myself a bit more accountable for finishing these projects by writing about them in these blogs. potentially be talking about personal-life things but the main idea is to show the progress of personal projects i am on. this entry will be partiularly long because I also have to discuss a bit about the app itself im currently working on: 'glhf-grow'.
 
-        For the week of August 9th 2025, mainly worked on building the small foundations for my application 'glhf-grow'. The main-idea for this app is to mainly keep people distraction free from their phones, and a character which will also double as a journal entry will spawn allowing the user to rename the character's name and text-field to write about anything they'd like. we'll see though about this because at the moment i was thinking about just using unitys textbox entry but that has a big text-cap at 512 characters or somewhere around that number. but we'll see i do want to allow the user to add big-text entries like a journal if they want to.
+      Since this is the first entry ill also be talking about what glhf-grow is in general. The main -idea for this app is to mainly keep people's distraction free from their phones, and a character will also double as a journal entry will spawn allowing the user to rename the character's name and text-field to write about anything they'd like. the main struggle for this portion ill have to consider for the future is attempting to make a storage for large amounts of text as unity caps it at 512 characters.
 
-        the main focus of this project is to learn more about how unity functions with android on top of creating a basic-app to put on the playstore along with learning on how to build in an android environment. after this im wanting to create an apple version if it's simple enough, along with creating a basic web-version to put on the website but we'll see if i do get to these, but it is the idea.
+      the main focus of this project is to learn more about how unity functions with android on top of creating a basic-app to put on the playstore along with learning on how to build in an android environment. after this im wanting to create an apple version if it's simple enough, along with creating a basic web-version to put on the website but we'll see if i do get to these, but it is the idea.
 
-        anyways time to move onto what i actually did this week. I mainly worked on a few basic things. the first thing i worked on was making a basic save system for each character because on my last project i wasn't able to implement this during the project and realized i need to do this asap before doing anything else along with understanding how it works more, luckily there was a youtube video that worked great for this. i also need to learn how to make it so that the characters could have the chance of having either a different skin and being a shiny variant (ill be adding a trail-effect or some variety for these). also made it so that the characters names will be random on top of even making a super basic character that'll walk around and such.
+      But now to talk about what i did for the following week of august 9th. I mainly worked on a few basic things. the first thing i worked on was making a basic save system for each character because on my last project i wasn't able to implement this during the project and realized i need to do this asap before doing anything else along with understanding how it works more, luckily there was a youtube video that worked great for this. i also need to learn how to make it so that the characters could have the chance of having either a different skin and being a shiny variant (ill be adding a trail-effect or some variety for these). also made it so that the characters names will be random on top of even making a super basic character that'll walk around and such. i was even able to add the animations along with the characters now now i think the next thing to be working on for next week will be mainly making an actual different spawn-system for the characters so that there'll be a chance it spawns a different tier of characters. and then afterwards the next big feature is to create the menu afterwards since ill be needing to create a calendar for it too but this is for the future.
 
-        i think the next few plans are to add animations for the basic character along with adding back special-animations for the legendary-tier characters. afterwards ill be creating just a menu to show all the characters and allow the user to see more detailed stuff. -->
+      For the week of august 16th managed to get a big hurdle over with. I managed to add the gacha-system into the characters allowing them to also have a different character chance. on top of this we're even able to save the characters upon relaunch for the game which is really nice. along with making a basic delete function just to make sure everything is properly deleting and everything. on top of this i was even able to add special-animations based on the tier for the characters. 
+        
+      one big thing ive been thinking about changing for this project is instead of a distraction free-app i think it could be more beneficial to have the user's to 'roll' for an entry and they can only do it once which will create a character every 24-hours. it'll make the users take a picture before being able to 'roll' for a character so it could be more of a journal entry with a picture and then they can add whatever text they want to. now the big hurdle now is to create a 24-hour system along with a cloud-system and wondering how to recognize a photo being taken through unity. all things to consider and sounds a bit difficult to implement however excited for this as i feel like by the end of this project i'll have been able to make a legit app along with learning a lot. although i do eventually want to add the original 'grow' system somewhere but i think it'll just be a project for the future. funnily enough with everything i did this week this is basically what i wanted for my glhf-capsule game which honestly i could use this for the base of v1 in the future.
+
+      in terms of life been thinking about playing a bit more sf6 seriously again as i have a japan trip coming up and id like to visit the local scene there somewhat. it'll be fun but also potentially thinking about streaming too which could be interesting but we'll see about this.
+        -->
       </div>
     </main>
 
