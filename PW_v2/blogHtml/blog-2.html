@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DK-Portfolio2025-P</title>
+    <link rel="icon" href="/img/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="/blogstyles.css" />
+
+    <!-- <link rel="stylesheet" href="styles.css" /> -->
+  </head>
+  <body>
+    <div class="page-container">
+    <header>
+      <div class="logo">
+        <img id="clickable-image" src="/img/testCharA.png" alt="Click me" />
+      </div>
+
+      <nav class="top-nav">
+        <a href="/index.html">playground + about me</a>
+        <a href="/blog.html">blog</a>
+        <a href="/project.html">projects</a>
+        <button id="toggle-theme">Toggle Dark Mode</button>
+      </nav>
+    </header>
+
+    <main>
+      <div class="image-box">
+      <img src="/img/blog/2_sc.jpg" alt="Example image" />
+      </div>
+
+   
+      <div class="below-image">
+        <h3>September-2025 // October-2025 // November-2025</h3>
+      </div>
+
+      <h2>Entry #2: <i>glhf-grow</i></h2>
+      <h3>September-2025 // October-2025</h3>
+      <p>
+        During this period, I have to acknowledge some neglect on my part. I took a small, unplanned break and got caught up in random things in daily life, so development naturally slowed down. As a result, September and October ended up being a lighter month for progress, though a few meaningful updates still made it into the project:
+        <ul>
+          <li><b>Implemented color variations for base characters:</b>
+          Each newly spawned base-character now has a small chance of appearing with an alternate color. This adds more visual diversity and makes the character generation system feel more dynamic, while also pushing me to refine parts of the underlying spawning logic.</li>
+            <br>
+          <li><b>Started developing a user character menu:</b>
+          I began creating a menu that displays all of a user’s accumulated characters, organized by their creation time. This helps visually track character progression and provides a foundation for future UI features.</li>
+            <br>
+          <li><b>Identified UI scalability limits:</b>
+          The initial version of the character menu could only support up to 32 characters before breaking due to layout constraints. Even though this limitation needs fixing, the early build helped reveal important UI scalability issues that I’ll address in future updates.</li>
+        </ul>
+        <div>
+          <img src="/img/blog2_sept.PNG" alt="Example image" style="width: 50%; height: auto; display: block; margin: 0 auto;" />
+        </div>
+        <br>
+        After wrapping up those small tasks at the end of September, I decided to step back and take most of October off—partly to avoid burning out and partly because I had a trip to Japan planned. And wow, NintendoLand at Universal Studios Japan was amazing. Seeing it in person is completely different from watching videos—it’s put together so well. The trip ended up being a much-needed reset; I explored a lot, enjoyed the atmosphere, and came back wanting to return again (and hopefully play some Street Fighter with the locals next time). The whole experience was refreshing, though getting back home did take a bit of mental readjustment as I eased myself back into work and project mode.
+        <br>
+        <br>
+        Now that I’ve had time to rest and settle back into my usual rhythm, I’m feeling fully motivated again. The break really helped recharge my energy and gave me a chance to think about the project from a broader perspective. I’m excited to jump back into development with a clearer mindset and renewed enthusiasm. I also realized I need a better way to format these blog dates—so I’m thinking about shifting to a monthly update format instead. (I think that's the plan changes will be made already) Also <i>Megabonk</i> is really fun.
+        <div>
+          <img src="/img/blog2_oct.png" alt="Example image" style="width: 50%; height: auto; display: block; margin: 0 auto;" />
+        </div>
+        <br>
+        <br>
+        
+        <h3>November-2025 [Week 3]</h3>
+        Luckily, I was able to finish a good chunk of work and actually complete one of the features:
+        <ul>
+          <li>he menu is now fully functional, and clicking on a character brings up a detailed menu for that character.</li>
+          <li>I added a feature where clicking outside the box closes the window (the green part in the GIF is just for testing purposes).</li>
+          <li>You can edit a text entry, and it will save individually for each character.</li>
+        </ul>
+        Next steps:
+        <ul>
+          <li>Implement character unlocks that can only happen once on a timer.</li>
+          <li>Allow users to add a picture to the detailed page—this is the next big goal.</li>
+        </ul>
+        Future task: I’ll tackle making the system cloud-accessible once the current features are complete.
+      </p>
+      <div class="image-box">
+        <img src="/img/gif/blog-2-1_grow.gif" alt="Example image" />
+      </div>
+      <br>
+      
+      
+
+      </div>
+    </main>
+
+    <script>
+      // 🌙 Theme toggle with localStorage
+      const toggleButton = document.getElementById("toggle-theme");
+      const prefersDark = localStorage.getItem("theme") === "dark";
+
+      // Apply saved theme on page load
+      if (prefersDark) {
+        document.body.classList.add("dark-mode");
+        toggleButton.textContent = "Switch to Light Mode";
+      } else {
+        toggleButton.textContent = "Switch to Dark Mode";
+      }
+
+      toggleButton.addEventListener("click", () => {
+        const isDark = document.body.classList.toggle("dark-mode");
+        localStorage.setItem("theme", isDark ? "dark" : "light");
+        toggleButton.textContent = isDark
+          ? "Switch to Light Mode"
+          : "Switch to Dark Mode";
+      });
+    </script>
+        <script>
+      const img = document.getElementById("clickable-image");
+      let clickCount = 0;
+      let imageIndex = 0;
+
+      const newImages = [
+        "/img/testCharA_blanka.png",
+        "/img/testCharA_bow.png",
+        "/img/testCharA_hello.png",
+      ];
+
+      img.addEventListener("click", () => {
+        clickCount++;
+
+        if (clickCount % 5 === 0) {
+          const randomIndex = Math.floor(Math.random() * newImages.length);
+          img.src = newImages[randomIndex];
+        }
+      });
+    </script>
+    </div>
+  </body>
+</html>
