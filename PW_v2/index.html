@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -17,75 +17,38 @@
           <a href="#" class="active">playground + about me</a>
           <a href="/blog.html">blog</a>
           <a href="project.html">projects</a>
-          <button id="toggle-theme">Toggle Dark Mode</button>
+          <button id="toggle-theme">toggle dark mode</button>
         </nav>
       </header>
 
       <main>
         <div class="index-blogEntry">
-          <h2>Latest Blog Entry:</h2>
+          <h2>latest blog entry:</h2>
           <h2>
-            <a href="/blogHtml/blog-2.html" class="prototype-link"
-              >#2: glhf-grow (Sept-2025 / Oct-2025 / Nov-2025)[Link]</a
+            <a href="/blogHtml/blog-5.html" class="prototype-link"
+              >#5: glhf-grow-desktop [jan26]</a
             >
           </h2>
         </div>
         <h2 class="needBorder"></h2>
-        <h2>Playground: <i>glhf-capsule v0.5</i></h2>
+        <b>playground: </b><i>gat-cha fish.</i>
+        <br />
+        <br />
         <div class="iframe-wrapper">
           <iframe
-            src="glhf_capsule_v05_htmlVer/index.html"
-            width="900"
+            src="/glhf_fishGacha_htmlVer/index.html"
+            width="960"
             height="620"
             allowfullscreen
           ></iframe>
         </div>
         <div class="image-box-hidden">
-          <img src="/img/glhfCapsule_Thumbnail.png" alt="Example image" />
+          <img src="/img/gatchafishThumbnail.png" alt="Example image" />
         </div>
-        <p class="subtitle">
-          <b>how to play: <i>glhf - capsule v0.5</i></b>
-        </p>
-        <p>
-          Each character is valued at $100 and belongs to one of four tiers,
-          with higher tiers generating greater passive income over time. The
-          ultimate objective is to purchase "THE KING". Players can also sell
-          characters or rename them for a more personalized experience.
-          <br />
-          <br />
-          In the sell menu, green text indicates how much the character earns
-          per cycle and the amount you’ll receive when selling them. Red text
-          displays the time (in seconds) it takes for the character to generate
-          income.
-          <br />
-          <br />
-          The core gameplay is simple: watch your characters roam the world as
-          they generate income, purchase more characters, and work your way
-          toward affording the final, ultimate character. While a lot of planned
-          content had to be cut for this version, I aim to include it all in the
-          final release to create a more complete and engaging experience.
-        </p>
-        <p>
-          <b> - THERE IS NO SAVE STATE FOR THIS GAME</b>
-
-          <br />
-          - Game can only be played on 700px or wider (No Mobile)
-        </p>
-        <br />
-        <a href="/projectHtml/project-capsule.html" class="subtitle">
-          <b>about: <i>glhf - capsule v0.5</i> [Link]</b>
+        <a href="/projectHtml/project-gatchafish.html" class="subtitle">
+          <b>about: </b> <i>gat-cha fish.</i>
         </a>
         <br />
-        <br />
-        <a href="https://github.com/kwakd/glhf_capsule_090924" target="_blank"
-          >GitHub [Link]</a
-        >
-        <br />
-        <a
-          href="https://trello.com/invite/b/67ba6ec8b724662c5ac1dd17/ATTIa4ec6227a309259b4a1053310b11b02727A54FBF/glhfcapsule090924v05"
-          target="_blank"
-          >Trello [Link]</a
-        >
         <br />
         <h2 class="needBorder"></h2>
         <h2>David Kwak</h2>
@@ -94,6 +57,9 @@
           <b>Junior Game/Software</b> [Developer + Designer + QA]
         </p>
         <p class="subtitle">kwakd804@gmail.com</p>
+        <a href="kwakd_res25.pdf" download style="text-decoration: underline"
+          >resume</a
+        >
         <p>
           I'm a Junior Game Designer and Developer with over two years of
           experience in the video game industry. My journey began as a
@@ -122,9 +88,13 @@
           <strong>Horizon Worlds</strong> project, contributing to quality
           assurance and testing efforts to ensure a seamless user experience.
         </p>
-        <a href="kwakd_res25.pdf" download style="text-decoration: underline"
-          >Download Resume Here</a
+
+        <i
+          >relevant github examples are located within their respective
+          projects</i
         >
+        <br />
+
         <div class="location-time">
           <span id="clock">--:--</span>
         </div>
@@ -142,7 +112,7 @@
           };
 
           const timeString = new Intl.DateTimeFormat("en-GB", options).format(
-            now
+            now,
           );
           document.getElementById("clock").textContent = timeString;
         }
