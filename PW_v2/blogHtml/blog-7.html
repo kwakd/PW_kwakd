@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DK-Portfolio</title>
+    <link rel="icon" href="/img/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="/blogstyles.css" />
+
+    <!-- <link rel="stylesheet" href="styles.css" /> -->
+  </head>
+  <body>
+    <div class="page-container">
+    <header>
+      <div class="logo">
+        <img id="clickable-image" src="/img/testCharA.png" alt="Click me" />
+      </div>
+
+      <nav class="top-nav">
+        <a href="/index.html">playground + about me</a>
+        <a href="/blog.html">blog</a>
+        <a href="/project.html">projects</a>
+        <button id="toggle-theme">Toggle Dark Mode</button>
+      </nav>
+    </header>
+
+    <main>
+      <div class="image-box">
+      <img src="/img/blog/6_sc.png" alt="Example image" />
+      </div>
+
+      <h2>Entry #7: <i>glhf-grow-desktop-journalapp</i></h2>
+      <h3>March-2026 [Week 1-2]</h3>
+      <p>
+        This week was mostly focused on drawing and finishing touches, which was honestly really exciting. During the first two weeks of February, the main focus was creating the final character assets and making sure everything in the project was functioning properly. Because of that, most of this week was dedicated to designing the epic-tier assets and implementing them into the game. It felt really satisfying to finally see these higher-tier designs come together and actually work in-game instead of just existing as concepts.
+<br>
+<br>
+The following day, I moved on to working on the legendary-tier assets, which took a bit longer than expected. These required separate actions and unique behaviors, so there was more setup and testing involved compared to the other tiers. Even so, once those were finished and fully implemented, it finally felt like everything clicked into place.
+<br>
+<br>
+At this point, the base of the game is officially done. All that’s left now is testing, polishing, and making sure everything feels stable and consistent before release. It honestly feels surreal being this close to the finish line—after all the planning, building, and iteration, the project is finally in its final phase. The release is now within reach, and it’s exciting to see everything coming together at last.
+        <div class="image-box">
+          <img src="/img/blog/blog6/020426.PNG" alt="Example image" />
+        </div>
+        <br>
+<h3>February-2026 [Week 3]</h3>
+      <p>
+        The project is officially done and released 🎉
+There’s still some cleanup to do on the website side of things—I had a lot of sections to update, and it’s not fully finished yet—but in terms of the game itself, it’s officially in v1. That alone feels surreal to say. I definitely want to keep building on it, add more content, and eventually work on an Android version with the goal of releasing it properly on an app store at some point. That’s more of a long-term plan, but it’s something I really want to pursue once things settle.
+<br>
+<br>
+One of the main reasons the release was slightly delayed was because I wanted to work on a Mac version as well. Unfortunately, newer macOS versions have stricter permission systems, and I ran into issues with third-party developer apps not being allowed to open properly. There’s probably a workaround for it, but I don’t currently have a Mac device to properly test and debug it. Theoretically, the build should work on Macs, but this is something I’ll have to officially fix and support later on.
+<br>
+<br>
+For now though, the project is officially uploaded on <a href="https://tototonme.itch.io/glhf-grow-journal">itch.io</a> 🚀
+That alone feels like a massive milestone.
+<br>
+<br>
+With this project now in a released state, I’m finally moving on to the next chapter—either starting an official multiplayer game (most likely my rendition of a quick-chess concept) or jumping into a small 3D platformer project. Realistically, I think the chess-style multiplayer game is the direction I’ll go, but I’ll see how things feel once I start prototyping.
+<br>
+<br>
+Either way, it feels really good to finally close this chapter. Even if it’s not “done forever,” this project is officially complete in its first real version—and that alone is a huge win. Just excited to move forward and start building something new. 🔥
+<br>
+<br>
+If anyone has any ideas for this project or design suggestions they’d like to see implemented, feel free to let me know! I’ve also included the PSD file for the <a href="/img/psd/defaultTemplate.psd" style="text-decoration: underline">default character</a>  and the PSD file for the <a href="/img/psd/defaultHTemplate.psd" style="text-decoration: underline">H-character</a> for anyone who wants to experiment with designs or contribute concepts.
+<br>
+<br>
+If you create anything or have suggestions, please email them to kwakd804@gmail.com
+ — I’d love to see what people come up with!
+
+        <div class="image-box">
+          <img src="/img/project/proj_growdesk.PNG" alt="Example image" />
+        </div>
+      
+
+      </div>
+    </main>
+
+    <script>
+      // 🌙 Theme toggle with localStorage
+      const toggleButton = document.getElementById("toggle-theme");
+      const prefersDark = localStorage.getItem("theme") === "dark";
+
+      // Apply saved theme on page load
+      if (prefersDark) {
+        document.body.classList.add("dark-mode");
+        toggleButton.textContent = "Switch to Light Mode";
+      } else {
+        toggleButton.textContent = "Switch to Dark Mode";
+      }
+
+      toggleButton.addEventListener("click", () => {
+        const isDark = document.body.classList.toggle("dark-mode");
+        localStorage.setItem("theme", isDark ? "dark" : "light");
+        toggleButton.textContent = isDark
+          ? "Switch to Light Mode"
+          : "Switch to Dark Mode";
+      });
+    </script>
+        <script>
+      const img = document.getElementById("clickable-image");
+      let clickCount = 0;
+      let imageIndex = 0;
+
+      const newImages = [
+        "/img/testCharA_blanka.png",
+        "/img/testCharA_bow.png",
+        "/img/testCharA_hello.png",
+      ];
+
+      img.addEventListener("click", () => {
+        clickCount++;
+
+        if (clickCount % 5 === 0) {
+          const randomIndex = Math.floor(Math.random() * newImages.length);
+          img.src = newImages[randomIndex];
+        }
+      });
+    </script>
+    </div>
+  </body>
+</html>
