@@ -30,6 +30,20 @@
       </div>
 
       <h2>Entry #4: <i>glhf-grow-desktop-journalapp</i></h2>
+              <h3>December-2025 [Week 3]</h3>
+      <p>
+        Week 3 was mostly about polish and refinement rather than new systems. I fixed the squished Legendary sprites in the Calendar menu by enabling <i>preserveAspect</i> on the affected <i>Image</i> components. This preserves the original aspect ratios and allows Legendary assets to use different dimensions without visual distortion.
+<br><br>
+I also updated the capsule cooldown logic so it now resets at midnight instead of using a rolling 24-hour timer, which feels more intuitive for daily mechanics. For testing purposes, I added a developer keybind (Q) that instantly resets the timer, making it easier to iterate on odds and content.
+<br><br>
+On the content side, I added several new Epic designs, including Pikmin-inspired characters. These introduced a need for special-case handling in the character logic, since certain Epic variants will use unique animations that don’t apply to the rest of the character pool.
+        <div class="image-box">
+          <img src="/img/blog/blog4/blog4_2.png" alt="Example image" />
+        </div>
+        <div class="image-box">
+          <img src="/img/blog/blog4/blog4_3.png" alt="Example image" style="
+  object-fit: scale-down;" />
+        </div>
       <h3>December-2025 [Week 2]</h3>
       <p>
         This week focused on getting a functional desktop build in place. I converted the existing UI systems—mainly the Details and Calendar pages—into desktop-friendly layouts. The core logic remained the same, but several UI elements needed resizing and restructuring to behave correctly at larger resolutions. During this process, I noticed some Legendary icons were being squished in the Calendar view due to how their UI containers were scaling, so I flagged that for later cleanup.
@@ -46,23 +60,9 @@ I also started implementing a daily capsule limit, using a simple client-side ti
         </div>
         <br>
         <br>
-        <h3>December-2025 [Week 3]</h3>
-      <p>
-        Week 3 was mostly about polish and refinement rather than new systems. I fixed the squished Legendary sprites in the Calendar menu by enabling <i>preserveAspect</i> on the affected <i>Image</i> components. This preserves the original aspect ratios and allows Legendary assets to use different dimensions without visual distortion.
-<br><br>
-I also updated the capsule cooldown logic so it now resets at midnight instead of using a rolling 24-hour timer, which feels more intuitive for daily mechanics. For testing purposes, I added a developer keybind (Q) that instantly resets the timer, making it easier to iterate on odds and content.
-<br><br>
-On the content side, I added several new Epic designs, including Pikmin-inspired characters. These introduced a need for special-case handling in the character logic, since certain Epic variants will use unique animations that don’t apply to the rest of the character pool.
-        <div class="image-box">
-          <img src="/img/blog/blog4/blog4_2.png" alt="Example image" />
-        </div>
-        <div class="image-box">
-          <img src="/img/blog/blog4/blog4_3.png" alt="Example image" style="
-  object-fit: scale-down;" />
-        </div>
+
       
 
-      </div>
     </main>
 
     <script>
