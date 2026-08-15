@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DK-Portfolio</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preload" href="img/testCharA.png" as="image" />
+  </head>
+  <body>
+    <!-- anti-flash: apply dark class and button label before first paint -->
+    <script>
+      var _dark = localStorage.getItem("kwakd-dark") === "true";
+      if (_dark) document.body.classList.add("dark");
+      document.addEventListener("DOMContentLoaded", function () {
+        var btn = document.getElementById("dm-btn");
+        if (btn) btn.textContent = _dark ? "[light-mode]" : "[dark-mode]";
+      });
+    </script>
+
+    <nav>
+      <div class="nav-inner">
+        <span class="nav-logo">
+          <img
+            id="nav-logo"
+            src="img/testCharA.png"
+            alt="logo"
+            title="click me..."
+            width="30"
+            height="30"
+          />
+        </span>
+        <a class="here" href="index.html">about me + playground</a>
+        <a href="blog.html">blog</a>
+        <a href="project.html">projects</a>
+        <button class="dm-btn" id="dm-btn">toggle dark mode</button>
+      </div>
+    </nav>
+
+    <div class="page">
+      <div class="index-section">
+        <h2>latest blog entry:</h2>
+        <h3>
+          <a href="blog-html/blog-9.html">#9: general [may-2026 / june-2026]</a>
+        </h3>
+        <br />
+        <br />
+        <h2>playground: <em>gat-cha fish.</em></h2>
+
+        <div class="game-embed">
+          <div class="iframe-wrapper">
+            <iframe
+              src="/img/project/glhf_gf/glhf_fishGacha_htmlVer/index.html"
+              allowfullscreen
+            ></iframe>
+          </div>
+          <a
+            class="game-thumb-link"
+            href="glhf_fishGacha_htmlVer/index.html"
+            style="pointer-events: none"
+          >
+            <img
+              class="game-thumb"
+              src="img/project/glhf_gf/gatchafishThumbnail.png"
+              alt="gat-cha fish — tap to play"
+            />
+          </a>
+        </div>
+
+        <p>
+          <a href="project-html/project-glhf_gf.html"
+            ><strong>about:</strong> <em>gat-cha fish.</em></a
+          >
+        </p>
+      </div>
+
+      <hr />
+
+      <div class="index-section">
+        <img
+          src="img/profile_image_dk.jpg"
+          alt="dk-image"
+          style="width: 200px; margin-bottom: 0.75em"
+        />
+
+        <p><strong>david kwak</strong></p>
+        <p><strong>junior game/software</strong> [developer + qa]</p>
+        <p>kwakd804@gmail.com</p>
+        <p>
+          <a href="r-kwakd26-061826.pdf" target="_blank">resume [06/18/26]</a>
+        </p>
+
+        <p>
+          I am a Junior Game Designer, Developer, and QA Analyst with over three
+          years of experience in the video game and software industry. My
+          journey began in the competitive scene, specializing in
+          platform-fighters, auto-chess, and 2D fighting games, and has since
+          evolved toward designing engaging game systems, software development,
+          and ensuring quality across product releases.
+        </p>
+
+        <p>
+          Currently, I am dedicated to developing a multiplayer co-op platformer
+          alongside a desktop journal application, focusing on refining user
+          experience and core mechanics.
+        </p>
+
+        <p>
+          I am working at PlusQA as a QA Analyst, supporting a large-scale cloud
+          storage platform. My work involves creating test plans and testing and
+          validating software quality across product releases, ensuring every
+          update meets a high standard before it reaches users.
+        </p>
+
+        <p>
+          <em
+            >Documentation and relevant code samples for my work can be found
+            within their respective project repositories on my GitHub.</em
+          >
+        </p>
+      </div>
+    </div>
+
+    <script src="site.js"></script>
+  </body>
+</html>

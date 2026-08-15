@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DK-Portfolio-P</title>
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="preload" href="../img/testCharA.png" as="image" />
+  </head>
+  <body>
+    <!-- anti-flash: apply dark class and button label before first paint -->
+    <script>
+      var _dark = localStorage.getItem("kwakd-dark") === "true";
+      if (_dark) document.body.classList.add("dark");
+      document.addEventListener("DOMContentLoaded", function () {
+        var btn = document.getElementById("dm-btn");
+        if (btn) btn.textContent = _dark ? "[light-mode]" : "[dark-mode]";
+      });
+    </script>
+
+    <nav>
+      <div class="nav-inner">
+        <span class="nav-logo">
+          <img
+            id="nav-logo"
+            src="../img/testCharA.png"
+            alt="logo"
+            title="click me..."
+            width="30"
+            height="30"
+          />
+        </span>
+        <a href="../index.html">about me + playground</a>
+        <a href="../blog.html">blog</a>
+        <a class="here" href="../project.html">projects</a>
+        <button class="dm-btn" id="dm-btn">toggle dark mode</button>
+      </div>
+    </nav>
+
+    <div class="page">
+      <a class="back" href="../project.html">projects</a>
+
+      <img class="entry-hero" src="../img/project/hz/hzTN.png" alt="hz" />
+
+      <div class="entry-section">
+        <p class="entry-meta">october 2024 ~ january 2026</p>
+        <h2 class="entry-title">Horizon Worlds / Meta Platform</h2>
+        <p>
+          During my time working on Horizon Worlds, I was involved in several
+          key areas of the platform, including the in-game economy, quests, and
+          overall performance.
+          <br />
+          I quickly adapted to Meta’s internal software environment and tools,
+          allowing me to contribute effectively from early on.
+          <br />
+          My work focused on identifying and documenting multiple critical bugs,
+          ensuring a high level of quality across systems that impacted both
+          player experience and platform stability. Throughout the project, I
+          maintained a strong standard of work, consistently delivering detailed
+          bug reports and collaborating with engineers to support efficient
+          resolution and improvement cycles.
+        </p>
+      </div>
+
+      <hr />
+
+      <div class="entry-section">
+        <img
+          class="entry-hero"
+          src="../img/experis_logo.png"
+          alt="Experis"
+          style="width: 60%; height: auto"
+        />
+        <p class="entry-meta">august 2024 ~ march 2026</p>
+        <h3 class="entry-title">Experis</h3>
+        <p>
+          I worked at Experis as a Test Associate III, where I supported
+          large-scale projects for high-profile clients. In this role, I've
+          contributed to a wide range of testing efforts, from exploratory
+          testing to detailed bug investigations and documentation. In April
+          2025, I was honored to be named Tester of the Month, a recognition of
+          my consistent performance, attention to detail, and collaborative
+          approach. One of my key strengths has been creating clear and
+          effective documentation, which has proven valuable to engineers across
+          various teams as a reliable reference for debugging and development.
+        </p>
+        <p>
+          Working at Experis has given me the opportunity to engage with
+          enterprise-level workflows and understand the quality standards
+          expected at the top of the industry. I've also developed strong
+          communication and collaboration skills, regularly working alongside
+          cross-functional teams to ensure issues are identified, documented,
+          and resolved efficiently. This experience has further solidified my
+          passion for QA and strengthened my ability to contribute meaningfully
+          to complex development pipelines.
+        </p>
+      </div>
+    </div>
+
+    <script src="../site.js"></script>
+  </body>
+</html>

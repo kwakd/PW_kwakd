@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DK-Portfolio2025-P</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preload" href="img/testCharA.png" as="image" />
+  </head>
+  <body>
+    <!-- anti-flash: apply dark class and button label before first paint -->
+    <script>
+      var _dark = localStorage.getItem("kwakd-dark") === "true";
+      if (_dark) document.body.classList.add("dark");
+      document.addEventListener("DOMContentLoaded", function () {
+        var btn = document.getElementById("dm-btn");
+        if (btn) btn.textContent = _dark ? "[light-mode]" : "[dark-mode]";
+      });
+    </script>
+
+    <nav>
+      <div class="nav-inner">
+        <span class="nav-logo">
+          <img
+            id="nav-logo"
+            src="img/testCharA.png"
+            alt="logo"
+            title="click me..."
+            width="30"
+            height="30"
+          />
+        </span>
+        <a href="index.html">about me + playground</a>
+        <a href="blog.html">blog</a>
+        <a class="here" href="project.html">projects</a>
+        <button class="dm-btn" id="dm-btn">toggle dark mode</button>
+      </div>
+    </nav>
+
+    <div class="page">
+      <a class="list-item" href="projecthtml/project-aiglasses.html">
+        <img class="list-thumb" src="img/project/plusqa/plusqa-logo2.jpg" alt="plusqa" />
+        <div class="list-meta">
+          <span class="list-date">may 2026 ~ present</span>
+          <span class="list-title"><i>"Enterprise cloud storage platform (100M+ users)"</i></span>
+          <span
+            ><span class="tag">PlusQA</span
+            >
+        </div>
+      </a>
+      <a class="list-item" href="project-html/project-aiglasses.html">
+        <img class="list-thumb" src="img/project/metaGlasses/metaGlasses.jpg" alt="AI Glasses" />
+        <div class="list-meta">
+          <span class="list-date">january 2026 ~ march 2026</span>
+          <span class="list-title">AI-glasses</span>
+          <span
+            ><span class="tag">Meta</span><span class="tag">Experis</span></span
+          >
+        </div>
+      </a>
+      <a class="list-item" href="project-html/project-hz.html">
+        <img class="list-thumb" src="img/project/hz/hzTN.png" alt="Horizon Worlds" />
+        <div class="list-meta">
+          <span class="list-date">october 2024 ~ january 2026</span>
+          <span class="list-title">Horizon Worlds / Meta Platform</span>
+          <span
+            ><span class="tag">Meta</span><span class="tag">Experis</span></span
+          >
+        </div>
+      </a>
+      <a class="list-item" href="project-html/project-aw2.html">
+        <img class="list-thumb" src="img/project/aw2/aw2TN.jpg" alt="Asgard's Wrath 2" />
+        <div class="list-meta">
+          <span class="list-date">august 2024 ~ october 2024</span>
+          <span class="list-title">Asgard's Wrath 2</span>
+          <span
+            ><span class="tag">Sanzaru Games</span
+            ><span class="tag">Experis</span></span
+          >
+        </div>
+      </a>
+      <a class="list-item" href="project-html/project-wwm-wod.html">
+        <img class="list-thumb" src="img/project/ng/ng_games.png" alt="Necessary Games" />
+        <div class="list-meta">
+          <span class="list-date">september 2021 ~ june 2022</span>
+          <span class="list-title">1. Walking with Magnus / 2. W.O.D</span>
+          <span><span class="tag">necessary games</span></span>
+        </div>
+      </a>
+
+
+      <span class="section-label">personal projects</span>
+
+      <a class="list-item" href="projecthtml/project-growdesktop.html">
+        <img
+          class="list-thumb"
+          src="img/project/glhf_grow/proj_growdesk.PNG"
+          alt="glhf grow desktop"
+        />
+        <div class="list-meta">
+          <span class="list-date">february 17th 2026</span>
+          <span class="list-title">glhf - grow - desktop - journalapp</span>
+          <span><span class="tag">for fun</span></span>
+        </div>
+      </a>
+      <a class="list-item" href="projecthtml/project-capsule.html">
+        <img
+          class="list-thumb"
+          src="img//project/glhf_capsule/glhfCapsule_Thumbnail.png"
+          alt="glhf capsule"
+        />
+        <div class="list-meta">
+          <span class="list-date">july 19th 2025</span>
+          <span class="list-title">glhf - capsule</span>
+          <span><span class="tag">for fun</span></span>
+        </div>
+      </a>
+      <a class="list-item" href="project-html/project-glhf_gf.html">
+        <img
+          class="list-thumb"
+          src="img/project/glhf_gf/gatchafishThumbnail.png"
+          alt="gat-cha fish"
+        />
+        <div class="list-meta">
+          <span class="list-date">march 27th 2024</span>
+          <span class="list-title">glhf - gat-cha fish.</span>
+          <span
+            ><span class="tag">Game Jam - "One Game a Month #33"</span></span
+          >
+        </div>
+      </a>
+
+      <a class="list-item" href="project-html/project-glhf_bm.html">
+        <img
+          class="list-thumb"
+          src="img/project//glhf_bm/buttonMasterThumbnail.png"
+          alt="button masher"
+        />
+        <div class="list-meta">
+          <span class="list-date">january 12th 2024</span>
+          <span class="list-title">glhf - button masher</span>
+          <span
+            ><span class="tag"
+              >🌟 Game Jam - "Incremental Jam - Winter 2024"</span
+            ></span
+          >
+        </div>
+      </a>
+      <a class="list-item" href="projecthtml/project-arglhf.html">
+        <img class="list-thumb" src="img/project/glhf_ar/arGLHFTN.PNG" alt="glhf AR" />
+        <div class="list-meta">
+          <span class="list-date">march 7th 2023</span>
+          <span class="list-title">glhf - AR</span>
+          <span><span class="tag">for fun</span></span>
+        </div>
+      </a>
+    </div>
+
+    <script src="site.js"></script>
+  </body>
+</html>

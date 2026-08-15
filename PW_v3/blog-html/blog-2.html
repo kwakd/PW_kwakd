@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DK-Portfolio</title>
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="preload" href="../img/testCharA.png" as="image" />
+  </head>
+  <body>
+    <!-- anti-flash: apply dark class and button label before first paint -->
+    <script>
+      var _dark = localStorage.getItem("kwakd-dark") === "true";
+      if (_dark) document.body.classList.add("dark");
+      document.addEventListener("DOMContentLoaded", function () {
+        var btn = document.getElementById("dm-btn");
+        if (btn) btn.textContent = _dark ? "[light-mode]" : "[dark-mode]";
+      });
+    </script>
+
+    <nav>
+      <div class="nav-inner">
+        <span class="nav-logo">
+          <img
+            id="nav-logo"
+            src="../img/testCharA.png"
+            alt="logo"
+            title="click me..."
+            width="30"
+            height="30"
+          />
+        </span>
+        <a href="../index.html">about me + playground</a>
+        <a class="here" href="../blog.html">blog</a>
+        <a href="../project.html">projects</a>
+        <button class="dm-btn" id="dm-btn">toggle dark mode</button>
+      </div>
+    </nav>
+
+    <div class="page">
+      <a class="back" href="../blog.html">blog</a>
+
+      <img
+        class="entry-hero"
+        src="../img//blog/b2/2_sc.jpg"
+        alt="entry #6 screenshot"
+      />
+      <p class="entry-meta">september-2025 / october-2025</p>
+      <h2 class="entry-title">entry #2: <em>glhf-grow-journalapp</em></h2>
+
+      <div class="entry-section">
+        <div class="entry-section-head">october-2025</div>
+        <p>
+          After wrapping up those small tasks at the end of September, I decided
+          to step back and take most of October off—partly to avoid burning out
+          and partly because I had a trip to Japan planned. And wow,
+          NintendoLand at Universal Studios Japan was amazing. Seeing it in
+          person is completely different from watching videos—it’s put together
+          so well. The trip ended up being a much-needed reset; I explored a
+          lot, enjoyed the atmosphere, and came back wanting to return again
+          (and hopefully play some Street Fighter with the locals next time).
+          The whole experience was refreshing, though getting back home did take
+          a bit of mental readjustment as I eased myself back into work and
+          project mode.
+          <br />
+          <br />
+          Now that I’ve had time to rest and settle back into my usual rhythm,
+          I’m feeling fully motivated again. The break really helped recharge my
+          energy and gave me a chance to think about the project from a broader
+          perspective. I’m excited to jump back into development with a clearer
+          mindset and renewed enthusiasm. I also realized I need a better way to
+          format these blog dates—so I’m thinking about shifting to a monthly
+          update format instead. (I think that's the plan changes will be made
+          already) Also <i>Megabonk</i> is really fun.
+        </p>
+        <img
+          src="../img/blog/b2/blog2_oct.png"
+          alt="glhf grow desktop"
+          style="width: 50%; height: auto; display: block; margin: 0 auto"
+        />
+      </div>
+
+      <div class="entry-section">
+        <div class="entry-section-head">september-2025</div>
+        <p>
+          During this period, I have to acknowledge some neglect on my part. I
+          took a small, unplanned break and got caught up in random things in
+          daily life, so development naturally slowed down. As a result,
+          September and October ended up being a lighter month for progress,
+          though a few meaningful updates still made it into the project:
+          <br />
+          <br />
+          <b>Implemented color variations for base characters:</b>
+          <br />
+          Each newly spawned base-character now has a small chance of appearing
+          with an alternate color. This adds more visual diversity and makes the
+          character generation system feel more dynamic, while also pushing me
+          to refine parts of the underlying spawning logic.
+          <br />
+          <b>Started developing a user character menu:</b>
+          <br />
+          I began creating a menu that displays all of a user’s accumulated
+          characters, organized by their creation time. This helps visually
+          track character progression and provides a foundation for future UI
+          features.
+          <br />
+          <b>Identified UI scalability limits:</b>
+          <br />
+
+          The initial version of the character menu could only support up to 32
+          characters before breaking due to layout constraints. Even though this
+          limitation needs fixing, the early build helped reveal important UI
+          scalability issues that I’ll address in future updates.
+        </p>
+        <img src="../img/blog/b2/blog2_sept.PNG" alt="development screenshot" />
+      </div>
+    </div>
+
+    <script src="../site.js"></script>
+  </body>
+</html>

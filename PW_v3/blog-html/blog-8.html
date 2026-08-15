@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DK-Portfolio</title>
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="preload" href="../img/testCharA.png" as="image" />
+  </head>
+  <body>
+    <!-- anti-flash: apply dark class and button label before first paint -->
+    <script>
+      var _dark = localStorage.getItem("kwakd-dark") === "true";
+      if (_dark) document.body.classList.add("dark");
+      document.addEventListener("DOMContentLoaded", function () {
+        var btn = document.getElementById("dm-btn");
+        if (btn) btn.textContent = _dark ? "[light-mode]" : "[dark-mode]";
+      });
+    </script>
+
+    <nav>
+      <div class="nav-inner">
+        <span class="nav-logo">
+          <img
+            id="nav-logo"
+            src="../img/testCharA.png"
+            alt="logo"
+            title="click me..."
+            width="30"
+            height="30"
+          />
+        </span>
+        <a href="../index.html">about me + playground</a>
+        <a class="here" href="../blog.html">blog</a>
+        <a href="../project.html">projects</a>
+        <button class="dm-btn" id="dm-btn">toggle dark mode</button>
+      </div>
+    </nav>
+
+    <div class="page">
+      <a class="back" href="../blog.html">blog</a>
+
+      <img
+        class="entry-hero"
+        src="../img/blog/b8/8_sc.jpg"
+        alt="entry #8 screenshot"
+      />
+      <p class="entry-meta">april-2026</p>
+      <h2 class="entry-title">
+        entry #6: <em>glhf-grow-desktop-journalapp</em>
+      </h2>
+
+      <div class="entry-section">
+        <div class="entry-section-head">april-2026 [week 2]</div>
+        <p>
+          a bit more quality of life changes for the project.
+          <br />
+          <br />
+          got a bit of feedback from some friends and was glad cause one of them
+          gave good feedback in terms of a feature. it was also somewhat of a
+          big one so i think this will be my next milestone depending on if i
+          have the time or not. but it's to add a categorization system into it.
+          i was kinda thinking about it at the beginning but due to
+          time-constraints just chose not to, but with this official request i
+          think it'll be good to add.
+          <br />
+          <br />
+
+          but before moving onto this i wanted to create or start a bit small
+          first before diving into this system. so for this week started working
+          on a small 'favorite' system where now the user can favorite specific
+          days and it'll now show a little heart on the character and on their
+          details page. this one was a bit tricky to implement as i was having
+          difficulties differentiating favoriting between the details page and
+          through the menu for some reason, but was able to get it in the end by
+          unifying them both. on top of that this was also giving me an idea of
+          creating a small like accessories system for these little dudes. could
+          be fun to make in the future.
+          <br />
+          <img src="../img/blog/b8/41126-1.PNG" alt="glhf grow desktop" />
+          <img src="../img/blog/b8/41126-2.PNG" alt="glhf grow desktop" />
+          <br />
+          and also added a time feature on the details page just showing when
+          they were created, for fun. was always thinking about adding this and
+          finally got around to it.
+        </p>
+        <img src="../img/blog/b8/41426.PNG" alt="glhf grow desktop" />
+      </div>
+    </div>
+
+    <script src="../site.js"></script>
+  </body>
+</html>

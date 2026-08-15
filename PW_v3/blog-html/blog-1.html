@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DK-Portfolio</title>
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="preload" href="../img/testCharA.png" as="image" />
+  </head>
+  <body>
+    <!-- anti-flash: apply dark class and button label before first paint -->
+    <script>
+      var _dark = localStorage.getItem("kwakd-dark") === "true";
+      if (_dark) document.body.classList.add("dark");
+      document.addEventListener("DOMContentLoaded", function () {
+        var btn = document.getElementById("dm-btn");
+        if (btn) btn.textContent = _dark ? "[light-mode]" : "[dark-mode]";
+      });
+    </script>
+
+    <nav>
+      <div class="nav-inner">
+        <span class="nav-logo">
+          <img
+            id="nav-logo"
+            src="../img/testCharA.png"
+            alt="logo"
+            title="click me..."
+            width="30"
+            height="30"
+          />
+        </span>
+        <a href="../index.html">about me + playground</a>
+        <a class="here" href="../blog.html">blog</a>
+        <a href="../project.html">projects</a>
+        <button class="dm-btn" id="dm-btn">toggle dark mode</button>
+      </div>
+    </nav>
+
+    <div class="page">
+      <a class="back" href="../blog.html">blog</a>
+
+      <img
+        class="entry-hero"
+        src="../img//blog/b1/1_sc.jpg"
+        style="object-position: center 80%"
+      />
+      <p class="entry-meta">august-2025</p>
+      <h2 class="entry-title">entry #1: <em>glhf-grow-journalapp</em></h2>
+        <p>
+        This is my first post for the blog. The main purpose of these posts is to track my progress and keep myself accountable for finishing projects. I might sprinkle in some personal updates, but the focus will be on development progress. This entry will be a little longer than usual because I’ll also introduce the app I’m currently working on: <b>glhf-grow</b>.
+        <br>
+        <p>The core idea behind <b>glhf-grow</b> is to help people stay focused and minimize distractions from their phones. When you open the app, a character spawns, and it doubles as a journal entry. You can rename the character and use a text field to write about anything you want.
+        <br>
+        <br>
+        One technical challenge I’m already thinking about is handling large text storage because Unity’s default input field caps entries at 512 characters. That’s something I’ll need to solve later on.</p>
+        The primary goal of this project is to:
+        <br>
+        - Learn how Unity works with Android
+        <br>
+        - Build a simple app to publish on the Google Play Store
+        <br>
+       -  Gain experience developing in a mobile environment
+        <br>
+        <br>
+        If all goes well, I’d also like to create an iOS version and maybe a basic web version for my site. <i>Also try clicking on the top left logo five times!</i>
+        </p>
+        <br>
+      <div class="entry-section">
+        <div class="entry-section-head">august-2025 [week 2]</div>
+        <p>
+          This week I tackled some larger features:
+          <br>
+          - Added a gacha system, allowing characters to spawn with tier-based probabilities
+          <br>
+          - Implemented save persistence, so characters remain between sessions
+          <br>
+          - Added a delete function for proper data management
+          <br>
+          - Introduced tier-based special animations
+          <br>
+        <br>
+      I’m considering a shift in the app’s design. Instead of a purely distraction-free app, users could “roll” for a new character once every 24 hours. They’d take a photo to generate a daily journal entry, then add text to it.
+      <br>
+      <br>
+      The challenges this introduces include:
+      <br>
+      - Implementing a reliable 24-hour cooldown system
+      <br>
+      - Setting up cloud storage
+      <br>
+      - Detecting photo captures in Unity
+      <br>
+      <br>
+      It’s ambitious, but I’m excited about the potential. By the end of this project, I hope to have a fully functional app while gaining significant development experience. I also plan to eventually incorporate the original “grow” system as a future feature. Interestingly, this work aligns closely with what I envisioned for my glhf-capsule game, which could serve as the foundation for version 1.
+        </p>
+        <img
+          src="../img//blog/b1/blog-1-2_grow.gif"
+          alt="glhf grow desktop"
+        />
+      </div>
+
+      <div class="entry-section">
+        <div class="entry-section-head">august-2025 [week 1]</div>
+        <p>
+          This week focused on building the foundation for the app:
+          <br>
+          <b>Basic Save System</b>: Implemented a save system for each character. I missed this feature in a previous project, so I prioritized it early this time.
+          <br>
+          <b>Character Features</b>: Added random names and started planning shiny variants with visual effects like trails.
+          <br>
+          <b>Basic Character Behavior</b>: Built a simple roaming character and added basic animations.
+        <br>
+        <br>
+        Next steps include creating a more advanced spawn system for different character tiers and starting the menu system, which will eventually include a calendar feature.
+        </p>
+
+        <img src="../img//blog/b1/blog-1-1_grow.gif" alt="development screenshot" />
+      </div>
+    </div>
+
+    <script src="../site.js"></script>
+  </body>
+</html>

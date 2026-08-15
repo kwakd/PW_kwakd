@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DK-Portfolio</title>
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="preload" href="../img/testCharA.png" as="image" />
+  </head>
+  <body>
+    <!-- anti-flash: apply dark class and button label before first paint -->
+    <script>
+      var _dark = localStorage.getItem("kwakd-dark") === "true";
+      if (_dark) document.body.classList.add("dark");
+      document.addEventListener("DOMContentLoaded", function () {
+        var btn = document.getElementById("dm-btn");
+        if (btn) btn.textContent = _dark ? "[light-mode]" : "[dark-mode]";
+      });
+    </script>
+
+    <nav>
+      <div class="nav-inner">
+        <span class="nav-logo">
+          <img
+            id="nav-logo"
+            src="../img/testCharA.png"
+            alt="logo"
+            title="click me..."
+            width="30"
+            height="30"
+          />
+        </span>
+        <a href="../index.html">about me + playground</a>
+        <a class="here" href="../blog.html">blog</a>
+        <a href="../project.html">projects</a>
+        <button class="dm-btn" id="dm-btn">toggle dark mode</button>
+      </div>
+    </nav>
+
+    <div class="page">
+      <a class="back" href="../blog.html">blog</a>
+
+      <img
+        class="entry-hero"
+        src="../img//blog/b6/6_sc.png"
+        alt="entry #6 screenshot"
+      />
+      <p class="entry-meta">february-2026</p>
+      <h2 class="entry-title">
+        entry #6: <em>glhf-grow-desktop-journalapp</em>
+      </h2>
+
+      <div class="entry-section">
+        <div class="entry-section-head">february-2026 [week 3]</div>
+        <p>
+          The project is officially done and released 🎉 There's still some
+          cleanup to do on the website side of things—I had a lot of sections to
+          update, and it's not fully finished yet—but in terms of the game
+          itself, it's officially in v1. That alone feels surreal to say. I
+          definitely want to keep building on it, add more content, and
+          eventually work on an Android version with the goal of releasing it
+          properly on an app store at some point. That's more of a long-term
+          plan, but it's something I really want to pursue once things settle.
+        </p>
+        <img
+          src="../img//project/glhf_grow/proj_growdesk.PNG"
+          alt="glhf grow desktop"
+        />
+      </div>
+
+      <div class="entry-section">
+        <div class="entry-section-head">february-2026 [week 1-2]</div>
+        <p>
+          This week was mostly focused on drawing and finishing touches, which
+          was honestly really exciting. During the first two weeks of February,
+          the main focus was creating the final character assets and making sure
+          everything in the project was functioning properly. Because of that,
+          most of this week was dedicated to designing the epic-tier assets and
+          implementing them into the game. It felt really satisfying to finally
+          see these higher-tier designs come together and actually work in-game
+          instead of just existing as concepts.
+        </p>
+        <img src="../img//blog/b6/020426.PNG" alt="development screenshot" />
+      </div>
+    </div>
+
+    <script src="../site.js"></script>
+  </body>
+</html>

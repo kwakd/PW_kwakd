@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DK-Portfolio</title>
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="preload" href="../img/testCharA.png" as="image" />
+  </head>
+  <body>
+    <!-- anti-flash: apply dark class and button label before first paint -->
+    <script>
+      var _dark = localStorage.getItem("kwakd-dark") === "true";
+      if (_dark) document.body.classList.add("dark");
+      document.addEventListener("DOMContentLoaded", function () {
+        var btn = document.getElementById("dm-btn");
+        if (btn) btn.textContent = _dark ? "[light-mode]" : "[dark-mode]";
+      });
+    </script>
+
+    <nav>
+      <div class="nav-inner">
+        <span class="nav-logo">
+          <img
+            id="nav-logo"
+            src="../img/testCharA.png"
+            alt="logo"
+            title="click me..."
+            width="30"
+            height="30"
+          />
+        </span>
+        <a href="../index.html">about me + playground</a>
+        <a class="here" href="../blog.html">blog</a>
+        <a href="../project.html">projects</a>
+        <button class="dm-btn" id="dm-btn">toggle dark mode</button>
+      </div>
+    </nav>
+
+    <div class="page">
+      <a class="back" href="../blog.html">blog</a>
+
+      <img
+        class="entry-hero"
+        src="../img//blog/b3/3_sc.jpg"
+        alt="entry #6 screenshot"
+      />
+      <p class="entry-meta">november-2025</p>
+      <h2 class="entry-title">
+        entry #3: <em>glhf-grow-desktop-journalapp</em>
+      </h2>
+
+      <div class="entry-section">
+        <div class="entry-section-head">november-2025 [week 4]</div>
+        <p>
+          Managed to finish the last part of the menu section! I added a delete
+          button to the character-details page, so users can now delete specific
+          characters. It wasn’t too difficult to implement since clicking on a
+          character already makes it easy to identify which one is selected.
+          <br />
+          <br />
+          I’m not entirely sure what direction to take next. I’d like to add a
+          picture section, but I’m unsure how I’d access the user’s photo
+          gallery or camera, especially alongside implementing cloud data and
+          account linking.
+          <br />
+          <br />
+          However, now that I’m thinking about it, I still want to get back into
+          game development, and building a basic version of this app first might
+          help. So I’m considering pivoting to a simple desktop journaling app
+          where users can add pictures. In the future, I can build an Android
+          version, but switching to desktop for now makes things a bit easier.
+          This approach also simplifies adding a photo section to the details
+          page and avoids immediate data-storage issues since users can manage
+          their own files until I come up with a better solution.
+        </p>
+        <img src="../img/blog/b3/blog-3-2_grow.gif" alt="glhf grow desktop" />
+      </div>
+
+      <div class="entry-section">
+        <div class="entry-section-head">november-2025 [week 3]</div>
+        <p>
+          Luckily, I was able to finish a good chunk of work and actually
+          complete one of the features:
+          <br />
+          - The menu is now fully functional, and clicking on a character brings
+          up a detailed menu for that character.
+          <br />
+          - I added a feature where clicking outside the box closes the window
+          (the green part in the GIF is just for testing purposes)
+          <br />
+          - You can edit a text entry, and it will save individually for each
+          character.
+          <br />
+          <br />
+          Next steps:
+          <br />
+          - Implement character unlocks that can only happen once on a timer.
+          <br />
+          - Allow users to add a picture to the detailed page—this is the next
+          big goal.
+          <br />
+          <br />
+          Future task:
+          <br />
+          I’ll tackle making the system cloud-accessible once the current
+          features are complete.
+        </p>
+        <img
+          src="../img//blog/b3/blog-3-1_grow.gif"
+          alt="development screenshot"
+        />
+      </div>
+    </div>
+
+    <script src="../site.js"></script>
+  </body>
+</html>
