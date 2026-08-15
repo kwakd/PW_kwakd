@@ -3,9 +3,8 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>DK-Portfolio</title>
-<style>
-/* ── THEME TOKENS ── */
+<title>DK-Portfolio — Projects</title>
+<style>/* ── THEME TOKENS ── */
 :root {
   --bg: #ffffff;
   --fg: #111111;
@@ -182,53 +181,102 @@ nav a.active { font-weight: bold; text-decoration: underline; }
 @media (max-width: 480px) {
   .entry { grid-template-columns: 1fr; }
   .entry img { width: 100%; height: auto; }
-}
-.bio-name{font-family:Arial,Helvetica,sans-serif;font-weight:bold;}
-.bio-role{font-family:Arial,Helvetica,sans-serif;font-size:14px;}
-.bio-email{font-family:Arial,Helvetica,sans-serif;font-size:14px;color:var(--fg);}
-.resume-link{font-family:Arial,Helvetica,sans-serif;font-size:14px;}
-.bio-text{font-size:15px;line-height:1.7;margin-top:10px;}
-.badge{width:100px;border-radius:2px;}
-.playground-label{font-family:Arial,Helvetica,sans-serif;font-size:14px;margin-bottom:4px;}
-.thumbnail{margin:12px 0;max-width:320px;border:1px solid var(--hr);}
-</style>
+}</style>
 </head>
 <body>
-<img class="avatar" src="https://kwakd.netlify.app/img/testCharA.png" alt="Home" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Home"/>
+<img class="avatar" src="https://kwakd.netlify.app/img/testCharA.png" alt="Home" onclick="location.href='index.html'" title="Home"/>
 <nav>
-  <a href="index.html" class="active">playground + about me</a>
+  <a href="index.html">playground + about me</a>
   <a href="blog.html">blog</a>
-  <a href="projects.html">projects</a>
+  <a href="projects.html" class="active">projects</a>
   <button id="toggle-btn" onclick="toggleTheme()">toggle dark mode</button>
 </nav>
 
-<section style="margin-bottom:32px;">
-  <h2 style="font-family:Arial,Helvetica,sans-serif;font-size:1.05rem;font-weight:bold;margin-bottom:8px;">latest blog entry:</h2>
-  <h2 style="font-family:Arial,Helvetica,sans-serif;font-size:1rem;font-weight:normal;">
-    <a href="bloghtml/blog-6.html">#8: glhf-grow-desktop-journalapp [<em>apr26</em> - week2]</a>
-  </h2>
-</section>
+<!-- Professional -->
+<div class="entry">
+  <img src="https://kwakd.netlify.app/img/metaGlasses.jpg" alt="AI Glasses"/>
+  <div class="entry-meta">
+    <span class="entry-date">january 2026 ~ march 2026</span>
+    <span class="entry-title"><a href="projecthtml/project-wwm-wod.html">AI-glasses</a></span>
+    <span class="entry-tags"><em>Meta</em> &nbsp; <em>Experis</em></span>
+  </div>
+</div>
 
-<section style="margin-bottom:32px;">
-  <p class="playground-label"><strong>playground:</strong> <em>gat-cha fish.</em></p>
-  <p><a href="#">/glhf_fishGacha_htmlVer/index.html</a></p>
-  <img class="thumbnail" src="https://kwakd.netlify.app/img/gatchafishThumbnail.png" alt="Gacha Fish Thumbnail"/>
-  <p><a href="#"><strong>about:</strong> <em>gat-cha fish.</em></a></p>
-</section>
+<div class="entry">
+  <img src="https://kwakd.netlify.app/img/hzTN.png" alt="Horizon Worlds"/>
+  <div class="entry-meta">
+    <span class="entry-date">october 2024 ~ january 2026</span>
+    <span class="entry-title"><a href="projecthtml/project-wwm-wod.html">Horizon Worlds / Meta Platform</a></span>
+    <span class="entry-tags"><em>Meta</em> &nbsp; <em>Experis</em></span>
+  </div>
+</div>
 
-<hr/>
+<div class="entry">
+  <img src="https://kwakd.netlify.app/img/aw2TN.jpg" alt="Asgards Wrath 2"/>
+  <div class="entry-meta">
+    <span class="entry-date">august 2024 ~ october 2024</span>
+    <span class="entry-title"><a href="projecthtml/project-wwm-wod.html">Asgards Wrath 2</a></span>
+    <span class="entry-tags"><em>Sanzaru Games</em> &nbsp; <em>Experis</em></span>
+  </div>
+</div>
 
-<section style="display:flex;flex-direction:column;gap:6px;">
-  <img class="badge" src="https://kwakd.netlify.app/img/Badge_David_Kwak.jpg" alt="David Kwak Badge"/>
-  <p class="bio-name">david kwak</p>
-  <p class="bio-role"><strong>junior game/software</strong> [developer + designer + qa]</p>
-  <p class="bio-email">kwakd804@gmail.com</p>
-  <p class="resume-link"><a href="#">resume [03/14/26]</a></p>
-  <p class="bio-text">I am a Junior Game Designer and Developer with over two and a half years of experience in the video game and software industry. My journey began in the competitive scene, where I specialized in platform fighters, auto-chess, and 2D fighting games. Over time, my focus has evolved toward the creative and technical side of development—specifically designing systems and mechanics that deliver balanced, engaging gameplay.</p>
-  <p class="bio-text">Currently, I am dedicated to developing a custom chess project alongside a desktop journal application, focusing on refining user experience and core mechanics.</p>
-  <p class="bio-text">To further expand my technical foundation, I am attending <em>Portland Community College</em> to study Microelectronic Technology. My goal is to bridge the gap between high-level software design and the physical hardware that powers it, gaining a "foundry-to-screen" perspective that allows me to build more efficient, high-performance digital experiences.</p>
-  <p class="bio-text"><em>Documentation and relevant code samples for my work can be found within their respective project repositories on my GitHub.</em></p>
-</section>
+<div class="entry">
+  <img src="https://kwakd.netlify.app/img/ng_games.png" alt="Necessary Games"/>
+  <div class="entry-meta">
+    <span class="entry-date">september 2021 ~ june 2022</span>
+    <span class="entry-title"><a href="projecthtml/project-wwm-wod.html">1.Walking with Magnus / 2.W.O.D</a></span>
+    <span class="entry-tags"><em>necessary games</em></span>
+  </div>
+</div>
+
+<h3 class="section-header">personal projects</h3>
+
+<div class="entry">
+  <img src="https://kwakd.netlify.app/img/project/proj_growdesk.PNG" alt="Grow Desktop"/>
+  <div class="entry-meta">
+    <span class="entry-date">february 17th 2026</span>
+    <span class="entry-title"><a href="projecthtml/project-wwm-wod.html">glhf - grow - desktop - journalapp</a></span>
+    <span class="entry-tags"><em>for fun</em></span>
+  </div>
+</div>
+
+<div class="entry">
+  <img src="https://kwakd.netlify.app/img/glhfCapsule_Thumbnail.png" alt="Capsule"/>
+  <div class="entry-meta">
+    <span class="entry-date">july 19th 2025</span>
+    <span class="entry-title"><a href="projecthtml/project-wwm-wod.html">glhf - capsule</a></span>
+    <span class="entry-tags"><em>for fun</em></span>
+  </div>
+</div>
+
+<div class="entry">
+  <img src="https://kwakd.netlify.app/img/gatchafishThumbnail.png" alt="Gacha Fish"/>
+  <div class="entry-meta">
+    <span class="entry-date">march 27th 2024</span>
+    <span class="entry-title"><a href="projecthtml/project-wwm-wod.html">glhf - gat-cha fish.</a></span>
+    <span class="entry-tags"><em>Game Jam - "One Game a Month #33"</em></span>
+  </div>
+</div>
+
+<p style="font-size:1.4rem;margin:4px 0 20px;">🌟</p>
+
+<div class="entry">
+  <img src="https://kwakd.netlify.app/img/buttonMasterThumbnail.png" alt="Button Masher"/>
+  <div class="entry-meta">
+    <span class="entry-date">january 12th 2024</span>
+    <span class="entry-title"><a href="projecthtml/project-wwm-wod.html">glhf - button masher</a></span>
+    <span class="entry-tags"><em>Game Jam - "Incremental Jam - Winter 2024"</em></span>
+  </div>
+</div>
+
+<div class="entry">
+  <img src="https://kwakd.netlify.app/img/arGLHFTN.PNG" alt="AR GLHF"/>
+  <div class="entry-meta">
+    <span class="entry-date">march 7th 2023</span>
+    <span class="entry-title"><a href="projecthtml/project-wwm-wod.html">glhf - AR</a></span>
+    <span class="entry-tags"><em>for fun</em></span>
+  </div>
+</div>
 
 <p class="footer-note">portfolio · built with html/css</p>
 <script>(function(){var s=localStorage.getItem("theme");if(s)document.documentElement.setAttribute("data-theme",s);})();

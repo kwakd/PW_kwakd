@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>DK-Portfolio — Blog #6</title>
+<style>/* ── THEME TOKENS ── */
+:root {
+  --bg: #ffffff;
+  --fg: #111111;
+  --link: #0000ee;
+  --link-visited: #551a8b;
+  --hr: #cccccc;
+  --nav-border: #dddddd;
+  --muted: #666666;
+}
+[data-theme="dark"] {
+  --bg: #1a1a1a;
+  --fg: #e8e8e8;
+  --link: #7eb6ff;
+  --link-visited: #c79fff;
+  --hr: #444444;
+  --nav-border: #333333;
+  --muted: #aaaaaa;
+}
+
+/* ── RESET / BASE ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-size: 16px;
+  line-height: 1.6;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 32px 20px 80px;
+  transition: background 0.2s, color 0.2s;
+}
+
+a { color: var(--link); }
+a:visited { color: var(--link-visited); }
+
+img { display: block; max-width: 100%; height: auto; }
+
+hr { border: none; border-top: 1px solid var(--hr); margin: 24px 0; }
+
+/* ── AVATAR ── */
+.avatar { width: 120px; cursor: pointer; margin-bottom: 16px; }
+
+/* ── NAV ── */
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  align-items: center;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--nav-border);
+  margin-bottom: 28px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+}
+nav a { text-decoration: none; color: var(--link); }
+nav a:hover { text-decoration: underline; }
+nav a.active { font-weight: bold; text-decoration: underline; }
+
+#toggle-btn {
+  background: none;
+  border: 1px solid var(--fg);
+  color: var(--fg);
+  font-size: 12px;
+  padding: 2px 8px;
+  cursor: pointer;
+  border-radius: 3px;
+  font-family: Arial, Helvetica, sans-serif;
+  transition: background 0.15s, color 0.15s;
+}
+#toggle-btn:hover { background: var(--fg); color: var(--bg); }
+
+/* ── SHARED ENTRY ROW (blog + projects list) ── */
+.entry {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 0 16px;
+  margin-bottom: 28px;
+  align-items: start;
+}
+.entry img {
+  width: 160px;
+  height: 110px;
+  object-fit: cover;
+  border: 1px solid var(--hr);
+}
+.entry-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.entry-date {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
+  color: var(--muted);
+}
+.entry-title {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 15px;
+}
+.entry-tags {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* ── SECTION HEADER ── */
+.section-header {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+  font-weight: bold;
+  margin: 32px 0 16px;
+}
+
+/* ── BLOG / PROJECT POST ── */
+.post-hero {
+  max-width: 100%;
+  margin-bottom: 20px;
+  border: 1px solid var(--hr);
+}
+
+.post-title {
+  font-size: 1.2rem;
+  margin-bottom: 6px;
+}
+.post-title em { font-style: italic; }
+
+.post-date {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+
+.post-body p {
+  margin-bottom: 14px;
+}
+.post-body h3 {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+  font-weight: bold;
+  margin: 24px 0 8px;
+}
+.post-body img {
+  margin: 16px 0;
+  border: 1px solid var(--hr);
+}
+.post-body a { }
+.post-body ul {
+  margin: 8px 0 14px 20px;
+}
+.post-body ul li { margin-bottom: 4px; }
+
+/* ── PROJECT LOGO LINK ── */
+.proj-logo {
+  width: 120px;
+  margin-bottom: 14px;
+  border: 1px solid var(--hr);
+}
+
+/* ── FOOTER ── */
+.footer-note {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  color: #888;
+  margin-top: 40px;
+  border-top: 1px solid var(--hr);
+  padding-top: 12px;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 480px) {
+  .entry { grid-template-columns: 1fr; }
+  .entry img { width: 100%; height: auto; }
+}</style>
+</head>
+<body>
+<img class="avatar" src="https://kwakd.netlify.app/img/testCharA.png" alt="Home" onclick="location.href='../index.html'" title="Home"/>
+<nav>
+  <a href="../index.html">playground + about me</a>
+  <a href="../blog.html" class="active">blog</a>
+  <a href="../projects.html">projects</a>
+  <button id="toggle-btn" onclick="toggleTheme()">toggle dark mode</button>
+</nav>
+
+<img class="post-hero" src="https://kwakd.netlify.app/img/blog/6_sc.png" alt="Blog 6 screenshot"/>
+
+<div class="post-body">
+  <h2 class="post-title">entry #6: <em>glhf-grow-desktop-journalapp</em></h2>
+  <p class="post-date">february-2026 [week 3]</p>
+
+  <p>The project is officially done and released 🎉 There's still some cleanup to do on the website side of things—I had a lot of sections to update, and it's not fully finished yet—but in terms of the game itself, it's officially in v1. That alone feels surreal to say. I definitely want to keep building on it, add more content, and eventually work on an Android version with the goal of releasing it properly on an app store at some point. That's more of a long-term plan, but it's something I really want to pursue once things settle.</p>
+
+  <p>One of the main reasons the release was slightly delayed was because I wanted to work on a Mac version as well. Unfortunately, newer macOS versions have stricter permission systems, and I ran into issues with third-party developer apps not being allowed to open properly. There's probably a workaround for it, but I don't currently have a Mac device to properly test and debug it. Theoretically, the build should work on Macs, but this is something I'll have to officially fix and support later on.</p>
+
+  <p>For now though, the project is officially uploaded on <a href="https://tototonme.itch.io/glhf-grow-journal">itch.io</a> 🚀 That alone feels like a massive milestone.</p>
+
+  <p>With this project now in a released state, I'm finally moving on to the next chapter—either starting an official multiplayer game (most likely my rendition of a quick-chess concept) or jumping into a small 3D platformer project. Realistically, I think the chess-style multiplayer game is the direction I'll go, but I'll see how things feel once I start prototyping.</p>
+
+  <p>Either way, it feels really good to finally close this chapter. Even if it's not "done forever," this project is officially complete in its first real version—and that alone is a huge win. Just excited to move forward and start building something new. 🔥</p>
+
+  <p>If anyone has any ideas for this project or design suggestions they'd like to see implemented, feel free to let me know! I've also included the PSD file for the <a href="#">default character</a> and the PSD file for the <a href="#">H-character</a> for anyone who wants to experiment with designs or contribute concepts.</p>
+
+  <p>If you create anything or have suggestions, please email them to kwakd804@gmail.com — I'd love to see what people come up with!</p>
+
+  <img src="https://kwakd.netlify.app/img/project/proj_growdesk.PNG" alt="Grow Desktop screenshot"/>
+
+  <h3>february-2026 [week 1-2]</h3>
+
+  <p>This week was mostly focused on drawing and finishing touches, which was honestly really exciting. During the first two weeks of February, the main focus was creating the final character assets and making sure everything in the project was functioning properly. Because of that, most of this week was dedicated to designing the epic-tier assets and implementing them into the game. It felt really satisfying to finally see these higher-tier designs come together and actually work in-game instead of just existing as concepts.</p>
+
+  <p>The following day, I moved on to working on the legendary-tier assets, which took a bit longer than expected. These required separate actions and unique behaviors, so there was more setup and testing involved compared to the other tiers. Even so, once those were finished and fully implemented, it finally felt like everything clicked into place.</p>
+
+  <p>At this point, the base of the game is officially done. All that's left now is testing, polishing, and making sure everything feels stable and consistent before release. It honestly feels surreal being this close to the finish line—after all the planning, building, and iteration, the project is finally in its final phase. The release is now within reach, and it's exciting to see everything coming together at last.</p>
+
+  <img src="https://kwakd.netlify.app/img/blog/blog6/020426.PNG" alt="Development screenshot"/>
+</div>
+
+<p class="footer-note">portfolio · built with html/css · <a href="../blog.html">← back to blog</a></p>
+<script>(function(){var s=localStorage.getItem("theme");if(s)document.documentElement.setAttribute("data-theme",s);})();
+function toggleTheme(){var h=document.documentElement,c=h.getAttribute("data-theme"),n=c==="dark"?"light":"dark";h.setAttribute("data-theme",n);localStorage.setItem("theme",n);}</script>
+</body>
+</html>

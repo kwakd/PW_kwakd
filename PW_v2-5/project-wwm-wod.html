@@ -3,9 +3,8 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>DK-Portfolio</title>
-<style>
-/* ── THEME TOKENS ── */
+<title>DK-Portfolio — Necessary Games</title>
+<style>/* ── THEME TOKENS ── */
 :root {
   --bg: #ffffff;
   --fg: #111111;
@@ -182,55 +181,56 @@ nav a.active { font-weight: bold; text-decoration: underline; }
 @media (max-width: 480px) {
   .entry { grid-template-columns: 1fr; }
   .entry img { width: 100%; height: auto; }
-}
-.bio-name{font-family:Arial,Helvetica,sans-serif;font-weight:bold;}
-.bio-role{font-family:Arial,Helvetica,sans-serif;font-size:14px;}
-.bio-email{font-family:Arial,Helvetica,sans-serif;font-size:14px;color:var(--fg);}
-.resume-link{font-family:Arial,Helvetica,sans-serif;font-size:14px;}
-.bio-text{font-size:15px;line-height:1.7;margin-top:10px;}
-.badge{width:100px;border-radius:2px;}
-.playground-label{font-family:Arial,Helvetica,sans-serif;font-size:14px;margin-bottom:4px;}
-.thumbnail{margin:12px 0;max-width:320px;border:1px solid var(--hr);}
-</style>
+}</style>
 </head>
 <body>
-<img class="avatar" src="https://kwakd.netlify.app/img/testCharA.png" alt="Home" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Home"/>
+<img class="avatar" src="https://kwakd.netlify.app/img/testCharA.png" alt="Home" onclick="location.href='../index.html'" title="Home"/>
 <nav>
-  <a href="index.html" class="active">playground + about me</a>
-  <a href="blog.html">blog</a>
-  <a href="projects.html">projects</a>
+  <a href="../index.html">playground + about me</a>
+  <a href="../blog.html">blog</a>
+  <a href="../projects.html" class="active">projects</a>
   <button id="toggle-btn" onclick="toggleTheme()">toggle dark mode</button>
 </nav>
 
-<section style="margin-bottom:32px;">
-  <h2 style="font-family:Arial,Helvetica,sans-serif;font-size:1.05rem;font-weight:bold;margin-bottom:8px;">latest blog entry:</h2>
-  <h2 style="font-family:Arial,Helvetica,sans-serif;font-size:1rem;font-weight:normal;">
-    <a href="bloghtml/blog-6.html">#8: glhf-grow-desktop-journalapp [<em>apr26</em> - week2]</a>
-  </h2>
-</section>
+<a href="https://www.necessarygames.com/" target="_blank">
+  <img class="proj-logo" src="https://kwakd.netlify.app/img/nc_logo.jpg" alt="Necessary Games logo"/>
+</a>
 
-<section style="margin-bottom:32px;">
-  <p class="playground-label"><strong>playground:</strong> <em>gat-cha fish.</em></p>
-  <p><a href="#">/glhf_fishGacha_htmlVer/index.html</a></p>
-  <img class="thumbnail" src="https://kwakd.netlify.app/img/gatchafishThumbnail.png" alt="Gacha Fish Thumbnail"/>
-  <p><a href="#"><strong>about:</strong> <em>gat-cha fish.</em></a></p>
-</section>
+<div class="post-body">
+  <p class="post-date">september 2021 ~ june 2022</p>
 
-<hr/>
+  <h3>necessary games studio experience</h3>
 
-<section style="display:flex;flex-direction:column;gap:6px;">
-  <img class="badge" src="https://kwakd.netlify.app/img/Badge_David_Kwak.jpg" alt="David Kwak Badge"/>
-  <p class="bio-name">david kwak</p>
-  <p class="bio-role"><strong>junior game/software</strong> [developer + designer + qa]</p>
-  <p class="bio-email">kwakd804@gmail.com</p>
-  <p class="resume-link"><a href="#">resume [03/14/26]</a></p>
-  <p class="bio-text">I am a Junior Game Designer and Developer with over two and a half years of experience in the video game and software industry. My journey began in the competitive scene, where I specialized in platform fighters, auto-chess, and 2D fighting games. Over time, my focus has evolved toward the creative and technical side of development—specifically designing systems and mechanics that deliver balanced, engaging gameplay.</p>
-  <p class="bio-text">Currently, I am dedicated to developing a custom chess project alongside a desktop journal application, focusing on refining user experience and core mechanics.</p>
-  <p class="bio-text">To further expand my technical foundation, I am attending <em>Portland Community College</em> to study Microelectronic Technology. My goal is to bridge the gap between high-level software design and the physical hardware that powers it, gaining a "foundry-to-screen" perspective that allows me to build more efficient, high-performance digital experiences.</p>
-  <p class="bio-text"><em>Documentation and relevant code samples for my work can be found within their respective project repositories on my GitHub.</em></p>
-</section>
+  <p>I collaborated with a developer and his studio to recreate and port several of his games from Flashpunk (which had become deprecated) to HTML5 using GameMaker Studio 2. Over the course of a year, I gained valuable experience in the full game development process, including participating in regular meetings, conducting peer reviews, and handling bug fixes. This hands-on involvement significantly deepened my understanding of both technical workflows and team collaboration in a professional setting.</p>
 
-<p class="footer-note">portfolio · built with html/css</p>
+  <hr/>
+
+  <img src="https://kwakd.netlify.app/img/wwm2022.PNG" alt="Walking With Magnus screenshot"/>
+
+  <h3>Walking With Magnus</h3>
+
+  <p>This was another game poem with strong symbolic elements, built as a walking simulator with more interactive input compared to the previous title. The game emphasizes atmospheric storytelling through its scenery and sound design. I helped port it from FlashPunk to HTML5 using GameMaker Studio 2, further honing my skills in adapting legacy projects while preserving their artistic intent.</p>
+
+  <ul>
+    <li><a href="#">github</a></li>
+    <li><a href="https://jordanmagnuson.itch.io/walking-with-magnus" target="_blank">itch.io</a></li>
+  </ul>
+
+  <hr/>
+
+  <img src="https://kwakd.netlify.app/img/wod2022.PNG" alt="W.O.D screenshot"/>
+
+  <h3>W.O.D</h3>
+
+  <p>I worked with a partner on porting <em>"Walk-or-Die"</em>, a unique walking simulator described by its creator as "more poem than game." The project focused on preserving the artistic intent while adapting the game to GameMaker Studio 2. Through this experience, I gained a deeper understanding of the engine and its capabilities, especially in handling unconventional game mechanics and narrative-driven design.</p>
+
+  <ul>
+    <li><a href="https://github.com/RavenLickey/Walk-or-Die" target="_blank">gitHub</a></li>
+    <li><a href="https://jordanmagnuson.itch.io/walk-of-die" target="_blank">itch.io</a></li>
+  </ul>
+</div>
+
+<p class="footer-note">portfolio · built with html/css · <a href="../projects.html">← back to projects</a></p>
 <script>(function(){var s=localStorage.getItem("theme");if(s)document.documentElement.setAttribute("data-theme",s);})();
 function toggleTheme(){var h=document.documentElement,c=h.getAttribute("data-theme"),n=c==="dark"?"light":"dark";h.setAttribute("data-theme",n);localStorage.setItem("theme",n);}</script>
 </body>
