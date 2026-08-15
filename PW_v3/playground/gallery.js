@@ -43,9 +43,11 @@
       '<strong>' + escapeHtml(entry.title) + '</strong>' +
       (entry.message ? '<p>' + escapeHtml(entry.message) + '</p>' : '') +
       '<p class="pg-popup-date">' + formatDate(entry.created_at) + '</p>';
-    popup.style.left = entry.x + 'px';
-    popup.style.top = entry.y + 'px';
     container.appendChild(popup);
+    var left = Math.max(0, Math.min(entry.x, container.clientWidth - popup.offsetWidth));
+    var top = Math.max(0, Math.min(entry.y, container.clientHeight - popup.offsetHeight));
+    popup.style.left = left + 'px';
+    popup.style.top = top + 'px';
   }
 
   function makeElement(entry) {
@@ -109,7 +111,7 @@
     };
     for (var i = 0; i < characters.length; i++) {
       var c = characters[i];
-      var next = window.PlaygroundWander.stepPosition(c, bounds, dtMs, timestamp);
+      var next = window.PlaygroundWander.stepPosition(c, bounds, dtMs, Date.now());
       c.x = next.x; c.y = next.y; c.vx = next.vx; c.vy = next.vy; c.nextTurnAt = next.nextTurnAt;
       c.el.style.left = c.x + 'px';
       c.el.style.top = c.y + 'px';
