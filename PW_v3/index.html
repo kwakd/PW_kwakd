@@ -47,11 +47,12 @@
         <br />
         <h2>playground: <em>draw a character.</em></h2>
 
-        <div class="pg-wrap" id="pg-wrap">
+        <div class="pg-window" id="pg-window">
           <div class="pg-draw-state" id="pg-draw-state">
-            <div class="pg-canvas-wrap" id="pg-canvas-wrap">
+            <div class="pg-canvas-wrap pg-guide-on-top" id="pg-canvas-wrap">
               <canvas id="pg-guide" width="180" height="180"></canvas>
               <canvas id="pg-draw" width="180" height="180"></canvas>
+              <div class="pg-cursor" id="pg-cursor"></div>
             </div>
 
             <div class="pg-tools">
@@ -63,6 +64,7 @@
               <button type="button" class="pg-swatch" data-color="#ffffff" style="background:#ffffff; border:1px solid var(--border)" aria-label="white"></button>
               <button type="button" id="pg-eraser">eraser</button>
               <button type="button" id="pg-clear">clear</button>
+              <button type="button" id="pg-guide-toggle" class="pg-active">guide on top</button>
             </div>
 
             <form id="pg-form">
@@ -71,6 +73,8 @@
               <p class="pg-error" id="pg-error" hidden></p>
               <button type="submit" id="pg-submit-btn">submit</button>
             </form>
+
+            <button type="button" id="pg-view-gallery" class="pg-link-btn">see everyone's characters →</button>
           </div>
 
           <div class="pg-pending-state" id="pg-pending-state" hidden>
@@ -79,13 +83,14 @@
 
           <div class="pg-result-state" id="pg-result-state" hidden>
             <p id="pg-result-message"></p>
-            <button type="button" id="pg-result-ok">draw another</button>
+            <button type="button" id="pg-result-ok">see everyone's characters</button>
           </div>
 
-          <hr />
-
-          <div class="pg-gallery" id="pg-gallery">
-            <p class="pg-empty-hint" id="pg-empty-hint" hidden>no one's submitted yet — be the first!</p>
+          <div class="pg-gallery-state" id="pg-gallery-state" hidden>
+            <div class="pg-gallery" id="pg-gallery">
+              <p class="pg-empty-hint" id="pg-empty-hint" hidden>no one's submitted yet — be the first!</p>
+            </div>
+            <button type="button" id="pg-draw-another" class="pg-link-btn">← draw your own</button>
           </div>
         </div>
       </div>

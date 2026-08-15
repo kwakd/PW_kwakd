@@ -71,29 +71,20 @@
 
   function renderCharacters(rows) {
     emptyHint.hidden = rows.length > 0;
-    var bounds = {
-      width: container.clientWidth,
-      height: container.clientHeight,
-      entitySize: ENTITY_SIZE
-    };
     characters = rows.map(function (row) {
-      var start = window.PlaygroundWander.createWanderState(
-        Math.random() * Math.max(bounds.width - ENTITY_SIZE, 0),
-        Math.random() * Math.max(bounds.height - ENTITY_SIZE, 0),
-        0.02
-      );
       var entry = {
         id: row.id,
         title: row.title,
         message: row.message,
         created_at: row.created_at,
         image_data: row.image_data,
-        x: start.x,
-        y: start.y,
-        vx: start.vx,
-        vy: start.vy,
-        speed: start.speed,
-        nextTurnAt: start.nextTurnAt
+        x: 0,
+        y: 0,
+        vx: 0,
+        vy: 0,
+        speed: 0.02,
+        nextTurnAt: 0,
+        positioned: false
       };
       entry.el = makeElement(entry);
       return entry;
@@ -109,12 +100,24 @@
       height: container.clientHeight,
       entitySize: ENTITY_SIZE
     };
-    for (var i = 0; i < characters.length; i++) {
-      var c = characters[i];
-      var next = window.PlaygroundWander.stepPosition(c, bounds, dtMs, Date.now());
-      c.x = next.x; c.y = next.y; c.vx = next.vx; c.vy = next.vy; c.nextTurnAt = next.nextTurnAt;
-      c.el.style.left = c.x + 'px';
-      c.el.style.top = c.y + 'px';
+    if (bounds.width > 0 && bounds.height > 0) {
+      for (var i = 0; i < characters.length; i++) {
+        var c = characters[i];
+        if (!c.positioned) {
+          var start = window.PlaygroundWander.createWanderState(
+            Math.random() * Math.max(bounds.width - ENTITY_SIZE, 0),
+            Math.random() * Math.max(bounds.height - ENTITY_SIZE, 0),
+            0.02
+          );
+          c.x = start.x; c.y = start.y; c.vx = start.vx; c.vy = start.vy;
+          c.speed = start.speed; c.nextTurnAt = start.nextTurnAt;
+          c.positioned = true;
+        }
+        var next = window.PlaygroundWander.stepPosition(c, bounds, dtMs, Date.now());
+        c.x = next.x; c.y = next.y; c.vx = next.vx; c.vy = next.vy; c.nextTurnAt = next.nextTurnAt;
+        c.el.style.left = c.x + 'px';
+        c.el.style.top = c.y + 'px';
+      }
     }
     requestAnimationFrame(tick);
   }

@@ -5,8 +5,8 @@
 // Replace the two placeholder values below with your real Supabase
 // project's URL and anon key (Project Settings > API) before deploying.
 window.PlaygroundConfig = {
-  SUPABASE_URL: 'https://YOUR-PROJECT.supabase.co',
-  SUPABASE_ANON_KEY: 'YOUR-PUBLIC-ANON-KEY',
+  SUPABASE_URL: 'https://tahumxdidefsflocycmw.supabase.co',
+  SUPABASE_ANON_KEY: 'sb_publishable_Qj9JoQAhV15TFNjVHUkkeg_WLY4UN9m',
   SUBMIT_ENDPOINT: '/.netlify/functions/submit-character',
   STATUS_ENDPOINT: '/.netlify/functions/check-status'
 };

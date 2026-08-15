@@ -3,9 +3,12 @@
   var STORAGE_KEY = 'kwakd-pending-character';
 
   function showState(name) {
-    var states = ['pg-draw-state', 'pg-pending-state', 'pg-result-state'];
+    var states = ['pg-draw-state', 'pg-pending-state', 'pg-result-state', 'pg-gallery-state'];
     for (var i = 0; i < states.length; i++) {
       document.getElementById(states[i]).hidden = states[i] !== name;
+    }
+    if (name === 'pg-draw-state') {
+      clearError();
     }
   }
 
@@ -61,7 +64,7 @@
       var body = await res.json();
       if (body.status === 'approved') {
         clearPending();
-        showResult('your character was approved! it should show up below.');
+        showResult('your character was approved! it should be wandering around now.');
       } else if (body.status === 'rejected') {
         clearPending();
         showResult("your last submission wasn't approved — feel free to try again!");
@@ -121,6 +124,12 @@
   function init() {
     document.getElementById('pg-form').addEventListener('submit', handleSubmit);
     document.getElementById('pg-result-ok').addEventListener('click', function () {
+      showState('pg-gallery-state');
+    });
+    document.getElementById('pg-view-gallery').addEventListener('click', function () {
+      showState('pg-gallery-state');
+    });
+    document.getElementById('pg-draw-another').addEventListener('click', function () {
       showState('pg-draw-state');
     });
     checkPendingStatus();
