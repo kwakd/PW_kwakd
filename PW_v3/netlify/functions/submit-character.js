@@ -40,8 +40,13 @@ exports.handler = async function (event) {
   };
   var salt = process.env.IP_HASH_SALT || '';
 
-  var forwardedFor = (event.headers && event.headers['x-forwarded-for']) || '';
-  var ip = forwardedFor.split(',')[0].trim() || 'unknown';
+  var headers = event.headers || {};
+  var ip = headers['x-nf-client-connection-ip'];
+  if (!ip) {
+    var forwardedFor = headers['x-forwarded-for'] || '';
+    ip = forwardedFor.split(',')[0].trim();
+  }
+  ip = ip || 'unknown';
   var ipHash = hashIp(ip, salt);
 
   var sinceIso = new Date(Date.now() - 60 * 60 * 1000).toISOString();
