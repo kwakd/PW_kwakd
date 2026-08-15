@@ -45,26 +45,48 @@
         </h3>
         <br />
         <br />
-        <h2>playground: <em>gat-cha fish.</em></h2>
+        <h2>playground: <em>draw a character.</em></h2>
 
-        <div class="game-embed">
-          <div class="iframe-wrapper">
-            <iframe
-              src="/img/project/glhf_gf/glhf_fishGacha_htmlVer/index.html"
-              allowfullscreen
-            ></iframe>
+        <div class="pg-wrap" id="pg-wrap">
+          <div class="pg-draw-state" id="pg-draw-state">
+            <div class="pg-canvas-wrap" id="pg-canvas-wrap">
+              <canvas id="pg-guide" width="180" height="180"></canvas>
+              <canvas id="pg-draw" width="180" height="180"></canvas>
+            </div>
+
+            <div class="pg-tools">
+              <button type="button" class="pg-swatch pg-active" data-color="#1a1a1a" style="background:#1a1a1a" aria-label="black"></button>
+              <button type="button" class="pg-swatch" data-color="#e0483e" style="background:#e0483e" aria-label="red"></button>
+              <button type="button" class="pg-swatch" data-color="#3e7fe0" style="background:#3e7fe0" aria-label="blue"></button>
+              <button type="button" class="pg-swatch" data-color="#3ec46d" style="background:#3ec46d" aria-label="green"></button>
+              <button type="button" class="pg-swatch" data-color="#e0c53e" style="background:#e0c53e" aria-label="yellow"></button>
+              <button type="button" class="pg-swatch" data-color="#ffffff" style="background:#ffffff; border:1px solid var(--border)" aria-label="white"></button>
+              <button type="button" id="pg-eraser">eraser</button>
+              <button type="button" id="pg-clear">clear</button>
+            </div>
+
+            <form id="pg-form">
+              <input type="text" id="pg-title" placeholder="title" maxlength="60" required />
+              <textarea id="pg-message" placeholder="message (optional)" maxlength="280"></textarea>
+              <p class="pg-error" id="pg-error" hidden></p>
+              <button type="submit" id="pg-submit-btn">submit</button>
+            </form>
           </div>
-          <a
-            class="game-thumb-link"
-            href="glhf_fishGacha_htmlVer/index.html"
-            style="pointer-events: none"
-          >
-            <img
-              class="game-thumb"
-              src="img/project/glhf_gf/gatchafishThumbnail.png"
-              alt="gat-cha fish — tap to play"
-            />
-          </a>
+
+          <div class="pg-pending-state" id="pg-pending-state" hidden>
+            <p>your character is waiting for review — check back later!</p>
+          </div>
+
+          <div class="pg-result-state" id="pg-result-state" hidden>
+            <p id="pg-result-message"></p>
+            <button type="button" id="pg-result-ok">draw another</button>
+          </div>
+
+          <hr />
+
+          <div class="pg-gallery" id="pg-gallery">
+            <p class="pg-empty-hint" id="pg-empty-hint" hidden>no one's submitted yet — be the first!</p>
+          </div>
         </div>
 
         <p>
@@ -122,5 +144,11 @@
     </div>
 
     <script src="site.js"></script>
+    <script src="playground/config.js"></script>
+    <script src="playground/validation.js"></script>
+    <script src="playground/wander.js"></script>
+    <script src="playground/canvas.js"></script>
+    <script src="playground/submit.js"></script>
+    <script src="playground/gallery.js"></script>
   </body>
 </html>
