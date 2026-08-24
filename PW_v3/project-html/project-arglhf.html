@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DK-Portfolio-P</title>
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="preload" href="../img/testCharA.png" as="image" />
+    <link rel="icon" href="../img/favicon.ico" />
+  </head>
+  <body>
+    <!-- anti-flash: apply dark class and button label before first paint -->
+    <script>
+      var _dark = localStorage.getItem("kwakd-dark") === "true";
+      if (_dark) document.body.classList.add("dark");
+      document.addEventListener("DOMContentLoaded", function () {
+        var btn = document.getElementById("dm-btn");
+        if (btn) btn.textContent = _dark ? "[light-mode]" : "[dark-mode]";
+      });
+    </script>
+
+    <nav>
+      <div class="nav-inner">
+        <span class="nav-logo">
+          <img
+            id="nav-logo"
+            src="../img/testCharA.png"
+            alt="logo"
+            title="click me..."
+            width="30"
+            height="30"
+          />
+        </span>
+        <a href="../index.html">about me + playground</a>
+        <a href="../blog.html">blog</a>
+        <a class="here" href="../project.html">projects</a>
+        <button class="dm-btn" id="dm-btn">toggle dark mode</button>
+      </div>
+    </nav>
+
+    <div class="page">
+      <a class="back" href="../project.html">projects</a>
+
+      <img
+        class="entry-hero"
+        src="../img/project/glhf_ar/arGLHFTN.PNG"
+        alt="glhf AR"
+      />
+
+      <div class="entry-section">
+        <p class="entry-meta">march 7th 2023 <i>[personal project / for fun]</i></p>
+        <h2 class="entry-title">glhf - AR</h2>
+        <p>
+          At the time, I was playing a lot of <i>CookieRun: OvenBreak</i>, an
+          auto-runner game. I saw it as a great opportunity to learn the
+          fundamentals of game development and get comfortable with the
+          Unity engine. One of the biggest challenges was implementing a
+          respawn system, as the environment was fully auto-generated. After
+          some experimentation, I resolved it by creating a checker that
+          followed the player to manage respawn points effectively.
+        </p>
+        <p>
+          Another challenge I encountered was the player character sticking
+          to the sides of platforms due to the constant forward motion of the
+          auto-runner. This resulted in awkward interactions when colliding
+          from the side. To address this, I implemented <strong>a wall-jump
+          mechanic</strong>, which not only solved the issue but also significantly
+          improved the overall feel and fluidity of the movement.
+        </p>
+
+        <a href="https://github.com/kwakd/GLHF_autoRunner_021023" target="_blank"
+          >github</a
+        >
+        <br />
+        <a href="https://tototonme.itch.io/arglhf" target="_blank">itch.io</a>
+      </div>
+    </div>
+
+    <script src="../site.js"></script>
+  </body>
+</html>

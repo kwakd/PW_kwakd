@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DK-Portfolio-P</title>
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="preload" href="../img/testCharA.png" as="image" />
+    <link rel="icon" href="../img/favicon.ico" />
+  </head>
+  <body>
+    <!-- anti-flash: apply dark class and button label before first paint -->
+    <script>
+      var _dark = localStorage.getItem("kwakd-dark") === "true";
+      if (_dark) document.body.classList.add("dark");
+      document.addEventListener("DOMContentLoaded", function () {
+        var btn = document.getElementById("dm-btn");
+        if (btn) btn.textContent = _dark ? "[light-mode]" : "[dark-mode]";
+      });
+    </script>
+
+    <nav>
+      <div class="nav-inner">
+        <span class="nav-logo">
+          <img
+            id="nav-logo"
+            src="../img/testCharA.png"
+            alt="logo"
+            title="click me..."
+            width="30"
+            height="30"
+          />
+        </span>
+        <a href="../index.html">about me + playground</a>
+        <a href="../blog.html">blog</a>
+        <a class="here" href="../project.html">projects</a>
+        <button class="dm-btn" id="dm-btn">toggle dark mode</button>
+      </div>
+    </nav>
+
+    <div class="page">
+      <a class="back" href="../project.html">projects</a>
+
+      <img
+        class="entry-hero"
+        src="../img/project/glhf_capsule/glhfCapsule_Thumbnail.png"
+        alt="glhf capsule"
+      />
+
+      <div class="entry-section">
+        <p class="entry-meta">july 19th 2025 <i>[personal project / for fun]</i></p>
+        <h2 class="entry-title">glhf - capsule v0.5</h2>
+
+        <h2 class="entry-title"><i>how to play</i></h2>
+        <p>
+          Each character is valued at $100 and belongs to one of four tiers,
+          with higher tiers generating greater passive income over time. The
+          ultimate objective is to purchase <strong>"THE KING"</strong>. Players can also sell
+          characters or rename them for a more personalized experience.
+          <br />
+          <br />
+          In the sell menu, green text indicates how much the character earns
+          per cycle and the amount you'll receive when selling them. Red text
+          displays the time (in seconds) it takes for the character to
+          generate income.
+          <br />
+          <br />
+          The core gameplay is simple: watch your characters roam the world
+          as they generate income, purchase more characters, and work your
+          way toward affording the final, ultimate character. While a lot of
+          planned content had to be cut for this version, I aim to include it
+          all in the final release to create a more complete and engaging
+          experience.
+        </p>
+        <p>
+          <b>- THERE IS NO SAVE STATE FOR THIS GAME</b>
+          <br />
+          - Game can only be played on 700px or wider (No Mobile)
+        </p>
+
+        <h2 class="entry-title"><i>about: glhf - capsule v0.5</i></h2>
+        <p>
+          This project was inspired by my recent interest in idle games,
+          particularly titles like Gnorp Apologue and Tower Wizard. I wanted
+          to create a simple idle game focused on collecting a variety of
+          characters. What I've developed so far is a bare-bones
+          prototype&mdash;essentially a version 0.5&mdash;representing the
+          foundation of what I hope to build in the future.
+          <br />
+          <br />
+          During development, I ran into a major challenge: I wasn't able to
+          implement a key feature early on, and trying to add it later would
+          have required rebuilding the entire system from scratch. As a
+          result, several planned features had to be cut from this version.
+          Despite that, I learned a lot from the process, and moving forward,
+          my vision for the full project is much clearer.
+        </p>
+        <p>
+          In future iterations, I plan to integrate <strong>NFC tag
+          functionality</strong>&mdash;allowing players to unlock characters by
+          scanning physical keychains containing those tags. I'll also be
+          designing small 3D models to print as keychains, creating a fun
+          link between real-world collectibles and in-game content. The
+          long-term idea is to let players scan a character's unique tag to
+          bring it to life digitally, blurring the line between physical and
+          virtual gameplay.
+          <br />
+          <br />
+          Before working on version 1, I have a few other projects I want to
+          complete. One is a small app that connects to the Steam inventory
+          system to enable item drops. Another is a productivity-focused
+          study app designed to help users stay off their phones. I also plan
+          to create a basic 3D platformer to begin learning 3D game
+          development more seriously.
+          <br />
+          <br />
+          There's a lot I want to accomplish, and while balancing work and
+          development time can be tough, I'm committed to pushing these ideas
+          forward. I'm planning to share progress updates here through
+          journal posts, both to track my growth and to document the
+          development journey.
+        </p>
+
+        <a href="https://github.com/kwakd/glhf_capsule_090924" target="_blank"
+          >github</a
+        >
+      </div>
+    </div>
+
+    <script src="../site.js"></script>
+  </body>
+</html>

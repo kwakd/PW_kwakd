@@ -6,6 +6,7 @@
     <title>DK-Portfolio</title>
     <link rel="stylesheet" href="style.css" />
     <link rel="preload" href="img/testCharA.png" as="image" />
+    <link rel="icon" href="img/favicon.ico" />
   </head>
   <body>
     <!-- anti-flash: apply dark class and button label before first paint -->
@@ -39,13 +40,13 @@
 
     <div class="page">
       <div class="index-section">
-        <h2>latest blog entry:</h2>
-        <h3>
+        <h3>latest blog entry:</h3>
+        <h4>
           <a href="blog-html/blog-9.html">#9: general [may-2026 / june-2026]</a>
-        </h3>
+        </h4>
         <br />
         <br />
-        <h2>playground: <em>draw a character.</em></h2>
+        <h3>playground: <em>draw a character.</em></h3>
 
         <div class="pg-window" id="pg-window">
           <div class="pg-draw-state" id="pg-draw-state">
@@ -56,25 +57,75 @@
             </div>
 
             <div class="pg-tools">
-              <button type="button" class="pg-swatch pg-active" data-color="#1a1a1a" style="background:#1a1a1a" aria-label="black"></button>
-              <button type="button" class="pg-swatch" data-color="#e0483e" style="background:#e0483e" aria-label="red"></button>
-              <button type="button" class="pg-swatch" data-color="#3e7fe0" style="background:#3e7fe0" aria-label="blue"></button>
-              <button type="button" class="pg-swatch" data-color="#3ec46d" style="background:#3ec46d" aria-label="green"></button>
-              <button type="button" class="pg-swatch" data-color="#e0c53e" style="background:#e0c53e" aria-label="yellow"></button>
-              <button type="button" class="pg-swatch" data-color="#ffffff" style="background:#ffffff; border:1px solid var(--border)" aria-label="white"></button>
+              <button
+                type="button"
+                class="pg-swatch pg-active"
+                data-color="#1a1a1a"
+                style="background: #1a1a1a"
+                aria-label="black"
+              ></button>
+              <button
+                type="button"
+                class="pg-swatch"
+                data-color="#e0483e"
+                style="background: #e0483e"
+                aria-label="red"
+              ></button>
+              <button
+                type="button"
+                class="pg-swatch"
+                data-color="#3e7fe0"
+                style="background: #3e7fe0"
+                aria-label="blue"
+              ></button>
+              <button
+                type="button"
+                class="pg-swatch"
+                data-color="#3ec46d"
+                style="background: #3ec46d"
+                aria-label="green"
+              ></button>
+              <button
+                type="button"
+                class="pg-swatch"
+                data-color="#e0c53e"
+                style="background: #e0c53e"
+                aria-label="yellow"
+              ></button>
+              <button
+                type="button"
+                class="pg-swatch"
+                data-color="#ffffff"
+                style="background: #ffffff; border: 1px solid var(--border)"
+                aria-label="white"
+              ></button>
               <button type="button" id="pg-eraser">eraser</button>
               <button type="button" id="pg-clear">clear</button>
-              <button type="button" id="pg-guide-toggle" class="pg-active">guide on top</button>
+              <button type="button" id="pg-guide-toggle" class="pg-active">
+                guide on top
+              </button>
             </div>
 
             <form id="pg-form">
-              <input type="text" id="pg-title" placeholder="title" maxlength="60" required />
-              <textarea id="pg-message" placeholder="message (optional)" maxlength="280"></textarea>
+              <input
+                type="text"
+                id="pg-title"
+                placeholder="title"
+                maxlength="60"
+                required
+              />
+              <textarea
+                id="pg-message"
+                placeholder="message (optional)"
+                maxlength="280"
+              ></textarea>
               <p class="pg-error" id="pg-error" hidden></p>
               <button type="submit" id="pg-submit-btn">submit</button>
             </form>
 
-            <button type="button" id="pg-view-gallery" class="pg-link-btn">see everyone's characters →</button>
+            <button type="button" id="pg-view-gallery" class="pg-link-btn">
+              see everyone's characters →
+            </button>
           </div>
 
           <div class="pg-pending-state" id="pg-pending-state" hidden>
@@ -83,14 +134,20 @@
 
           <div class="pg-result-state" id="pg-result-state" hidden>
             <p id="pg-result-message"></p>
-            <button type="button" id="pg-result-ok">see everyone's characters</button>
+            <button type="button" id="pg-result-ok">
+              see everyone's characters
+            </button>
           </div>
 
           <div class="pg-gallery-state" id="pg-gallery-state" hidden>
             <div class="pg-gallery" id="pg-gallery">
-              <p class="pg-empty-hint" id="pg-empty-hint" hidden>no one's submitted yet — be the first!</p>
+              <p class="pg-empty-hint" id="pg-empty-hint" hidden>
+                no one's submitted yet — be the first!
+              </p>
             </div>
-            <button type="button" id="pg-draw-another" class="pg-link-btn">← draw your own</button>
+            <button type="button" id="pg-draw-another" class="pg-link-btn">
+              ← draw your own
+            </button>
           </div>
         </div>
       </div>
@@ -112,11 +169,11 @@
         </p>
 
         <p>
-          I am a Junior Game Designer, Developer, and QA Analyst with over three
-          years of experience in the video game and software industry. My
-          journey began in the competitive scene, specializing in
+          I am a <strong>Junior Game/Software Developer and QA Analyst</strong>
+          with over three years of experience in the video game and software
+          industry. My journey began in the competitive scene, specializing in
           platform-fighters, auto-chess, and 2D fighting games, and has since
-          evolved toward designing engaging game systems, software development,
+          evolved toward designing engaging game systems, developing software,
           and ensuring quality across product releases.
         </p>
 
@@ -127,10 +184,11 @@
         </p>
 
         <p>
-          I am working at PlusQA as a QA Analyst, supporting a large-scale cloud
-          storage platform. My work involves creating test plans and testing and
-          validating software quality across product releases, ensuring every
-          update meets a high standard before it reaches users.
+          I am working at <strong>PlusQA</strong> as a
+          <strong>Jr. QA Lead</strong>, supporting a large-scale cloud storage
+          platform. My work involves creating test plans and validating software
+          quality across product releases, ensuring every update meets a high
+          standard before it reaches users.
         </p>
 
         <p>

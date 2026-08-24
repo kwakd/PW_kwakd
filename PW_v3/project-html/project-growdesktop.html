@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DK-Portfolio-P</title>
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="preload" href="../img/testCharA.png" as="image" />
+    <link rel="icon" href="../img/favicon.ico" />
+  </head>
+  <body>
+    <!-- anti-flash: apply dark class and button label before first paint -->
+    <script>
+      var _dark = localStorage.getItem("kwakd-dark") === "true";
+      if (_dark) document.body.classList.add("dark");
+      document.addEventListener("DOMContentLoaded", function () {
+        var btn = document.getElementById("dm-btn");
+        if (btn) btn.textContent = _dark ? "[light-mode]" : "[dark-mode]";
+      });
+    </script>
+
+    <nav>
+      <div class="nav-inner">
+        <span class="nav-logo">
+          <img
+            id="nav-logo"
+            src="../img/testCharA.png"
+            alt="logo"
+            title="click me..."
+            width="30"
+            height="30"
+          />
+        </span>
+        <a href="../index.html">about me + playground</a>
+        <a href="../blog.html">blog</a>
+        <a class="here" href="../project.html">projects</a>
+        <button class="dm-btn" id="dm-btn">toggle dark mode</button>
+      </div>
+    </nav>
+
+    <div class="page">
+      <a class="back" href="../project.html">projects</a>
+
+      <img
+        class="entry-hero"
+        src="../img/project/glhf_grow/proj_growdesk.PNG"
+        alt="glhf grow desktop"
+      />
+
+      <div class="entry-section">
+        <p class="entry-meta">february 17th 2026 <i>[personal project / for fun]</i></p>
+        <h2 class="entry-title">glhf - grow - desktop - journalapp</h2>
+        <p>
+          This project began as a personal prototype inspired by my interest
+          in journaling and interactive design. The goal was to explore a more
+          engaging way to record daily experiences by turning traditional
+          journal entries into <strong>something visual, collectible, and
+          game-like</strong>.
+          <br />
+          <br />
+          The core idea is simple: once per day, users can create a
+          "moment"&mdash;a small generated character that represents that
+          day's journal entry. Each character functions as both a visual
+          memory marker and an interactive object. Users can open an entry to
+          write freely, add personal reflections, and upload an image,
+          turning each moment into a personalized snapshot of the day. All
+          data is currently stored locally, as this project is still in a
+          prototype stage and focused on experimentation rather than
+          long-term infrastructure.
+          <br />
+          <br />
+          The system uses a rarity model to introduce variation and
+          progression, with characters generated as <strong>Common, Epic, or
+          Legendary</strong>. This adds a light collectible layer while still keeping
+          the focus on journaling and personal expression rather than
+          progression mechanics.
+          <br />
+          <br />
+          At its core, this project is an experiment in blending game design
+          principles with reflective journaling, exploring how interactivity,
+          visual identity, and simple systems can make personal documentation
+          more engaging. It's an evolving prototype, and future plans include
+          a mobile version, expanded content, and continued refinement of the
+          interaction systems.
+        </p>
+
+        <a href="https://tototonme.itch.io/glhf-grow-journal" target="_blank"
+          >itch.io</a
+        >
+        <br />
+        <a
+          href="https://github.com/kwakd/glhf_growDESKTOP_120825"
+          target="_blank"
+          >github</a
+        >
+
+        <br />
+        <br />
+
+        <p>blogs:</p>
+        <ul>
+          <li><a href="../blog-html/blog-8.html">#8: glhf-grow-desktop-journalapp [april26]</a></li>
+          <li><a href="../blog-html/blog-7.html">#7: glhf-grow-desktop-journalapp [march26]</a></li>
+          <li><a href="../blog-html/blog-6.html">#6: glhf-grow-desktop-journalapp [feb26]</a></li>
+          <li><a href="../blog-html/blog-5.html">#5: glhf-grow-desktop-journalapp [jan26]</a></li>
+          <li><a href="../blog-html/blog-4.html">#4: glhf-grow-desktop-journalapp [dec25]</a></li>
+          <li><a href="../blog-html/blog-3.html">#3: glhf-grow-desktop-journalapp [nov25]</a></li>
+          <li><a href="../blog-html/blog-2.html">#2: glhf-grow-desktop-journalapp [sept25 / oct25]</a></li>
+          <li><a href="../blog-html/blog-1.html">#1: glhf-grow-journalapp [aug25]</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <script src="../site.js"></script>
+  </body>
+</html>
