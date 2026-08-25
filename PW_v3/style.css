@@ -429,20 +429,44 @@ nav a.here {
   align-items: flex-start;
 }
 
-.pg-canvas-wrap {
+.pg-canvas-viewport {
   position: relative;
   width: 260px;
   height: 260px;
+  overflow: hidden;
   margin-bottom: 0.75em;
+  border: 1px solid var(--border);
+}
+
+.pg-canvas-viewport.pg-pan-mode #pg-draw {
+  cursor: grab;
+}
+
+.pg-canvas-viewport.pg-pan-mode.pg-panning #pg-draw {
+  cursor: grabbing;
+}
+
+.pg-canvas-viewport.pg-pan-mode .pg-cursor {
+  display: none !important;
+}
+
+/* resized in real px by canvas.js's zoom controls (not transform:
+   scale(), so the existing pointer-coordinate math keeps working
+   unchanged) -- canvases below just follow it at 100%. */
+.pg-canvas-wrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 260px;
+  height: 260px;
 }
 
 .pg-canvas-wrap canvas {
   position: absolute;
   top: 0;
   left: 0;
-  width: 260px;
-  height: 260px;
-  border: 1px solid var(--border);
+  width: 100%;
+  height: 100%;
   touch-action: none;
 }
 
@@ -491,13 +515,19 @@ nav a.here {
 
 .pg-swatch.pg-active,
 #pg-eraser.pg-active,
-#pg-guide-toggle.pg-active {
+#pg-guide-toggle.pg-active,
+#pg-pan-toggle.pg-active {
   border-color: var(--fg);
 }
 
 #pg-eraser,
 #pg-clear,
-#pg-guide-toggle {
+#pg-guide-toggle,
+#pg-zoom-in,
+#pg-zoom-out,
+#pg-pan-toggle,
+#pg-gallery-zoom-in,
+#pg-gallery-zoom-out {
   background: var(--bg);
   color: var(--fg);
   border: 1px solid var(--border);
@@ -545,11 +575,29 @@ nav a.here {
   color: var(--dim);
 }
 
-.pg-gallery {
+.pg-gallery-tools {
+  display: flex;
+  gap: 0.4em;
+  margin-bottom: 0.5em;
+}
+
+.pg-gallery-viewport {
   position: relative;
   width: 100%;
   height: 320px;
   overflow: hidden;
+  cursor: grab;
+}
+
+.pg-gallery-viewport.pg-panning {
+  cursor: grabbing;
+}
+
+.pg-gallery {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-origin: center center;
 }
 
 .pg-empty-hint {
@@ -595,8 +643,8 @@ nav a.here {
 }
 
 @media (max-width: 700px) {
-  .pg-canvas-wrap,
-  .pg-canvas-wrap canvas {
+  .pg-canvas-viewport,
+  .pg-canvas-wrap {
     width: 220px;
     height: 220px;
   }

@@ -3,16 +3,31 @@
   var GUIDE_MARGIN = 30;
   var CANVAS_SIZE = 180;
   var DEFAULT_COLOR = '#1a1a1a';
-  var BRUSH_SIZE = 6;
-  var ERASER_SIZE = 10;
+  var BRUSH_SIZE = 8;
+  var ERASER_SIZE = 12;
+
+  var ZOOM_MIN = 1;
+  var ZOOM_MAX = 3;
+  var ZOOM_STEP = 0.5;
 
   var guideCanvas, drawCanvas, guideCtx, drawCtx;
-  var canvasWrap, cursorEl;
+  var canvasViewport, canvasWrap, cursorEl;
   var currentColor = DEFAULT_COLOR;
   var erasing = false;
   var drawing = false;
   var lastX, lastY;
   var hasDrawn = false;
+
+  // zoom/pan: canvasWrap (and the canvases at 100% of it) is resized in
+  // real CSS pixels rather than transform: scale()'d, so the existing
+  // getBoundingClientRect()-based coordinate math in getPos()/
+  // updateCursorPos() keeps working unchanged -- a transform would have
+  // required unscaling those offsets to avoid double-scaling the cursor.
+  var baseSize = 0;
+  var zoomLevel = ZOOM_MIN;
+  var panMode = false;
+  var panning = false;
+  var panStartX, panStartY, scrollStartX, scrollStartY;
 
   // Body/limb geometry copied from kwakd/wisp-app's SHAPES.box (100x100
   // viewBox), scaled 1:1 onto the guide. Face geometry copied from that
@@ -102,7 +117,38 @@
     };
   }
 
+  function eventPoint(evt) {
+    return {
+      x: evt.touches ? evt.touches[0].clientX : evt.clientX,
+      y: evt.touches ? evt.touches[0].clientY : evt.clientY
+    };
+  }
+
+  function startPan(evt) {
+    panning = true;
+    var pt = eventPoint(evt);
+    panStartX = pt.x;
+    panStartY = pt.y;
+    scrollStartX = canvasViewport.scrollLeft;
+    scrollStartY = canvasViewport.scrollTop;
+    canvasViewport.classList.add('pg-panning');
+  }
+
+  function movePan(evt) {
+    if (!panning) return;
+    evt.preventDefault();
+    var pt = eventPoint(evt);
+    canvasViewport.scrollLeft = scrollStartX - (pt.x - panStartX);
+    canvasViewport.scrollTop = scrollStartY - (pt.y - panStartY);
+  }
+
+  function endPan() {
+    panning = false;
+    canvasViewport.classList.remove('pg-panning');
+  }
+
   function startDraw(evt) {
+    if (panMode) { startPan(evt); return; }
     drawing = true;
     var pos = getPos(evt);
     lastX = pos.x;
@@ -110,6 +156,7 @@
   }
 
   function moveDraw(evt) {
+    if (panMode) { movePan(evt); return; }
     if (!drawing) return;
     evt.preventDefault();
     var pos = getPos(evt);
@@ -127,6 +174,7 @@
   }
 
   function endDraw() {
+    if (panMode) { endPan(); return; }
     drawing = false;
   }
 
@@ -175,9 +223,52 @@
     cursorEl.style.display = 'none';
   }
 
+  // Zooms by literally resizing canvasWrap (canvases follow at 100%)
+  // rather than transform: scale()'ing it, so it keeps the current
+  // viewport-center point stable instead of always zooming toward the
+  // top-left corner.
+  function applyZoom(prevZoom) {
+    var viewportW = canvasViewport.clientWidth;
+    var viewportH = canvasViewport.clientHeight;
+    var centerX = canvasViewport.scrollLeft + viewportW / 2;
+    var centerY = canvasViewport.scrollTop + viewportH / 2;
+    var ratio = zoomLevel / prevZoom;
+    var newSize = baseSize * zoomLevel;
+
+    canvasWrap.style.width = newSize + 'px';
+    canvasWrap.style.height = newSize + 'px';
+    canvasViewport.scrollLeft = centerX * ratio - viewportW / 2;
+    canvasViewport.scrollTop = centerY * ratio - viewportH / 2;
+  }
+
+  function zoomBy(delta) {
+    var prevZoom = zoomLevel;
+    zoomLevel = Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, zoomLevel + delta));
+    if (zoomLevel === prevZoom) return;
+    applyZoom(prevZoom);
+  }
+
+  function resetZoom() {
+    zoomLevel = ZOOM_MIN;
+    if (canvasWrap) {
+      canvasWrap.style.width = baseSize + 'px';
+      canvasWrap.style.height = baseSize + 'px';
+    }
+    if (canvasViewport) {
+      canvasViewport.scrollLeft = 0;
+      canvasViewport.scrollTop = 0;
+    }
+  }
+
+  function setPanMode(active) {
+    panMode = active;
+    canvasViewport.classList.toggle('pg-pan-mode', panMode);
+  }
+
   function reset() {
     drawCtx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
     hasDrawn = false;
+    resetZoom();
   }
 
   function isBlank() {
@@ -189,8 +280,6 @@
     out.width = CANVAS_SIZE;
     out.height = CANVAS_SIZE;
     var ctx = out.getContext('2d');
-    ctx.fillStyle = '#ffffff';
-    ctx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
     ctx.drawImage(guideCanvas, 0, 0);
     ctx.drawImage(drawCanvas, 0, 0);
     return out.toDataURL('image/png');
@@ -201,9 +290,13 @@
     drawCanvas = document.getElementById('pg-draw');
     guideCtx = guideCanvas.getContext('2d');
     drawCtx = drawCanvas.getContext('2d');
+    canvasViewport = document.getElementById('pg-canvas-viewport');
     canvasWrap = document.getElementById('pg-canvas-wrap');
     cursorEl = document.getElementById('pg-cursor');
     drawGuide();
+
+    baseSize = canvasViewport.clientWidth;
+    resetZoom();
 
     drawCanvas.addEventListener('mousedown', startDraw);
     drawCanvas.addEventListener('mousemove', moveDraw);
@@ -240,6 +333,24 @@
     document.getElementById('pg-guide-toggle').addEventListener('click', function (evt) {
       document.getElementById('pg-canvas-wrap').classList.toggle('pg-guide-on-top');
       evt.currentTarget.classList.toggle('pg-active');
+    });
+
+    document.getElementById('pg-zoom-in').addEventListener('click', function () {
+      zoomBy(ZOOM_STEP);
+    });
+    document.getElementById('pg-zoom-out').addEventListener('click', function () {
+      zoomBy(-ZOOM_STEP);
+    });
+
+    document.getElementById('pg-pan-toggle').addEventListener('click', function (evt) {
+      setPanMode(!panMode);
+      evt.currentTarget.classList.toggle('pg-active', panMode);
+    });
+
+    window.addEventListener('resize', function () {
+      var prevBase = baseSize;
+      baseSize = canvasViewport.clientWidth;
+      if (baseSize !== prevBase) resetZoom();
     });
   }
 

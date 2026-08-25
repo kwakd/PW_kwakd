@@ -1,9 +1,16 @@
 // playground/gallery.js
 (function () {
   var ENTITY_SIZE = 44;
-  var container, emptyHint;
+  var ZOOM_MIN = 1;
+  var ZOOM_MAX = 3;
+  var ZOOM_STEP = 0.5;
+  var container, emptyHint, galleryViewport;
   var characters = [];
   var lastFrame = null;
+  var zoomLevel = ZOOM_MIN;
+  var panX = 0, panY = 0;
+  var panning = false;
+  var panStartX, panStartY, panOriginX, panOriginY;
 
   async function fetchApproved() {
     var url = window.PlaygroundConfig.SUPABASE_URL +
@@ -122,14 +129,93 @@
     requestAnimationFrame(tick);
   }
 
+  // Zooming/panning just transforms the view (scale + translate on
+  // #pg-gallery itself) -- neither touches clientWidth/clientHeight, so
+  // the wander physics in tick() keep operating on the same logical
+  // bounds regardless of zoom/pan.
+  //
+  // translate() is listed after scale() so its tx/ty are in local
+  // (pre-scale) units -- a drag of `d` screen px needs a local translate
+  // of d/zoomLevel to track the pointer 1:1.
+  function applyTransform() {
+    container.style.transform =
+      'scale(' + zoomLevel + ') translate(' + panX + 'px, ' + panY + 'px)';
+  }
+
+  // Keeps panning from revealing empty space past the (center-scaled)
+  // content's edge: the screen-space overflow on each side is
+  // viewportSize * (zoomLevel - 1) / 2, which in local translate units
+  // (divided by zoomLevel again) gives the max pan below.
+  function clampPan() {
+    var maxX = (galleryViewport.clientWidth * (zoomLevel - 1)) / (2 * zoomLevel);
+    var maxY = (galleryViewport.clientHeight * (zoomLevel - 1)) / (2 * zoomLevel);
+    panX = Math.max(-maxX, Math.min(maxX, panX));
+    panY = Math.max(-maxY, Math.min(maxY, panY));
+  }
+
+  function zoomBy(delta) {
+    zoomLevel = Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, zoomLevel + delta));
+    clampPan();
+    applyTransform();
+  }
+
+  function eventPoint(evt) {
+    return {
+      x: evt.touches ? evt.touches[0].clientX : evt.clientX,
+      y: evt.touches ? evt.touches[0].clientY : evt.clientY
+    };
+  }
+
+  function startPan(evt) {
+    if (evt.target.closest('.pg-char') || evt.target.closest('.pg-popup')) return;
+    panning = true;
+    var pt = eventPoint(evt);
+    panStartX = pt.x;
+    panStartY = pt.y;
+    panOriginX = panX;
+    panOriginY = panY;
+    galleryViewport.classList.add('pg-panning');
+  }
+
+  function movePan(evt) {
+    if (!panning) return;
+    evt.preventDefault();
+    var pt = eventPoint(evt);
+    panX = panOriginX + (pt.x - panStartX) / zoomLevel;
+    panY = panOriginY + (pt.y - panStartY) / zoomLevel;
+    clampPan();
+    applyTransform();
+  }
+
+  function endPan() {
+    panning = false;
+    galleryViewport.classList.remove('pg-panning');
+  }
+
   async function init() {
     container = document.getElementById('pg-gallery');
     emptyHint = document.getElementById('pg-empty-hint');
+    galleryViewport = document.getElementById('pg-gallery-viewport');
     document.addEventListener('click', function (evt) {
       if (!evt.target.closest('.pg-char') && !evt.target.closest('.pg-popup')) {
         closePopup();
       }
     });
+
+    document.getElementById('pg-gallery-zoom-in').addEventListener('click', function () {
+      zoomBy(ZOOM_STEP);
+    });
+    document.getElementById('pg-gallery-zoom-out').addEventListener('click', function () {
+      zoomBy(-ZOOM_STEP);
+    });
+
+    galleryViewport.addEventListener('mousedown', startPan);
+    window.addEventListener('mousemove', movePan);
+    window.addEventListener('mouseup', endPan);
+    galleryViewport.addEventListener('touchstart', startPan);
+    galleryViewport.addEventListener('touchmove', movePan);
+    window.addEventListener('touchend', endPan);
+
     var rows = await fetchApproved();
     renderCharacters(rows);
     requestAnimationFrame(tick);

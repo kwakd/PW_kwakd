@@ -50,10 +50,12 @@
 
         <div class="pg-window" id="pg-window">
           <div class="pg-draw-state" id="pg-draw-state">
-            <div class="pg-canvas-wrap pg-guide-on-top" id="pg-canvas-wrap">
-              <canvas id="pg-guide" width="180" height="180"></canvas>
-              <canvas id="pg-draw" width="180" height="180"></canvas>
-              <div class="pg-cursor" id="pg-cursor"></div>
+            <div class="pg-canvas-viewport" id="pg-canvas-viewport">
+              <div class="pg-canvas-wrap pg-guide-on-top" id="pg-canvas-wrap">
+                <canvas id="pg-guide" width="180" height="180"></canvas>
+                <canvas id="pg-draw" width="180" height="180"></canvas>
+                <div class="pg-cursor" id="pg-cursor"></div>
+              </div>
             </div>
 
             <div class="pg-tools">
@@ -104,6 +106,15 @@
               <button type="button" id="pg-guide-toggle" class="pg-active">
                 guide on top
               </button>
+              <button type="button" id="pg-zoom-out" aria-label="zoom out">
+                −
+              </button>
+              <button type="button" id="pg-zoom-in" aria-label="zoom in">
+                +
+              </button>
+              <button type="button" id="pg-pan-toggle" aria-label="drag to pan">
+                pan
+              </button>
             </div>
 
             <form id="pg-form">
@@ -140,10 +151,20 @@
           </div>
 
           <div class="pg-gallery-state" id="pg-gallery-state" hidden>
-            <div class="pg-gallery" id="pg-gallery">
-              <p class="pg-empty-hint" id="pg-empty-hint" hidden>
-                no one's submitted yet — be the first!
-              </p>
+            <div class="pg-gallery-tools">
+              <button type="button" id="pg-gallery-zoom-out" aria-label="zoom out">
+                −
+              </button>
+              <button type="button" id="pg-gallery-zoom-in" aria-label="zoom in">
+                +
+              </button>
+            </div>
+            <div class="pg-gallery-viewport" id="pg-gallery-viewport">
+              <div class="pg-gallery" id="pg-gallery">
+                <p class="pg-empty-hint" id="pg-empty-hint" hidden>
+                  no one's submitted yet — be the first!
+                </p>
+              </div>
             </div>
             <button type="button" id="pg-draw-another" class="pg-link-btn">
               ← draw your own
@@ -165,7 +186,7 @@
         <p><strong>junior game/software</strong> [developer + qa]</p>
         <p>kwakd804@gmail.com</p>
         <p>
-          <a href="r-kwakd26-061826.pdf" target="_blank">resume [06/18/26]</a>
+          <a href="kwakd-082426.pdf" target="_blank">resume [06/18/26]</a>
         </p>
 
         <p>
@@ -185,10 +206,10 @@
 
         <p>
           I am working at <strong>PlusQA</strong> as a
-          <strong>Jr. QA Lead</strong>, supporting a large-scale cloud storage
-          platform. My work involves creating test plans and validating software
-          quality across product releases, ensuring every update meets a high
-          standard before it reaches users.
+          <strong>Jr. QA Lead</strong>/<strong>QA Engineer</strong>, supporting
+          a large-scale cloud storage platform. My work involves creating test
+          plans and validating software quality across product releases,
+          ensuring every update meets a high standard before it reaches users.
         </p>
 
         <p>
