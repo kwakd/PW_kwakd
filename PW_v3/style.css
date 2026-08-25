@@ -587,6 +587,7 @@ nav a.here {
   height: 320px;
   overflow: hidden;
   cursor: grab;
+  touch-action: none;
 }
 
 .pg-gallery-viewport.pg-panning {
