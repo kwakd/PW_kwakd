@@ -50,8 +50,63 @@
       <h2 class="entry-title">entry #10: <em>journal-platform</em></h2>
 
       <div class="entry-section">
-        <div class="entry-section-head">july-2026</div>
-        <p>wip</p>
+        <div class="entry-section-head">july-2026 [early]</div>
+        <p>
+          Took the journal app out of its Claude artifact sandbox and turned
+          it into a real, standalone codebase — React + Vite, with personal
+          entries now persisted locally through IndexedDB instead of the
+          artifact's <code>window.storage</code>. The bigger lift was
+          rebuilding <strong>Party</strong> (the shared/social side) on
+          actual infrastructure: Supabase Postgres with real
+          <strong>Row Level Security</strong> instead of an insecure shared
+          key-value store that had no querying and no access control at all.
+          <br />
+          <br />
+          Most of this stretch went into a moderation system built from
+          scratch. Anyone can report a post, a comment, or someone's profile
+          photo, and once something collects three independent reports it
+          gets hidden automatically — reported posts drop out of the feed,
+          reported comments get censored in place pending review, and a
+          reported profile photo blanks out to a shape-only wisp everywhere
+          that person shows up. The reporter also sees their own report take
+          effect immediately, before the threshold even hits. There's no
+          automated content filtering behind any of this yet — no blocklist,
+          no vision API, review still happens by hand in the Supabase
+          dashboard — but at least abusive content doesn't sit in the feed
+          waiting on a human to notice it.
+        </p>
+      </div>
+
+      <div class="entry-section">
+        <div class="entry-section-head">july-2026 [later]</div>
+        <p>
+          Spent the next stretch hardening what I'd just built instead of
+          adding more on top of it. Closed the one write path that wasn't
+          rate-limited yet (likes), and fixed a shadowing bug in the RLS
+          policies that had accidentally broken replies on hidden posts.
+          <br />
+          <br />
+          On the account side, I built out <strong>Back up</strong> /
+          <strong>Restore</strong> for syncing personal entries across
+          devices — deliberately dumb rather than clever, since silent sync
+          bugs are the kind of thing I did not want to debug later. Backup
+          is just an idempotent upsert you can hit as many times as you
+          want; restore only fills in dates you don't already have unsynced
+          local changes for, so it merges instead of quietly overwriting
+          anything. Fixed a bug where one oversized entry could block an
+          entire backup from going through, and added a proper
+          confirmation-email notice on account creation so that part isn't
+          a silent no-op either.
+          <br />
+          <br />
+          Closed the whole stretch out by fixing a couple of stale claims in
+          the README and adding a <code>CLAUDE.md</code> so the project's
+          conventions and gotchas are actually written down somewhere instead
+          of just living in my head. It's deployable now — any static host
+          works off a plain <code>npm run build</code> — though content
+          moderation staying report-driven instead of automated is still the
+          most obvious gap if this ever needs to hold up to real traffic.
+        </p>
       </div>
     </div>
 

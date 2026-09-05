@@ -129,6 +129,9 @@
     document.getElementById('pg-view-gallery').addEventListener('click', function () {
       showState('pg-gallery-state');
     });
+    document.getElementById('pg-pending-view-gallery').addEventListener('click', function () {
+      showState('pg-gallery-state');
+    });
     document.getElementById('pg-draw-another').addEventListener('click', function () {
       showState('pg-draw-state');
     });
