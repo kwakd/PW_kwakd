@@ -62,8 +62,12 @@
           the first support piece, the first unit that grows, and one you do not
           control at all. The pace was only survivable because the engine is
           data-driven, and because the <strong>self-play bot</strong> found a
-          pawn bug inside the Tide I would not have hit by hand for weeks.
+          pawn bug inside the Tide I would not have hit by hand for weeks. I
+          also built a shared library of faces so the new units would read as
+          belonging to the same set, then had to redraw five sprites that looked
+          fine in the file and turned to mush at actual board size.
         </p>
+        <img src="../img/blog/b12/b12_faces.png" alt="the shared face library" />
       </div>
 
       <div class="entry-section">
@@ -108,7 +112,22 @@
           pass and partly undid it — pieces glided to their destination, then I
           dropped the glide because at phone speed it read as lag rather than
           motion.
+          <br /><br />
+          Every piece also switched over to a <strong>pixel set</strong> this
+          week, which took a few goes to get right. The first directions were
+          too detailed — proper little RPG sprites with robes and staves, which
+          looked great at four times the size and turned into noise on a phone.
         </p>
+        <img
+          src="../img/blog/b12/b12_rejected.png"
+          alt="an early, rejected art direction"
+        />
+        <p>
+          What worked was going blunter and rounder: one readable silhouette per
+          unit, the same two team colours throughout, and no detail that does
+          not survive being shrunk to a square on the board.
+        </p>
+        <img src="../img/blog/b12/b12_pieces.png" alt="the pixel piece set" />
       </div>
 
       <div class="entry-section">
