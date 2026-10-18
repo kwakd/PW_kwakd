@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DK-Portfolio</title>
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="preload" href="../img/testCharA.png" as="image" />
+    <link rel="icon" href="../img/favicon.ico" />
+  </head>
+  <body>
+    <!-- anti-flash: apply dark class and button label before first paint -->
+    <script>
+      var _dark = localStorage.getItem("kwakd-dark") === "true";
+      if (_dark) document.body.classList.add("dark");
+      document.addEventListener("DOMContentLoaded", function () {
+        var btn = document.getElementById("dm-btn");
+        if (btn) btn.textContent = _dark ? "[light-mode]" : "[dark-mode]";
+      });
+    </script>
+
+    <nav>
+      <div class="nav-inner">
+        <span class="nav-logo">
+          <img
+            id="nav-logo"
+            src="../img/testCharA.png"
+            alt="logo"
+            title="click me..."
+            width="30"
+            height="30"
+          />
+        </span>
+        <a href="../index.html">about me + playground</a>
+        <a class="here" href="../blog.html">blog</a>
+        <a href="../project.html">projects</a>
+        <button class="dm-btn" id="dm-btn">toggle dark mode</button>
+      </div>
+    </nav>
+
+    <div class="page">
+      <a class="back" href="../blog.html">blog</a>
+
+      <img
+        class="entry-hero"
+        src="../img/blog/b12/b12_sc.jpg"
+        alt="entry #12 screenshot"
+      />
+      <p class="entry-meta">september-2026</p>
+      <h2 class="entry-title">entry #12: <em>glhf-chess</em></h2>
+
+      <div class="entry-section">
+        <div class="entry-section-head">september-2026 [week 5]</div>
+        <p>
+          The end of September was almost entirely roster, with a rule for it:
+          <strong>each new unit has to claim a verb the roster does not already
+          have</strong>. Not a stat line, a verb. That turned "add more units"
+          into a checklist of things the game could not yet do — the
+          <strong>Tide</strong> (a square your opponent cannot stand in), the
+          <strong>Hostage-taker</strong> (conversion, the big missing one), the
+          <strong>Mirror</strong> (it moves as whatever you just moved), plus
+          the first support piece, the first unit that grows, and one you do not
+          control at all. The pace was only survivable because the engine is
+          data-driven, and because the <strong>self-play bot</strong> found a
+          pawn bug inside the Tide I would not have hit by hand for weeks.
+        </p>
+      </div>
+
+      <div class="entry-section">
+        <div class="entry-section-head">september-2026 [week 4]</div>
+        <p>
+          The biggest week the project has had, in two directions at once:
+          making it look like a game, and making it <em>safe</em> to be one. The
+          look was a <strong>Cosy Board</strong> style layer across every screen,
+          a Collection page, per-piece skins, and board themes won from the pull.
+          The economy got rebuilt around <strong>one pull for both units and
+          skins</strong>, skins being the genuinely rare thing at 7.3% — which
+          meant shipping the real-world bits too: ads, a consent prompt, a
+          privacy policy and a signed store build.
+          <br /><br />
+          Then the part that mattered most. <strong>The server owns the economy
+          now</strong>, and there is exactly one place in the game allowed to
+          change what a player owns. When the server answers, its numbers
+          <strong>replace</strong> what is on the device rather than being
+          merged into it — merging would mean anything someone had edited into
+          their own save file survived forever. One consequence worth stating
+          plainly: the server only pays out for a match it can actually see, so
+          local matches no longer pay.
+        </p>
+      </div>
+
+      <div class="entry-section">
+        <div class="entry-section-head">september-2026 [week 3]</div>
+        <p>
+          The shape change I had been avoiding. The board went from 5x6 to
+          <strong>7x8</strong>, with a six-unit loadout arranged around the king
+          and a two-square first move for pawns — the old board was fine for
+          testing the engine and bad for playing, with nowhere to develop into
+          and no room for a loadout to express a strategy. Three units came in
+          with it, and the <strong>Frost Mage</strong> was immediately too strong
+          and got nerfed to a single step by the end of the week.
+          <br /><br />
+          The rest was clarity, which is most of what a game with this many
+          special rules needs. The board <strong>flips for Player Two</strong>
+          online, and the <strong>piece info panel generates its descriptions
+          from the unit definitions themselves</strong>, so a unit's page
+          structurally cannot drift out of sync with its rules. I also did a feel
+          pass and partly undid it — pieces glided to their destination, then I
+          dropped the glide because at phone speed it read as lag rather than
+          motion.
+        </p>
+      </div>
+
+      <div class="entry-section">
+        <div class="entry-section-head">september-2026 [week 2]</div>
+        <p>
+          Picked the project back up after a few weeks away and deliberately
+          spent the first day deleting things. Going looking for
+          over-engineering got me <strong>176 lines lighter</strong>: fifteen
+          near-identical blocks collapsed into one, two movement types merged
+          into one, and the <strong>Queen removed entirely</strong> — there was
+          no way to actually get one, in a loadout or a pull or a promotion.
+          Then the things that had been failing quietly: a save interrupted
+          halfway can no longer corrupt the file, a bad join code gets rejected
+          instead of sitting on "Connecting..." forever, and someone who leaves
+          forfeits rather than freezing the game for whoever stayed.
+          <br /><br />
+          Three bigger systems followed. <strong>Online play</strong> — direct-IP
+          thrown out entirely for a brokered relay with Find Match and join
+          codes, because nobody was ever going to read an IP address out to a
+          friend. <strong>Picking a match back up</strong> after the phone has
+          been put to sleep, which mostly meant never waiting on "Reconnecting"
+          forever. And <strong>accounts, with progress saved to the
+          cloud</strong> — where the interesting cases are all the ugly ones:
+          starting the game just as an upload is still in flight, and a real
+          conflict between two devices, which gets a "pick your progress" screen
+          rather than a guess.
+        </p>
+      </div>
+    </div>
+
+    <script src="../site.js"></script>
+  </body>
+</html>

@@ -46,12 +46,78 @@
         src="../img/blog/b11/11_sc.jpg"
         alt="entry #11 screenshot"
       />
-      <p class="entry-meta">august-2026</p>
+      <p class="entry-meta">july-2026 / august-2026</p>
       <h2 class="entry-title">entry #11: <em>glhf-chess</em></h2>
 
       <div class="entry-section">
-        <div class="entry-section-head">august-2026</div>
-        <p>wip</p>
+        <div class="entry-section-head">august-2026 [week 2]</div>
+        <p>
+          Spent this week undoing the board size I started with. 6x6 was too big
+          for the number of pieces on it, so it became <strong>5x5</strong> with
+          the King centered and the Queen dropped from the default layout — then
+          too cramped for a two-square pawn advance, so
+          <strong>5x6</strong>. <br /><br />
+          Both changes were less about the board than about everything that had
+          quietly assumed it was square. The board renderer and the camera both
+          centered on one axis and had to learn to handle width and height
+          separately. A pile of tests had the old dimensions written into them,
+          and fixing those turned up something more useful than the failures:
+          <strong>several tests had been passing for the wrong reason</strong> —
+          one checked a slide that was no longer possible on the new board,
+          another checked a row that had moved out from under it. Also raised
+          font sizes across every screen, reworked the Mine so it moves one
+          square and shows you its blast radius instead of asking you to guess,
+          and set up a build script so I can make an APK from the command line.
+        </p>
+      </div>
+
+      <div class="entry-section">
+        <div class="entry-section-head">august-2026 [week 1]</div>
+        <p>
+          Four systems, each one specced before any code.
+          <strong>Time control</strong>: a per-player countdown clock, written
+          so it has no dependency on the game around it and can be tested on its
+          own, plus an Armageddon tiebreak that settles draws with weighted odds
+          instead of calling it even. <strong>Local save</strong>: plain JSON on
+          disk, storing ids rather than the objects themselves, so the file keeps
+          making sense as the game changes around it.
+          <br /><br />
+          <strong>Networked two-player matches</strong> over a direct
+          connection. The messages the two devices send each other are
+          deliberately plain data with nothing engine-specific in them, so that
+          whole layer is testable without a running game, and each player brings
+          their own loadout. Gating input on whoever's turn it is was the piece
+          that made it feel like a match rather than two people editing one
+          board. Then <strong>mobile</strong>: fitting the camera to the board,
+          one adaptive layout shared by all six screens, touch input, portrait
+          lock, and keeping the UI clear of the notch. Networked Armageddon is
+          the one thing I deferred on purpose.
+        </p>
+      </div>
+
+      <div class="entry-section">
+        <div class="entry-section-head">july-2026 [week 5]</div>
+        <p>
+          Started something new: a small tactical chess game, phone-first, where
+          the interesting part is not the chess but the units you bring to it. I
+          wrote a design spec and an implementation plan before touching the
+          project, which is a habit I picked up from the journal app and have not
+          regretted. <br /><br />
+          The engine is <strong>data-driven on purpose</strong>. How a piece
+          moves, and what its ability does, are both described as data rather
+          than code — so adding a unit is meant to be filling in a form, not
+          writing a new class. Eight units to start: the six standard pieces plus
+          a Berserker and a <strong>Mine</strong>.
+          <br /><br />
+          The Mine was the first thing that genuinely fought the engine, because
+          it destroys whatever touches it, and that makes the <em>order</em>
+          things happen in suddenly matter — it took two passes to settle whether
+          the moving piece arrives before or after the explosion. Closed the
+          month on pawn skins and a gacha with weighted rolls and loadout slots,
+          which needed one new kind of movement and unlocked four special units
+          at once, plus mandatory promotion as <strong>its own phase of the
+          turn</strong> rather than a special case bolted onto the move code.
+        </p>
       </div>
     </div>
 
