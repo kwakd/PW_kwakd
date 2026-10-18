@@ -46,7 +46,7 @@
         src="../img/blog/b11/11_sc.jpg"
         alt="entry #11 screenshot"
       />
-      <p class="entry-meta">july-2026 / august-2026</p>
+      <p class="entry-meta">august-2026</p>
       <h2 class="entry-title">entry #11: <em>glhf-chess</em></h2>
 
       <div class="entry-section">
@@ -74,13 +74,32 @@
       <div class="entry-section">
         <div class="entry-section-head">august-2026 [week 1]</div>
         <p>
-          Four systems, each one specced before any code.
+          This one actually started in the last few days of July: a small
+          tactical chess game, phone-first, where the interesting part is not
+          the chess but the units you bring to it. I wrote a design spec and an
+          implementation plan before touching the project, which is a habit I
+          picked up from the journal app and have not regretted. The engine is
+          <strong>data-driven on purpose</strong> — how a piece moves, and what
+          its ability does, are both described as data rather than code, so
+          adding a unit is meant to be filling in a form, not writing a new
+          class. Eight units to start, the six standard pieces plus a Berserker
+          and a <strong>Mine</strong>, and the Mine was the first thing that
+          genuinely fought the engine: it destroys whatever touches it, which
+          makes the <em>order</em> things happen in suddenly matter, and it took
+          two passes to settle whether the moving piece arrives before or after
+          the explosion. The last days of the month went on pawn skins and a
+          gacha with weighted rolls and loadout slots, which needed one new kind
+          of movement and unlocked four special units at once, plus mandatory
+          promotion as <strong>its own phase of the turn</strong> rather than a
+          special case bolted onto the move code.
+          <br /><br />
+          August proper was four systems, each one specced before any code.
           <strong>Time control</strong>: a per-player countdown clock, written
           so it has no dependency on the game around it and can be tested on its
           own, plus an Armageddon tiebreak that settles draws with weighted odds
           instead of calling it even. <strong>Local save</strong>: plain JSON on
-          disk, storing ids rather than the objects themselves, so the file keeps
-          making sense as the game changes around it.
+          disk, storing ids rather than the objects themselves, so the file
+          keeps making sense as the game changes around it.
           <br /><br />
           <strong>Networked two-player matches</strong> over a direct
           connection. The messages the two devices send each other are
@@ -92,31 +111,6 @@
           one adaptive layout shared by all six screens, touch input, portrait
           lock, and keeping the UI clear of the notch. Networked Armageddon is
           the one thing I deferred on purpose.
-        </p>
-      </div>
-
-      <div class="entry-section">
-        <div class="entry-section-head">july-2026 [week 5]</div>
-        <p>
-          Started something new: a small tactical chess game, phone-first, where
-          the interesting part is not the chess but the units you bring to it. I
-          wrote a design spec and an implementation plan before touching the
-          project, which is a habit I picked up from the journal app and have not
-          regretted. <br /><br />
-          The engine is <strong>data-driven on purpose</strong>. How a piece
-          moves, and what its ability does, are both described as data rather
-          than code — so adding a unit is meant to be filling in a form, not
-          writing a new class. Eight units to start: the six standard pieces plus
-          a Berserker and a <strong>Mine</strong>.
-          <br /><br />
-          The Mine was the first thing that genuinely fought the engine, because
-          it destroys whatever touches it, and that makes the <em>order</em>
-          things happen in suddenly matter — it took two passes to settle whether
-          the moving piece arrives before or after the explosion. Closed the
-          month on pawn skins and a gacha with weighted rolls and loadout slots,
-          which needed one new kind of movement and unlocked four special units
-          at once, plus mandatory promotion as <strong>its own phase of the
-          turn</strong> rather than a special case bolted onto the move code.
         </p>
       </div>
     </div>
