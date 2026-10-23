@@ -56,23 +56,22 @@
       <div class="entry-section">
         <div class="entry-section-head">october-2026 [week 1]</div>
         <p>
-          October opened still on the roster push from the end of September, at a
-          pace I would not recommend — twenty-odd units, same rule as before,
-          each one claiming a verb nothing else does. The
-          <strong>Twins</strong> are two pieces in one slot moving as one, the
-          <strong>Courier</strong> announces its move two turns before making it,
-          and the <strong>Bodyguard</strong> is a Queen, but only while your King
-          is in danger.
+          October opened still on the roster push from September, at a pace I
+          would not recommend — twenty-odd units, same rule as before, each one
+          claiming a verb nothing else does. The <strong>Twins</strong> are two
+          pieces in one slot moving as one, the <strong>Courier</strong>
+          announces its move two turns before making it, and the
+          <strong>Bodyguard</strong> is a Queen, but only while your King is in
+          danger.
           <br /><br />
           Writing that many units that fast surfaced a problem with the board
           rather than with any one of them. Enough units now claim squares
           around themselves that a single highlight colour had stopped meaning
           anything, so those squares got their own colour and then
-          <strong>split three ways by what they actually do to you</strong>. One
-          of these commits also fixed a bug I had already patched five separate
-          times in five separate units, by putting <strong>one guard</strong> in
-          the shared path instead — which is the lesson I keep relearning every
-          time I add content faster than I consolidate it.
+          <strong>split three ways by what they do to you</strong>. One of these
+          commits also fixed a bug I had already patched five separate times in
+          five separate units, by putting <strong>one guard</strong> in the
+          shared path instead.
         </p>
       </div>
 
@@ -84,22 +83,19 @@
           <br /><br />
           <strong>Ads had never been in a build.</strong> The code that talks to
           the ad service sits behind a compiler switch, and the switch had never
-          been turned on — so that file had never been compiled by anything. The
-          package was installed, the code was written, the account IDs were in
-          place. Only the switch was missing, and nothing failed loudly enough to
+          been turned on, so that file had never been compiled by anything. The
+          package was installed, the code written, the account IDs in place —
+          only the switch was missing, and nothing failed loudly enough to
           notice, because the fallback is a polite "ads are not set up in this
-          build yet" rather than an error. I verified the fix by digging into the
-          finished APK to confirm the code was really in there, rather than
-          trusting a log line.
+          build yet" rather than an error.
           <br /><br />
-          Then the reverse: a <strong>rendering package that was installed,
-          configured and never used</strong>. The setting that would have
-          switched it on had been empty the entire life of the project, so the
-          game had always been drawing the ordinary way. Removing it took three
-          more packages with it and the APK from 78MB to 72MB. I verified it the
-          way a graphics change has to be verified, by building and looking,
-          which is the part I only did <em>half</em> of — as the following week
-          found out.
+          Then the reverse: a <strong>rendering package installed, configured
+          and never used</strong>. The setting that would have switched it on had
+          been empty the whole life of the project, so the game had always drawn
+          the ordinary way. Removing it took three more packages with it and the
+          APK from 78MB to 72MB. I checked it the way a graphics change has to
+          be checked, by building and looking — which is the part I only did
+          <em>half</em> of, as the following week found out.
         </p>
       </div>
 
@@ -108,37 +104,31 @@
         <p>
           Release week, or at least the week that found out what release week
           requires. The headline feature is a <strong>levelling system</strong>,
-          which exists because Shards hit a daily cap and XP does not. The design
-          detail I care about is the cap on it: captures and celebrated moments
-          all happen on the player's own device, where the server has no way to
-          check them, so the most a match can ever report is clamped — which
-          makes cheating it worth about one extra game.
-          <strong>The cap is the anti-cheat</strong>, and it is only acceptable
-          because XP buys bragging rights and bonus Shards and never anything an
+          which exists because Shards hit a daily cap and XP does not. The part
+          I care about is the cap on it: captures and celebrated moments happen
+          on the player's own device, where the server cannot check them, so the
+          most a match can report is clamped — which makes cheating it worth
+          about one extra game. <strong>The cap is the anti-cheat</strong>, and
+          it only works because XP buys bragging rights, never anything an
           opponent has to live with.
           <br /><br />
           Then the bug of the month. <strong>The board had been rendering as a
           solid magenta block in every build since October 12.</strong> Removing
-          an unused rendering package took one of its materials with it, and the
-          tile and piece templates were both still pointing at that material. It
-          survived because the things I <em>looked</em> at are drawn a different
-          way — the frame around the board is built while the game runs, and the
-          menu's army card is ordinary UI. The commit that removed the package
-          checked the menu and the board <em>preview</em>, decided the board was
-          fine, and never actually opened a match.
+          that unused rendering package took one of its materials with it, and
+          the tile and piece templates still pointed at it. It survived because
+          the things I <em>looked</em> at are drawn a different way — the frame
+          is built while the game runs, and the menu's army card is ordinary UI.
+          Last week's commit checked the menu and the board <em>preview</em>,
+          decided the board was fine, and never opened a match.
           <br /><br />
-          The economy also went <strong>live</strong>, and the very first call
-          failed. The client was refusing the server's reply outright because it
-          contained one field the client had never heard of — it was set to treat
-          anything unfamiliar as an error. Adding the missing field would only
-          have moved the problem to the next one, and a shipped game cannot work
-          that way, since players on an old build have to keep playing when the
-          server moves on. It now ignores what it does not recognise. Closed the
-          week with a practice opponent, a match log that immediately caught a
-          practice loss filing itself as a win, a daily challenge, and
-          <strong>board hazards</strong> at roughly one match in fifty — rubble
-          or mines, never both at once, because one kind is something you can
-          take in on your first move and two is a puzzle nobody asked for.
+          The economy also went <strong>live</strong>, and the first call
+          failed: the client refused the server's reply over one field it had
+          never heard of, because it treated anything unfamiliar as an error. It
+          ignores what it does not recognise now — players on an old build have
+          to keep playing when the server moves on. Closed the week with a
+          practice opponent, a match log that caught a practice loss filing
+          itself as a win, a daily challenge, and <strong>board hazards</strong>
+          at about one match in fifty.
         </p>
         <img
           src="../img/blog/b13/b13_hazards.png"
@@ -146,11 +136,9 @@
         />
         <p>
           Two smaller things closed the month out. The UI font had been
-          <strong>Pixelify Sans</strong>, whose 5 is very nearly an S — which is
-          a problem in a game whose screens are mostly numbers. 500 Shards read
-          as SOO, 45:00 read as 4S:00. I put the candidates side by side with
-          the actual strings the game shows and picked the one that could tell
-          them apart.
+          <strong>Pixelify Sans</strong>, whose 5 is very nearly an S — a problem
+          in a game whose screens are mostly numbers. 500 Shards read as SOO,
+          45:00 as 4S:00.
         </p>
         <img
           src="../img/blog/b13/b13_font.png"
@@ -159,14 +147,14 @@
         <p>
           And the Pawn got redrawn. The old one had feet and a flared base, and
           at board size the outline read as though it were growing little arms.
-          The new shape is softer-shouldered and keeps the set's own eyes, which
-          matters more than it sounds — it is the piece you see fourteen of.
+          It is the piece you see fourteen of, so it was worth the fuss.
         </p>
         <img
           src="../img/blog/b13/b13_pawn.png"
           alt="the pawn redesign, before and after"
         />
       </div>
+
     </div>
 
     <script src="../site.js"></script>
