@@ -41,6 +41,10 @@
     <div class="page">
       <a class="back" href="../blog.html">blog</a>
 
+      <div class="entry-nav">
+        <a class="older" href="blog-12.html">#12: glhf-chess</a>
+      </div>
+
       <img
         class="entry-hero"
         src="../img/blog/b13/b13_sc.jpg"
@@ -48,6 +52,56 @@
       />
       <p class="entry-meta">october-2026</p>
       <h2 class="entry-title">entry #13: <em>glhf-chess</em></h2>
+
+      <div class="entry-section">
+        <div class="entry-section-head">october-2026 [week 1]</div>
+        <p>
+          October opened still on the roster push from the end of September, at a
+          pace I would not recommend — twenty-odd units, same rule as before,
+          each one claiming a verb nothing else does. The
+          <strong>Twins</strong> are two pieces in one slot moving as one, the
+          <strong>Courier</strong> announces its move two turns before making it,
+          and the <strong>Bodyguard</strong> is a Queen, but only while your King
+          is in danger.
+          <br /><br />
+          Writing that many units that fast surfaced a problem with the board
+          rather than with any one of them. Enough units now claim squares
+          around themselves that a single highlight colour had stopped meaning
+          anything, so those squares got their own colour and then
+          <strong>split three ways by what they actually do to you</strong>. One
+          of these commits also fixed a bug I had already patched five separate
+          times in five separate units, by putting <strong>one guard</strong> in
+          the shared path instead — which is the lesson I keep relearning every
+          time I add content faster than I consolidate it.
+        </p>
+      </div>
+
+      <div class="entry-section">
+        <div class="entry-section-head">october-2026 [week 2]</div>
+        <p>
+          A polish pass that turned into two embarrassing discoveries, both the
+          same shape: something installed, configured, and never actually run.
+          <br /><br />
+          <strong>Ads had never been in a build.</strong> The code that talks to
+          the ad service sits behind a compiler switch, and the switch had never
+          been turned on — so that file had never been compiled by anything. The
+          package was installed, the code was written, the account IDs were in
+          place. Only the switch was missing, and nothing failed loudly enough to
+          notice, because the fallback is a polite "ads are not set up in this
+          build yet" rather than an error. I verified the fix by digging into the
+          finished APK to confirm the code was really in there, rather than
+          trusting a log line.
+          <br /><br />
+          Then the reverse: a <strong>rendering package that was installed,
+          configured and never used</strong>. The setting that would have
+          switched it on had been empty the entire life of the project, so the
+          game had always been drawing the ordinary way. Removing it took three
+          more packages with it and the APK from 78MB to 72MB. I verified it the
+          way a graphics change has to be verified, by building and looking,
+          which is the part I only did <em>half</em> of — as the following week
+          found out.
+        </p>
+      </div>
 
       <div class="entry-section">
         <div class="entry-section-head">october-2026 [week 3]</div>
@@ -112,59 +166,6 @@
           src="../img/blog/b13/b13_pawn.png"
           alt="the pawn redesign, before and after"
         />
-      </div>
-
-      <div class="entry-section">
-        <div class="entry-section-head">october-2026 [week 2]</div>
-        <p>
-          A polish pass that turned into two embarrassing discoveries, both the
-          same shape: something installed, configured, and never actually run.
-          <br /><br />
-          <strong>Ads had never been in a build.</strong> The code that talks to
-          the ad service sits behind a compiler switch, and the switch had never
-          been turned on — so that file had never been compiled by anything. The
-          package was installed, the code was written, the account IDs were in
-          place. Only the switch was missing, and nothing failed loudly enough to
-          notice, because the fallback is a polite "ads are not set up in this
-          build yet" rather than an error. I verified the fix by digging into the
-          finished APK to confirm the code was really in there, rather than
-          trusting a log line.
-          <br /><br />
-          Then the reverse: a <strong>rendering package that was installed,
-          configured and never used</strong>. The setting that would have
-          switched it on had been empty the entire life of the project, so the
-          game had always been drawing the ordinary way. Removing it took three
-          more packages with it and the APK from 78MB to 72MB. I verified it the
-          way a graphics change has to be verified, by building and looking,
-          which is the part I only did <em>half</em> of — as the following week
-          found out.
-        </p>
-      </div>
-
-      <div class="entry-section">
-        <div class="entry-section-head">october-2026 [week 1]</div>
-        <p>
-          October opened still on the roster push from the end of September, at a
-          pace I would not recommend — twenty-odd units, same rule as before,
-          each one claiming a verb nothing else does. The
-          <strong>Twins</strong> are two pieces in one slot moving as one, the
-          <strong>Courier</strong> announces its move two turns before making it,
-          and the <strong>Bodyguard</strong> is a Queen, but only while your King
-          is in danger.
-          <br /><br />
-          Writing that many units that fast surfaced a problem with the board
-          rather than with any one of them. Enough units now claim squares
-          around themselves that a single highlight colour had stopped meaning
-          anything, so those squares got their own colour and then
-          <strong>split three ways by what they actually do to you</strong>. One
-          of these commits also fixed a bug I had already patched five separate
-          times in five separate units, by putting <strong>one guard</strong> in
-          the shared path instead — which is the lesson I keep relearning every
-          time I add content faster than I consolidate it.
-        </p>
-      </div>
-      <div class="entry-nav">
-        <a class="older" href="blog-12.html">#12: glhf-chess</a>
       </div>
     </div>
 

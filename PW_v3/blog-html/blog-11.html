@@ -41,6 +41,11 @@
     <div class="page">
       <a class="back" href="../blog.html">blog</a>
 
+      <div class="entry-nav">
+        <a class="older" href="blog-10.html">#10: journal-platform</a>
+        <a class="newer" href="blog-12.html">#12: glhf-chess</a>
+      </div>
+
       <img
         class="entry-hero"
         src="../img/blog/b11/11_sc.jpg"
@@ -48,28 +53,6 @@
       />
       <p class="entry-meta">august-2026</p>
       <h2 class="entry-title">entry #11: <em>glhf-chess</em></h2>
-
-      <div class="entry-section">
-        <div class="entry-section-head">august-2026 [week 2]</div>
-        <p>
-          Spent this week undoing the board size I started with. 6x6 was too big
-          for the number of pieces on it, so it became <strong>5x5</strong> with
-          the King centered and the Queen dropped from the default layout — then
-          too cramped for a two-square pawn advance, so
-          <strong>5x6</strong>. <br /><br />
-          Both changes were less about the board than about everything that had
-          quietly assumed it was square. The board renderer and the camera both
-          centered on one axis and had to learn to handle width and height
-          separately. A pile of tests had the old dimensions written into them,
-          and fixing those turned up something more useful than the failures:
-          <strong>several tests had been passing for the wrong reason</strong> —
-          one checked a slide that was no longer possible on the new board,
-          another checked a row that had moved out from under it. Also raised
-          font sizes across every screen, reworked the Mine so it moves one
-          square and shows you its blast radius instead of asking you to guess,
-          and set up a build script so I can make an APK from the command line.
-        </p>
-      </div>
 
       <div class="entry-section">
         <div class="entry-section-head">august-2026 [week 1]</div>
@@ -113,9 +96,27 @@
           the one thing I deferred on purpose.
         </p>
       </div>
-      <div class="entry-nav">
-        <a class="older" href="blog-10.html">#10: journal-platform</a>
-        <a class="newer" href="blog-12.html">#12: glhf-chess</a>
+
+      <div class="entry-section">
+        <div class="entry-section-head">august-2026 [week 2]</div>
+        <p>
+          Spent this week undoing the board size I started with. 6x6 was too big
+          for the number of pieces on it, so it became <strong>5x5</strong> with
+          the King centered and the Queen dropped from the default layout — then
+          too cramped for a two-square pawn advance, so
+          <strong>5x6</strong>. <br /><br />
+          Both changes were less about the board than about everything that had
+          quietly assumed it was square. The board renderer and the camera both
+          centered on one axis and had to learn to handle width and height
+          separately. A pile of tests had the old dimensions written into them,
+          and fixing those turned up something more useful than the failures:
+          <strong>several tests had been passing for the wrong reason</strong> —
+          one checked a slide that was no longer possible on the new board,
+          another checked a row that had moved out from under it. Also raised
+          font sizes across every screen, reworked the Mine so it moves one
+          square and shows you its blast radius instead of asking you to guess,
+          and set up a build script so I can make an APK from the command line.
+        </p>
       </div>
     </div>
 

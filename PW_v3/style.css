@@ -172,9 +172,9 @@ nav a.here {
 .entry-nav {
   display: flex;
   gap: 1.5em;
-  margin-top: 2.5em;
-  padding-top: 1.2em;
-  border-top: 1px solid var(--border);
+  margin-bottom: 1.6em;
+  padding-bottom: 1.1em;
+  border-bottom: 1px solid var(--border);
   font-size: 13px;
 }
 .entry-nav a {

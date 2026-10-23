@@ -41,6 +41,11 @@
     <div class="page">
       <a class="back" href="../blog.html">blog</a>
 
+      <div class="entry-nav">
+        <a class="older" href="blog-11.html">#11: glhf-chess</a>
+        <a class="newer" href="blog-13.html">#13: glhf-chess</a>
+      </div>
+
       <img
         class="entry-hero"
         src="../img/blog/b12/b12_sc.jpg"
@@ -50,46 +55,29 @@
       <h2 class="entry-title">entry #12: <em>glhf-chess</em></h2>
 
       <div class="entry-section">
-        <div class="entry-section-head">september-2026 [week 5]</div>
+        <div class="entry-section-head">september-2026 [week 2]</div>
         <p>
-          The end of September was almost entirely roster, with a rule for it:
-          <strong>each new unit has to claim a verb the roster does not already
-          have</strong>. Not a stat line, a verb. That turned "add more units"
-          into a checklist of things the game could not yet do — the
-          <strong>Tide</strong> (a square your opponent cannot stand in), the
-          <strong>Hostage-taker</strong> (conversion, the big missing one), the
-          <strong>Mirror</strong> (it moves as whatever you just moved), plus
-          the first support piece, the first unit that grows, and one you do not
-          control at all. The pace was only survivable because the engine is
-          data-driven, and because the <strong>self-play bot</strong> found a
-          pawn bug inside the Tide I would not have hit by hand for weeks. I
-          also built a shared library of faces so the new units would read as
-          belonging to the same set, then had to redraw five sprites that looked
-          fine in the file and turned to mush at actual board size.
-        </p>
-        <img src="../img/blog/b12/b12_faces.png" alt="the shared face library" />
-      </div>
-
-      <div class="entry-section">
-        <div class="entry-section-head">september-2026 [week 4]</div>
-        <p>
-          The biggest week the project has had, in two directions at once:
-          making it look like a game, and making it <em>safe</em> to be one. The
-          look was a <strong>Cosy Board</strong> style layer across every screen,
-          a Collection page, per-piece skins, and board themes won from the pull.
-          The economy got rebuilt around <strong>one pull for both units and
-          skins</strong>, skins being the genuinely rare thing at 7.3% — which
-          meant shipping the real-world bits too: ads, a consent prompt, a
-          privacy policy and a signed store build.
+          Picked the project back up after a few weeks away and deliberately
+          spent the first day deleting things. Going looking for
+          over-engineering got me <strong>176 lines lighter</strong>: fifteen
+          near-identical blocks collapsed into one, two movement types merged
+          into one, and the <strong>Queen removed entirely</strong> — there was
+          no way to actually get one, in a loadout or a pull or a promotion.
+          Then the things that had been failing quietly: a save interrupted
+          halfway can no longer corrupt the file, a bad join code gets rejected
+          instead of sitting on "Connecting..." forever, and someone who leaves
+          forfeits rather than freezing the game for whoever stayed.
           <br /><br />
-          Then the part that mattered most. <strong>The server owns the economy
-          now</strong>, and there is exactly one place in the game allowed to
-          change what a player owns. When the server answers, its numbers
-          <strong>replace</strong> what is on the device rather than being
-          merged into it — merging would mean anything someone had edited into
-          their own save file survived forever. One consequence worth stating
-          plainly: the server only pays out for a match it can actually see, so
-          local matches no longer pay.
+          Three bigger systems followed. <strong>Online play</strong> — direct-IP
+          thrown out entirely for a brokered relay with Find Match and join
+          codes, because nobody was ever going to read an IP address out to a
+          friend. <strong>Picking a match back up</strong> after the phone has
+          been put to sleep, which mostly meant never waiting on "Reconnecting"
+          forever. And <strong>accounts, with progress saved to the
+          cloud</strong> — where the interesting cases are all the ugly ones:
+          starting the game just as an upload is still in flight, and a real
+          conflict between two devices, which gets a "pick your progress" screen
+          rather than a guess.
         </p>
       </div>
 
@@ -131,34 +119,47 @@
       </div>
 
       <div class="entry-section">
-        <div class="entry-section-head">september-2026 [week 2]</div>
+        <div class="entry-section-head">september-2026 [week 4]</div>
         <p>
-          Picked the project back up after a few weeks away and deliberately
-          spent the first day deleting things. Going looking for
-          over-engineering got me <strong>176 lines lighter</strong>: fifteen
-          near-identical blocks collapsed into one, two movement types merged
-          into one, and the <strong>Queen removed entirely</strong> — there was
-          no way to actually get one, in a loadout or a pull or a promotion.
-          Then the things that had been failing quietly: a save interrupted
-          halfway can no longer corrupt the file, a bad join code gets rejected
-          instead of sitting on "Connecting..." forever, and someone who leaves
-          forfeits rather than freezing the game for whoever stayed.
+          The biggest week the project has had, in two directions at once:
+          making it look like a game, and making it <em>safe</em> to be one. The
+          look was a <strong>Cosy Board</strong> style layer across every screen,
+          a Collection page, per-piece skins, and board themes won from the pull.
+          The economy got rebuilt around <strong>one pull for both units and
+          skins</strong>, skins being the genuinely rare thing at 7.3% — which
+          meant shipping the real-world bits too: ads, a consent prompt, a
+          privacy policy and a signed store build.
           <br /><br />
-          Three bigger systems followed. <strong>Online play</strong> — direct-IP
-          thrown out entirely for a brokered relay with Find Match and join
-          codes, because nobody was ever going to read an IP address out to a
-          friend. <strong>Picking a match back up</strong> after the phone has
-          been put to sleep, which mostly meant never waiting on "Reconnecting"
-          forever. And <strong>accounts, with progress saved to the
-          cloud</strong> — where the interesting cases are all the ugly ones:
-          starting the game just as an upload is still in flight, and a real
-          conflict between two devices, which gets a "pick your progress" screen
-          rather than a guess.
+          Then the part that mattered most. <strong>The server owns the economy
+          now</strong>, and there is exactly one place in the game allowed to
+          change what a player owns. When the server answers, its numbers
+          <strong>replace</strong> what is on the device rather than being
+          merged into it — merging would mean anything someone had edited into
+          their own save file survived forever. One consequence worth stating
+          plainly: the server only pays out for a match it can actually see, so
+          local matches no longer pay.
         </p>
       </div>
-      <div class="entry-nav">
-        <a class="older" href="blog-11.html">#11: glhf-chess</a>
-        <a class="newer" href="blog-13.html">#13: glhf-chess</a>
+
+      <div class="entry-section">
+        <div class="entry-section-head">september-2026 [week 5]</div>
+        <p>
+          The end of September was almost entirely roster, with a rule for it:
+          <strong>each new unit has to claim a verb the roster does not already
+          have</strong>. Not a stat line, a verb. That turned "add more units"
+          into a checklist of things the game could not yet do — the
+          <strong>Tide</strong> (a square your opponent cannot stand in), the
+          <strong>Hostage-taker</strong> (conversion, the big missing one), the
+          <strong>Mirror</strong> (it moves as whatever you just moved), plus
+          the first support piece, the first unit that grows, and one you do not
+          control at all. The pace was only survivable because the engine is
+          data-driven, and because the <strong>self-play bot</strong> found a
+          pawn bug inside the Tide I would not have hit by hand for weeks. I
+          also built a shared library of faces so the new units would read as
+          belonging to the same set, then had to redraw five sprites that looked
+          fine in the file and turned to mush at actual board size.
+        </p>
+        <img src="../img/blog/b12/b12_faces.png" alt="the shared face library" />
       </div>
     </div>
 
