@@ -168,6 +168,37 @@ nav a.here {
   content: "← ";
 }
 
+/* prev / next links at the foot of a blog entry */
+.entry-nav {
+  display: flex;
+  gap: 1.5em;
+  margin-top: 2.5em;
+  padding-top: 1.2em;
+  border-top: 1px solid var(--border);
+  font-size: 13px;
+}
+.entry-nav a {
+  color: var(--dim);
+  text-decoration: none;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.entry-nav a:hover {
+  color: var(--fg);
+}
+.entry-nav .older::before {
+  content: "← ";
+}
+.entry-nav .newer {
+  margin-left: auto;
+  text-align: right;
+}
+.entry-nav .newer::after {
+  content: " →";
+}
+
 .tag {
   display: inline-block;
   font-size: 12px;
