@@ -32,6 +32,30 @@
     });
   }
 
+  /* ── Latest blog entry link (index only) ──
+     Read the top row of blog.html rather than hardcoding it: this link had
+     gone five entries stale. The markup keeps a real href so it still works
+     if this fetch fails (file://, offline). */
+  const latest = document.getElementById('latest-entry');
+  if (latest) {
+    try {
+      const r = await fetch(root + 'blog.html');
+      if (r.ok) {
+        const doc = new DOMParser().parseFromString(await r.text(), 'text/html');
+        const row = doc.querySelector('.list-item');
+        const href = row && row.getAttribute('href');
+        const title = row && row.querySelector('.list-title');
+        if (href && title) {
+          const date = row.querySelector('.list-date');
+          latest.setAttribute('href', root + href);
+          latest.textContent =
+            title.textContent.trim() +
+            (date ? ' [' + date.textContent.trim() + ']' : '');
+        }
+      }
+    } catch (_) {}
+  }
+
   /* ── Logo 5-click easter egg ── */
   const logo = document.getElementById('nav-logo');
   if (logo && settings.logoImages.length > 1) {

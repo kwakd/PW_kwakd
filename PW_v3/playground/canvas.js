@@ -92,10 +92,10 @@
     guideCtx.rect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
     bodyPath();
     guideCtx.clip('evenodd');
-    limb(-34, 56, -47, 70, 13);
-    limb(34, 56, 47, 70, 13);
-    limb(-15, 80, -15, 95, 18);
-    limb(15, 80, 15, 95, 18);
+    limb(-34, 56, -54, 66, 13);
+    limb(34, 56, 54, 66, 13);
+    limb(-15, 80, -21, 97, 18);
+    limb(15, 80, 21, 97, 18);
     guideCtx.restore();
 
     // body: egg() -- a chunky dome with a rounded bottom
