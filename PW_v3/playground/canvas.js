@@ -29,82 +29,77 @@
   var panning = false;
   var panStartX, panStartY, scrollStartX, scrollStartY;
 
-  // Body/limb geometry copied from kwakd/wisp-app's SHAPES.box (100x100
-  // viewBox), scaled 1:1 onto the guide. Face geometry copied from that
-  // same app's getFace(bbox) -- the shared eyes/mouth every wisp species
-  // actually renders through (each SHAPES entry's own eyes/mouth fields
-  // are dead code there, never read by the render path).
+  // Egg geometry copied from kwakd/glhf_grow's Tools/sprites/blob.py --
+  // the generator that renders the real sprite PNGs, so the guide and the
+  // app's characters are the same shape rather than two drawings of it.
+  // Canonical space there: origin = top of head, +y toward the feet, body
+  // 84 wide x 96 tall. EGG_SCALE/EGG_X/EGG_Y place that in the existing
+  // 100x100 viewBox the guide already maps onto the canvas.
+  var EGG_SCALE = 0.78;
+  var EGG_X = 50;
+  var EGG_Y = 6;
+
   function drawGuide() {
     var s = GUIDE_MARGIN;
     var size = CANVAS_SIZE - GUIDE_MARGIN * 2;
     var scale = size / 100;
     guideCtx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
     guideCtx.strokeStyle = '#bbbbbb';
-    guideCtx.lineWidth = 2;
-
-    function px(v) { return s + v * scale; }
-
-    function roundedRect(x, y, w, h, r) {
-      var X = px(x), Y = px(y), W = w * scale, H = h * scale, R = r * scale;
-      guideCtx.beginPath();
-      if (guideCtx.roundRect) {
-        guideCtx.roundRect(X, Y, W, H, R);
-      } else {
-        guideCtx.moveTo(X + R, Y);
-        guideCtx.lineTo(X + W - R, Y);
-        guideCtx.arcTo(X + W, Y, X + W, Y + R, R);
-        guideCtx.lineTo(X + W, Y + H - R);
-        guideCtx.arcTo(X + W, Y + H, X + W - R, Y + H, R);
-        guideCtx.lineTo(X + R, Y + H);
-        guideCtx.arcTo(X, Y + H, X, Y + H - R, R);
-        guideCtx.lineTo(X, Y + R);
-        guideCtx.arcTo(X, Y, X + R, Y, R);
-        guideCtx.closePath();
-      }
-      guideCtx.stroke();
-    }
-
-    function line(x1, y1, x2, y2, width) {
-      guideCtx.lineWidth = width;
-      guideCtx.lineCap = 'round';
-      guideCtx.beginPath();
-      guideCtx.moveTo(px(x1), px(y1));
-      guideCtx.lineTo(px(x2), px(y2));
-      guideCtx.stroke();
-      guideCtx.lineWidth = 2;
-      guideCtx.lineCap = 'butt';
-    }
-
-    // arms/legs, simplified to lines (starting exactly at the body's
-    // edges -- x=22/78, y=74 -- so they read as attached, not floating
-    // off the body) -- thicker than the rest of the guide, and arms
-    // lowered to attach near the body's vertical middle instead of box's
-    // original near-the-top pivot.
-    line(22, 44, 6, 54, 4);
-    line(78, 44, 94, 54, 4);
-    line(37, 74, 37, 88, 4);
-    line(63, 74, 63, 88, 4);
-
-    // body: SHAPES.box.body, matching the limbs' thickness
-    guideCtx.lineWidth = 4;
-    roundedRect(22, 18, 56, 56, 8);
-    guideCtx.lineWidth = 2;
-
-    // face: getFace({x:22,y:18,width:56,height:56}), eyes sized down a
-    // touch from the computed 3.08, filled in (trying this out instead
-    // of stroke-only)
     guideCtx.fillStyle = '#bbbbbb';
-    guideCtx.beginPath();
-    guideCtx.arc(px(42.72), px(41.52), 2.5 * scale, 0, Math.PI * 2);
-    guideCtx.fill();
-    guideCtx.beginPath();
-    guideCtx.arc(px(57.28), px(41.52), 2.5 * scale, 0, Math.PI * 2);
-    guideCtx.fill();
+    guideCtx.lineJoin = 'round';
+    guideCtx.lineCap = 'round';
 
+    // canonical egg units -> canvas pixels
+    function ex(x) { return s + (EGG_X + x * EGG_SCALE) * scale; }
+    function ey(y) { return s + (EGG_Y + y * EGG_SCALE) * scale; }
+
+    function limb(x1, y1, x2, y2, width) {
+      guideCtx.lineWidth = width * EGG_SCALE * scale;
+      guideCtx.beginPath();
+      guideCtx.moveTo(ex(x1), ey(y1));
+      guideCtx.lineTo(ex(x2), ey(y2));
+      guideCtx.stroke();
+    }
+
+    // arms and legs from rig()'s idle frame. blob.py starts them inside the
+    // body (34,56 and 15,80) and hides the overlap behind the filled white
+    // body -- a guide can't fill, it would mask what you're drawing, so they
+    // start at the body's edge instead and read as attached rather than
+    // crossing through it. Same trick the previous guide used.
+    limb(-41, 58, -47, 70, 5);
+    limb(41, 58, 47, 70, 5);
+    limb(-15, 88, -15, 99, 7);
+    limb(15, 88, 15, 99, 7);
+
+    // body: egg() -- a chunky dome with a rounded bottom
+    guideCtx.lineWidth = 2.5;
     guideCtx.beginPath();
-    guideCtx.moveTo(px(43.84), px(47.12));
-    guideCtx.quadraticCurveTo(px(50), px(48.62), px(56.16), px(47.12));
+    guideCtx.moveTo(ex(-41), ey(70));
+    guideCtx.lineTo(ex(-42), ey(50));
+    guideCtx.bezierCurveTo(ex(-43), ey(10), ex(-24), ey(0), ex(0), ey(0));
+    guideCtx.bezierCurveTo(ex(24), ey(0), ex(43), ey(10), ex(42), ey(50));
+    guideCtx.lineTo(ex(41), ey(70));
+    guideCtx.bezierCurveTo(ex(41), ey(86), ex(26), ey(90), ex(0), ey(90));
+    guideCtx.bezierCurveTo(ex(-26), ey(90), ex(-41), ey(86), ex(-41), ey(70));
+    guideCtx.closePath();
     guideCtx.stroke();
+
+    // face: eyes at (+/-9.68, 29) r 4.4, mouth bar at y 38, from face_at(0)
+    // and STYLE in the same file
+    [-9.68, 9.68].forEach(function (x) {
+      guideCtx.beginPath();
+      guideCtx.arc(ex(x), ey(29), 4.4 * EGG_SCALE * scale, 0, Math.PI * 2);
+      guideCtx.fill();
+    });
+    guideCtx.lineWidth = 5 * EGG_SCALE * scale;
+    guideCtx.beginPath();
+    guideCtx.moveTo(ex(-4.5), ey(38));
+    guideCtx.lineTo(ex(4.5), ey(38));
+    guideCtx.stroke();
+
+    guideCtx.lineWidth = 2;
+    guideCtx.lineCap = 'butt';
+    guideCtx.lineJoin = 'miter';
   }
 
   function getPos(evt) {
