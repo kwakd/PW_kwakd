@@ -53,9 +53,12 @@
     function ex(x) { return s + (EGG_X + x * EGG_SCALE) * scale; }
     function ey(y) { return s + (EGG_Y + y * EGG_SCALE) * scale; }
 
-    // body outline as a path, reused for both the clip and the stroke
-    function bodyPath() {
-      guideCtx.beginPath();
+    // Body outline, reused for both the clip and the stroke. It must NOT
+    // call beginPath(): the clip below needs it appended to the full-canvas
+    // rect as a second subpath, and starting a new path there threw the rect
+    // away -- which clipped the limbs to the body's INSIDE and drew them
+    // pointing inward. Callers open the path.
+    function bodyOutline() {
       guideCtx.moveTo(ex(-41), ey(70));
       guideCtx.lineTo(ex(-42), ey(50));
       guideCtx.bezierCurveTo(ex(-43), ey(10), ex(-24), ey(0), ex(0), ey(0));
@@ -90,7 +93,7 @@
     guideCtx.save();
     guideCtx.beginPath();
     guideCtx.rect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
-    bodyPath();
+    bodyOutline();
     guideCtx.clip('evenodd');
     limb(-34, 56, -54, 66, 13);
     limb(34, 56, 54, 66, 13);
@@ -100,7 +103,8 @@
 
     // body: egg() -- a chunky dome with a rounded bottom
     guideCtx.lineWidth = 2.5;
-    bodyPath();
+    guideCtx.beginPath();
+    bodyOutline();
     guideCtx.stroke();
 
     // face: eyes at (+/-9.68, 29) r 4.4, mouth bar at y 38, from face_at(0)
