@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DK-Portfolio</title>
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="preload" href="../img/testCharA.png" as="image" />
+    <link rel="icon" href="../img/favicon.ico" />
+  </head>
+  <body>
+    <!-- anti-flash: apply dark class and button label before first paint -->
+    <script>
+      var _dark = localStorage.getItem("kwakd-dark") === "true";
+      if (_dark) document.body.classList.add("dark");
+      document.addEventListener("DOMContentLoaded", function () {
+        var btn = document.getElementById("dm-btn");
+        if (btn) btn.textContent = _dark ? "[light-mode]" : "[dark-mode]";
+      });
+    </script>
+
+    <nav>
+      <div class="nav-inner">
+        <span class="nav-logo">
+          <img
+            id="nav-logo"
+            src="../img/testCharA.png"
+            alt="logo"
+            title="click me..."
+            width="30"
+            height="30"
+          />
+        </span>
+        <a href="../index.html">about me + playground</a>
+        <a class="here" href="../blog.html">blog</a>
+        <a href="../project.html">projects</a>
+        <button class="dm-btn" id="dm-btn">toggle dark mode</button>
+      </div>
+    </nav>
+
+    <div class="page">
+      <a class="back" href="../blog.html">blog</a>
+
+      <div class="entry-nav">
+        <a class="older" href="blog-13.html">#13: glhf-chess</a>
+      </div>
+
+      <img
+        class="entry-hero"
+        src="../img/blog/b14/b14_sc.jpg"
+        alt="entry #14 screenshot"
+      />
+      <p class="entry-meta">november-2026</p>
+      <h2 class="entry-title">entry #14: <em>general</em></h2>
+
+      <div class="entry-section">
+        <div class="entry-section-head">november-2026 [week 1]</div>
+        <p>
+          Most of this month so far has gone into <strong>glhf grow</strong>, a
+          daily journal app where each day you write becomes a little character
+          that then wanders around a meadow. It started at the end of October
+          as an iOS app in SwiftUI, with the sprites generated rather than drawn
+          by hand, so a new skin is a few numbers rather than a new file.
+        </p>
+        <img
+          src="../img/blog/b14/b14_meadow.jpg"
+          alt="the meadow, full of hatched characters"
+        />
+        <p>
+          November opened with a <strong>performance pass on the meadow</strong>,
+          which is the screen doing the most work: every character on it is
+          animating at once. Lookups now happen once per change rather than once
+          per frame, every sprite shares one timeline instead of keeping its
+          own, and entries and eggs are dictionary reads. Phone builds are
+          compiled optimized now too, with the debug menu kept in so a real
+          device build is still testable.
+          <br /><br />
+          On top of that, <strong>ambience in every theme</strong> — each
+          meadow theme now has its own moving background, by day and by night —
+          and a <strong>hand mode</strong> that lets you drag characters around,
+          which also had to stop taps from opening that day's journal entry
+          while it is on. Races got gold, silver and bronze medals that pop up
+          beside each racer as they finish. I also wrote up an end-to-end
+          encryption proposal for the next phase, since the whole point of a
+          journal is that nobody else reads it.
+        </p>
+        <img
+          src="../img/blog/b14/b14_home.jpg"
+          alt="the glhf grow home screen"
+          style="width: 45%; height: auto; display: block; margin: 0 auto"
+        />
+        <p>
+          The small fix I liked most: on a day's page the egg card's tap target
+          had been the whole row, so it sat over the character's name and you
+          could not read it. The button is just the card now. There is also a
+          test for looking at last month's journal during the first days of a
+          new month, which is exactly the sort of thing that works all year and
+          breaks on the 1st.
+        </p>
+      </div>
+
+      <div class="entry-section">
+        <div class="entry-section-head">november-2026 [week 2]</div>
+        <p>
+          Back to <strong>glhf-chess</strong> for a week, and mostly to fix how
+          it ships. The server half of the game was being deployed by hand
+          through a GUI window, which is why it quietly sat undeployed — a fix
+          built weeks earlier had never actually reached the environment. It
+          deploys from <strong>a single menu item</strong> now, all nine
+          scripts at once.
+          <br /><br />
+          Two things that window hides, learned the hard way. Its own deploy
+          call throws unless the window is open, so the right move is to skip it
+          and call what it calls. And <strong>batchmode simply cannot do
+          this</strong> — there is no Unity Cloud session in a headless editor,
+          so the gateway rejects the request outright. I had written an
+          env-var guard, a timeout and an editor-loop pump to support a
+          service-account key that does not exist; all of that is cut. The
+          finding stays in the doc for whoever wires up the CLI later.
+          <br /><br />
+          I also reviewed the match screen properly, which took three attempts
+          because the emulator kept wedging — two emulators on an 8GB machine,
+          not the game. The thing it found:
+          <strong>the two player names sat on different baselines</strong>. Both
+          clock labels are centred in a fixed box, but the number of lines
+          changes with the turn — the side to move reads "Player One / to move"
+          while the other is just "Player Two" — so the names drifted apart and
+          back as play went on. They are top-aligned now, so the first line
+          stays put wherever the second one goes. Timed matches always had two
+          lines each, which is why it never showed up before.
+        </p>
+      </div>
+    </div>
+
+    <script src="../site.js"></script>
+  </body>
+</html>
