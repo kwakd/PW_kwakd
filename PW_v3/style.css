@@ -14,8 +14,22 @@
 body.dark {
   --bg: #111111;
   --fg: #cccccc;
-  --dim: #777777;
+  /* #777 was 4.22:1 on #111 -- under AA for the 17 places --dim is used */
+  --dim: #8b8b8b;
   --border: #2a2a2a;
+}
+
+/* Heading root for pages whose title is not drawn on screen. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* ---------- BASE ---------- */
@@ -64,6 +78,16 @@ h4 {
   margin-bottom: 0.4em;
   line-height: 1.3;
 }
+
+/* index.html's section headings carry no class and so fell back to UA
+   sizes. They were h3/h4; raising them to h2/h3 for a correct outline
+   would have resized them, so the old sizes are pinned here. */
+.index-section > h2 {
+  font-size: 17px;
+}
+.index-section > h3 {
+  font-size: 15px;
+}
 em {
   font-style: italic;
 }
@@ -95,7 +119,7 @@ nav {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 0.4em;
+  gap: 0.1em;
 }
 
 .nav-logo {
@@ -118,6 +142,7 @@ nav a {
   text-decoration: none;
   color: var(--dim);
   font-size: 14px;
+  padding: 5px 0;
 }
 nav a:hover,
 nav a.here {
@@ -132,7 +157,7 @@ nav a.here {
   font-family: inherit;
   font-size: 14px;
   cursor: pointer;
-  padding: 0;
+  padding: 5px 0;
 }
 .dm-btn:hover {
   color: var(--fg);

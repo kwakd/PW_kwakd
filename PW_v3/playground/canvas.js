@@ -53,35 +53,54 @@
     function ex(x) { return s + (EGG_X + x * EGG_SCALE) * scale; }
     function ey(y) { return s + (EGG_Y + y * EGG_SCALE) * scale; }
 
-    function limb(x1, y1, x2, y2, width) {
-      guideCtx.lineWidth = width * EGG_SCALE * scale;
+    // body outline as a path, reused for both the clip and the stroke
+    function bodyPath() {
       guideCtx.beginPath();
-      guideCtx.moveTo(ex(x1), ey(y1));
-      guideCtx.lineTo(ex(x2), ey(y2));
+      guideCtx.moveTo(ex(-41), ey(70));
+      guideCtx.lineTo(ex(-42), ey(50));
+      guideCtx.bezierCurveTo(ex(-43), ey(10), ex(-24), ey(0), ex(0), ey(0));
+      guideCtx.bezierCurveTo(ex(24), ey(0), ex(43), ey(10), ex(42), ey(50));
+      guideCtx.lineTo(ex(41), ey(70));
+      guideCtx.bezierCurveTo(ex(41), ey(86), ex(26), ey(90), ex(0), ey(90));
+      guideCtx.bezierCurveTo(ex(-26), ey(90), ex(-41), ey(86), ex(-41), ey(70));
+      guideCtx.closePath();
+    }
+
+    // A limb is a capsule in the sprite, not a line: blob.py strokes it
+    // with a round cap and a thick ink outline, so what you see is the
+    // outline of a rounded bar. Tracing its outline is what makes the
+    // guide look like the character instead of a stick figure.
+    function limb(x1, y1, x2, y2, width) {
+      var ax = ex(x1), ay = ey(y1), bx = ex(x2), by = ey(y2);
+      var r = width / 2 * EGG_SCALE * scale;
+      var a = Math.atan2(by - ay, bx - ax);
+      guideCtx.beginPath();
+      guideCtx.arc(bx, by, r, a + Math.PI / 2, a - Math.PI / 2, true);
+      guideCtx.arc(ax, ay, r, a - Math.PI / 2, a + Math.PI / 2, true);
+      guideCtx.closePath();
       guideCtx.stroke();
     }
 
-    // arms and legs from rig()'s idle frame. blob.py starts them inside the
-    // body (34,56 and 15,80) and hides the overlap behind the filled white
-    // body -- a guide can't fill, it would mask what you're drawing, so they
-    // start at the body's edge instead and read as attached rather than
-    // crossing through it. Same trick the previous guide used.
-    limb(-41, 58, -47, 70, 5);
-    limb(41, 58, 47, 70, 5);
-    limb(-15, 88, -15, 99, 7);
-    limb(15, 88, 15, 99, 7);
+    // Limbs start inside the body (blob.py's idle rig) and the sprite hides
+    // the overlap behind the filled white body. A guide cannot fill without
+    // masking what you are drawing, so instead clip to everything OUTSIDE
+    // the body: the capsules emerge from behind it exactly as they do in
+    // the sprite, with no construction lines crossing the face.
+    guideCtx.lineWidth = 2;
+    guideCtx.save();
+    guideCtx.beginPath();
+    guideCtx.rect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+    bodyPath();
+    guideCtx.clip('evenodd');
+    limb(-34, 56, -47, 70, 13);
+    limb(34, 56, 47, 70, 13);
+    limb(-15, 80, -15, 95, 18);
+    limb(15, 80, 15, 95, 18);
+    guideCtx.restore();
 
     // body: egg() -- a chunky dome with a rounded bottom
     guideCtx.lineWidth = 2.5;
-    guideCtx.beginPath();
-    guideCtx.moveTo(ex(-41), ey(70));
-    guideCtx.lineTo(ex(-42), ey(50));
-    guideCtx.bezierCurveTo(ex(-43), ey(10), ex(-24), ey(0), ex(0), ey(0));
-    guideCtx.bezierCurveTo(ex(24), ey(0), ex(43), ey(10), ex(42), ey(50));
-    guideCtx.lineTo(ex(41), ey(70));
-    guideCtx.bezierCurveTo(ex(41), ey(86), ex(26), ey(90), ex(0), ey(90));
-    guideCtx.bezierCurveTo(ex(-26), ey(90), ex(-41), ey(86), ex(-41), ey(70));
-    guideCtx.closePath();
+    bodyPath();
     guideCtx.stroke();
 
     // face: eyes at (+/-9.68, 29) r 4.4, mouth bar at y 38, from face_at(0)
