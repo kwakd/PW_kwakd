@@ -6,7 +6,7 @@ process.env.SUPABASE_URL = 'https://example.supabase.co';
 process.env.SUPABASE_SERVICE_ROLE_KEY = 'test-service-key';
 process.env.IP_HASH_SALT = 'test-salt';
 
-const { handler } = require('./submit-character.js');
+const { handler } = require('../functions/submit-character.js');
 
 function mockFetchSequence(responses) {
   let call = 0;

@@ -4,7 +4,7 @@ const assert = require('node:assert/strict');
 process.env.SUPABASE_URL = 'https://example.supabase.co';
 process.env.SUPABASE_SERVICE_ROLE_KEY = 'test-service-key';
 
-const { handler } = require('./check-status.js');
+const { handler } = require('../functions/check-status.js');
 
 function mockFetchOnce(body) {
   global.fetch = async () => ({

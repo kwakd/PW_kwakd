@@ -1,6 +1,6 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const { insertPendingCharacter, countRecentSubmissions, getCharacterStatus } = require('./supabaseRest.js');
+const { insertPendingCharacter, countRecentSubmissions, getCharacterStatus } = require('../functions/lib/supabaseRest.js');
 
 function mockFetchOnce(body, ok) {
   global.fetch = async () => ({

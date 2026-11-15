@@ -1,17 +1,19 @@
-# Build config lives here, at the repo root, because that is the only
-# netlify.toml Netlify reads. PW_v3/netlify.toml was never picked up, which
-# is why the deployed site is an old copy that predates PW_v3 entirely.
+# Build config for kwakd.netlify.app.
 #
-# base      - the site is PW_v3; the other PW_v* folders are old versions and
-#             must not be published.
-# publish   - relative to base, so this publishes PW_v3 itself.
-# functions - relative to base: PW_v3/netlify/functions.
+# No `base`: the dashboard already publishes PW_v3 from the repo root, so
+# these paths are root-relative and match it rather than layering a second
+# indirection on top. The other PW_v* folders are old versions of the site
+# and are not published.
+#
+# `functions` must point at a directory whose every top-level .js file is a
+# real function -- Netlify derives the function name from the filename and
+# rejects anything with a dot in it, which is why the tests live in
+# netlify/tests/ rather than beside the handlers.
 [build]
-  base = "PW_v3"
-  publish = "."
-  functions = "netlify/functions"
+  publish = "PW_v3"
+  functions = "PW_v3/netlify/functions"
 
-# Internal planning docs sit inside the published folder; keep them off the
+# Internal planning notes sit inside the published folder; keep them off the
 # live site.
 [[redirects]]
   from = "/docs/*"
@@ -24,13 +26,12 @@
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
 
-# Hashed-name assets never change; the HTML must not be cached hard or
-# updates will not reach people who have already visited.
 [[headers]]
   for = "/img/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000"
 
+# HTML must not be cached hard, or updates never reach returning visitors.
 [[headers]]
   for = "/*.html"
   [headers.values]
