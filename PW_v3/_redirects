@@ -1,0 +1,4 @@
+# Internal planning notes live inside the published folder. Netlify reads
+# _redirects from the publish directory on every deploy, including manual
+# `netlify deploy --dir` ones that bypass the root netlify.toml.
+/docs/*  /404.html  404

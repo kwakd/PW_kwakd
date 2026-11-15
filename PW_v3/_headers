@@ -1,0 +1,10 @@
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+
+/img/*
+  Cache-Control: public, max-age=31536000
+
+# HTML must not be cached hard, or updates never reach returning visitors.
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
