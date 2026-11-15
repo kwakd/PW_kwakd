@@ -321,6 +321,17 @@ nav a.here {
 .entry-section p:last-child {
   margin-bottom: 0;
 }
+
+/* The global reset zeroes list padding, which hides the markers; put the
+   indent back and match the body copy. */
+.entry-section ul {
+  font-size: 14px;
+  line-height: 1.75;
+  margin: 0 0 0.75em 1.15em;
+}
+.entry-section li {
+  margin-bottom: 0.2em;
+}
 .entry-section img {
   width: 100%;
   background: var(--border);

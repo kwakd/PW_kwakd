@@ -14,7 +14,7 @@
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="stylesheet" href="../style.css" />
     <link rel="preload" href="../img/testCharA.png" as="image" />
-    <link rel="icon" href="../img/favicon.ico?v=2" />
+    <link rel="icon" href="../img/favicon.ico?v=3" />
   </head>
   <body>
     <!-- anti-flash: apply dark class and button label before first paint -->
@@ -51,42 +51,72 @@
 
       <img
         class="entry-hero"
-        src="../img/project/glhf_grow/proj_growdesk.PNG"
-        alt="glhf grow desktop"
+        src="../img/project/glhf_grow_ios/grow-hero.jpg"
+        alt="glhf grow — the meadow"
       />
 
       <div class="entry-section">
-        <p class="entry-meta">february 17th 2026 <i>[personal project / for fun]</i></p>
-        <h1 class="entry-title">glhf - grow - desktop - journalapp</h1>
+        <p class="entry-meta">october 2026 ~ present [personal project / for fun]</p>
+        <h1 class="entry-title">glhf grow <i>[iOS]</i></h1>
+        <p>
+          The current version, rebuilt from scratch as an iOS app in SwiftUI.
+          The idea is the same as the desktop prototype below &mdash; write
+          something about your day, get a character for it &mdash; but this time
+          the characters are the point. Each day you write hatches one, and it
+          then wanders around a meadow with everything you have hatched before.
+        </p>
+        <img
+          src="../img/project/glhf_grow_ios/grow-home.jpg"
+          alt="the home screen"
+          style="width: 45%; height: auto; display: block; margin: 0 auto"
+        />
+        <p>
+          The sprites are <strong>generated rather than drawn</strong>, from a
+          Python pipeline that renders every pose of every skin, so adding a
+          character is a few numbers rather than a new set of files. That is
+          what makes the collection viable: there are hundreds of them across
+          four rarities, with patterns and accessories on top, and the whole
+          roster shares one rig.
+        </p>
+        <img
+          src="../img/project/glhf_grow_ios/grow-collection.jpg"
+          alt="the collection screen"
+          style="width: 45%; height: auto; display: block; margin: 0 auto"
+        />
+        <p>
+          Behind it is <strong>offline-first sync</strong> on Supabase with
+          Sign in with Apple, version-stamped so two devices editing the same
+          day merge instead of overwriting each other. On top of the journal
+          sit the things that make you come back: hidden personalities that
+          change how a character behaves in the meadow, bot and online races,
+          a focus timer that trains them, coins, a shop, seasonal items and a
+          monthly recap. The next piece of work is end-to-end encryption,
+          since the whole point of a journal is that nobody else reads it.
+        </p>
+      </div>
+
+      <hr />
+
+      <div class="entry-section">
+        <img
+          class="entry-hero"
+          src="../img/project/glhf_grow/proj_growdesk.PNG"
+          alt="glhf grow desktop"
+        />
+        <p class="entry-meta">february 17th 2026 [personal project / for fun]</p>
+        <h2 class="entry-title">glhf - grow - desktop - journalapp</h2>
         <p>This started as a personal prototype, out of an interest in journaling and interactive design. The goal was a more engaging way to record daily experiences &mdash; turning journal entries into something visual and collectible. Once a day you create a <strong>moment</strong>: a small generated character standing in for that day's entry.</p>
         <p>Each character works as both a memory marker and an interactive object. Open an entry to write freely, add reflections and upload an image, which turns each moment into a snapshot of the day. Everything is stored locally for now, since this is still a prototype focused on experimentation rather than long-term infrastructure.</p>
         <p>Characters are generated as Common, Epic or Legendary, which adds a light collectible layer without making progression the point. At its core this is an experiment in blending game design with reflective journaling &mdash; seeing how interactivity and simple systems can make personal documentation more engaging. Future plans include a mobile version and more content.</p>
-
-        <a href="https://tototonme.itch.io/glhf-grow-journal" target="_blank"
-          >itch.io</a
-        >
-        <br />
-        <a
-          href="https://github.com/kwakd/glhf_growDESKTOP_120825"
-          target="_blank"
-          >github</a
-        >
-
-        <br />
-        <br />
-
-        <p>blogs:</p>
-        <ul>
-          <li><a href="../blog-html/blog-8.html">#8: glhf-grow-desktop-journalapp [april26]</a></li>
-          <li><a href="../blog-html/blog-7.html">#7: glhf-grow-desktop-journalapp [march26]</a></li>
-          <li><a href="../blog-html/blog-6.html">#6: glhf-grow-desktop-journalapp [feb26]</a></li>
-          <li><a href="../blog-html/blog-5.html">#5: glhf-grow-desktop-journalapp [jan26]</a></li>
-          <li><a href="../blog-html/blog-4.html">#4: glhf-grow-desktop-journalapp [dec25]</a></li>
-          <li><a href="../blog-html/blog-3.html">#3: glhf-grow-desktop-journalapp [nov25]</a></li>
-          <li><a href="../blog-html/blog-2.html">#2: glhf-grow-desktop-journalapp [sept25 / oct25]</a></li>
-          <li><a href="../blog-html/blog-1.html">#1: glhf-grow-journalapp [aug25]</a></li>
-        </ul>
+        <p>
+          Written up as it went in
+          <a href="../blog-html/blog-5.html">#5</a>,
+          <a href="../blog-html/blog-6.html">#6</a>,
+          <a href="../blog-html/blog-7.html">#7</a> and
+          <a href="../blog-html/blog-8.html">#8</a>.
+        </p>
       </div>
+
     </div>
 
     <script src="../site.js"></script>

@@ -14,7 +14,7 @@
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="stylesheet" href="../style.css" />
     <link rel="preload" href="../img/testCharA.png" as="image" />
-    <link rel="icon" href="../img/favicon.ico?v=2" />
+    <link rel="icon" href="../img/favicon.ico?v=3" />
   </head>
   <body>
     <!-- anti-flash: apply dark class and button label before first paint -->
@@ -52,29 +52,48 @@
       <img
         class="entry-hero"
         src="../img/project/glhf_gf/gatchafishThumbnail.png"
-        alt="glhf-fish"
-        style="object-fit: cover; object-position: center 60%"
+        alt="gat-cha fish"
       />
 
       <div class="entry-section">
-        <p class="entry-meta">march 27th 2024 <i>[personal project / game jam]</i></p>
-        <h1 class="entry-title">gat-cha fish.</h1>
-        <p>A game built around the idle-game trend at the time. The idea was something you leave running in the background: you hear a little ping, you know a fish is on the line, and you jump back to press the right sequence of buttons to reel it in. I wanted it to feel closer to real fishing.</p>
-      <p>I did a poor job of explaining that, and it was received badly because people expected a very active game when it was the opposite. That taught me to explain these games far more clearly &mdash; looking back, I understand the reaction.</p>
-      <p>
+        <p class="entry-meta">november 2026 ~ present [personal project]</p>
+        <h1 class="entry-title">million fish <i>[Steam]</i></h1>
+        <p>
+          The current take on the same idea: a cosy idle fishing game, in Unity
+          6.3, headed for Steam. The 2022 prototype was thrown out and kept at a
+          tag rather than carried forward.
+        </p>
+        <p>
+          The core is deliberately plain C# with no engine types in it &mdash;
+          one fishing state machine, the mash and reel minigames, and an economy
+          covering rolls, values, boosts, the ladder and aquarium capacity
+          &mdash; so all of it runs under test without the game running. The
+          economy's numbers live in a json file shared with a
+          <strong>pacing simulation</strong>, which means the design document
+          and the game cannot quietly disagree about how long anything takes.
+        </p>
+        <p>
+          On top of that sits the Steam layer: item drops after a won fight,
+          selling, a shiny exchange, achievements and leaderboards, with
+          permanent item ids derived from the item names so they survive a
+          catalogue reshuffle. Multiplayer is in too &mdash; sessions, a
+          mash-off mode and lobby transport over Steam. The art is all
+          placeholder for now, which is the next real piece of work.
+        </p>
+      </div>
+
+      <hr />
+
+      <div class="entry-section">
+        <p class="entry-meta">march 27th 2024 [personal project / game jam]</p>
+        <h2 class="entry-title">gat-cha fish.</h2>
+        <p>I did a poor job of explaining that, and it was received badly because people expected a very active game when it was the opposite. That taught me to explain these games far more clearly &mdash; looking back, I understand the reaction.</p>
+        <p>
         <b>- THERE IS NO SAVE STATE FOR THIS GAME</b>
         <br />
         - Game can only be played on 700px or wider
       </p>
-<a href="https://github.com/kwakd/fishGacha_htmlVer" target="_blank"
-          >gitHub</a
-        >
-        <br>
-        <a href="https://tototonme.itch.io/gatcha-fish" target="_blank"
-          >itch.io</a
-        >
 
-        <hr>
         <div class="game-embed">
           <div class="iframe-wrapper">
             <iframe
@@ -94,11 +113,25 @@
             />
           </a>
         </div>
-<br>
         <h2 class="entry-title"><i>how to play</i></h2>
-        <p>Keep the game open with sound on. Every so often you will hear a ping, which means a fish is hooked. Mash <strong>W</strong> to start reeling, then follow the arrow prompts on screen. Press <strong>2</strong> for your Fish Collection, <strong>Y</strong> to buy a fish for $50, and <strong>U</strong> to buy the final item once you have $1,000. In the collection, <strong>P</strong> opens the menu and <strong>O</strong> sells whichever fish you are hovering over.</p>
-
+        <ul>
+          <li>Keep the game open, with sound on.</li>
+          <li>
+            Wait for the <strong>ping</strong> &mdash; that means a fish is
+            hooked.
+          </li>
+          <li>Mash <strong>W</strong> to start reeling it in.</li>
+          <li>
+            Follow the <strong>arrow key</strong> prompts on screen to land it.
+          </li>
+          <li><strong>2</strong> &mdash; open your Fish Collection</li>
+          <li><strong>Y</strong> &mdash; buy a fish for $50</li>
+          <li><strong>U</strong> &mdash; buy the final item, once you have $1,000. This wins the game</li>
+          <li><strong>P</strong> &mdash; in the collection, open the menu</li>
+          <li><strong>O</strong> &mdash; in the collection, sell the fish you are hovering over</li>
+        </ul>
       </div>
+
     </div>
 
     <script src="../site.js"></script>
