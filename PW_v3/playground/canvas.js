@@ -84,6 +84,11 @@
       guideCtx.stroke();
     }
 
+    // Widths trace the sprite's OUTER silhouette, not its fill. blob.py
+    // strokes a limb at 13 (arms) / 18 (legs) and then outlines it in ink
+    // at width + 2 * 10 * 0.85, so what you actually see is about 30 and 35
+    // wide -- which is why tracing the fill widths gave thin sticks. These
+    // sit just inside that, chunky enough to read as the drawing.
     // Limbs start inside the body (blob.py's idle rig) and the sprite hides
     // the overlap behind the filled white body. A guide cannot fill without
     // masking what you are drawing, so instead clip to everything OUTSIDE
@@ -95,10 +100,10 @@
     guideCtx.rect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
     bodyOutline();
     guideCtx.clip('evenodd');
-    limb(-34, 56, -54, 66, 13);
-    limb(34, 56, 54, 66, 13);
-    limb(-15, 80, -21, 97, 18);
-    limb(15, 80, 21, 97, 18);
+    limb(-34, 56, -49, 65, 25);
+    limb(34, 56, 49, 65, 25);
+    limb(-15, 80, -18, 95, 30);
+    limb(15, 80, 18, 95, 30);
     guideCtx.restore();
 
     // body: egg() -- a chunky dome with a rounded bottom
