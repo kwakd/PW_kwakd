@@ -1,0 +1,37 @@
+# Build config lives here, at the repo root, because that is the only
+# netlify.toml Netlify reads. PW_v3/netlify.toml was never picked up, which
+# is why the deployed site is an old copy that predates PW_v3 entirely.
+#
+# base      - the site is PW_v3; the other PW_v* folders are old versions and
+#             must not be published.
+# publish   - relative to base, so this publishes PW_v3 itself.
+# functions - relative to base: PW_v3/netlify/functions.
+[build]
+  base = "PW_v3"
+  publish = "."
+  functions = "netlify/functions"
+
+# Internal planning docs sit inside the published folder; keep them off the
+# live site.
+[[redirects]]
+  from = "/docs/*"
+  to = "/404.html"
+  status = 404
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# Hashed-name assets never change; the HTML must not be cached hard or
+# updates will not reach people who have already visited.
+[[headers]]
+  for = "/img/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
