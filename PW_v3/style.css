@@ -293,6 +293,13 @@ nav a.here {
   margin-bottom: 1.1em;
 }
 
+/* Art that is not 16:9 gets beheaded by the cover crop. `fit` lets the image
+   keep its own proportions and show in full. */
+.entry-hero.fit {
+  aspect-ratio: auto;
+  object-fit: contain;
+}
+
 .entry-meta {
   font-size: 20px;
   color: var(--dim);
@@ -569,6 +576,19 @@ nav a.here {
   gap: 0.4em;
   margin-bottom: 0.75em;
   align-items: center;
+}
+
+.pg-pen-size-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  font-size: 12px;
+  color: var(--dim);
+}
+.pg-pen-size-label input[type="range"] {
+  width: 72px;
+  accent-color: var(--fg);
+  cursor: pointer;
 }
 
 .pg-swatch {

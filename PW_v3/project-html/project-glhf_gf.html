@@ -4,11 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>gat-cha fish. — david kwak</title>
-    <meta name="description" content="A game built around the idle-game trend at the time. The idea was something you leave running in the background: you hear a little ping, you know a fish…" />
+    <meta name="description" content="A game-jam idle fishing game you leave running in the background: a ping means a fish is on the line." />
     <link rel="canonical" href="https://kwakd.netlify.app/project-html/project-glhf_gf.html" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="gat-cha fish. — david kwak" />
-    <meta property="og:description" content="A game built around the idle-game trend at the time. The idea was something you leave running in the background: you hear a little ping, you know a fish…" />
+    <meta property="og:description" content="A game-jam idle fishing game you leave running in the background: a ping means a fish is on the line." />
     <meta property="og:url" content="https://kwakd.netlify.app/project-html/project-glhf_gf.html" />
     <meta property="og:image" content="https://kwakd.netlify.app/img/project/glhf_gf/gatchafishThumbnail.png" />
     <meta name="twitter:card" content="summary_large_image" />
@@ -49,63 +49,6 @@
     <div class="page">
       <a class="back" href="../project.html">projects</a>
 
-      <img
-        class="entry-hero"
-        src="../img/project/million_fish/mf-pier.jpg"
-        alt="million fish — fishing off the island with friends"
-      />
-
-      <div class="entry-section">
-        <p class="entry-meta">november 2026 ~ present [personal project]</p>
-        <h1 class="entry-title">million fish <i>[Steam]</i></h1>
-        <p>
-          The current take on the same idea: a cosy idle fishing game in Unity
-          6.3, headed for Steam. You fish off an island, the catches swim in
-          your aquarium, and the whole thing ticks along whether or not you are
-          paying attention. The anglers are the same round little characters
-          that turn up in my other projects, which was not planned so much as
-          admitted.
-        </p>
-        <img
-          src="../img/project/million_fish/mf-aquarium.jpg"
-          alt="the aquarium, decorated, with friends cheering a catch"
-        />
-        <p>
-          The core is deliberately plain C# with no engine types in it &mdash;
-          one fishing state machine, the mash and reel minigames, and an economy
-          covering rolls, values, boosts, the ladder and aquarium capacity
-          &mdash; so all of it runs under test without the game running. The
-          economy's numbers live in a json file shared with a
-          <strong>pacing simulation</strong>, which means the design document
-          and the game cannot quietly disagree about how long anything takes.
-        </p>
-        <p>
-          On top of that sits the Steam layer: item drops after a won fight,
-          selling, a shiny exchange, achievements and leaderboards, with
-          permanent item ids derived from the item names so they survive a
-          catalogue reshuffle. Multiplayer is in too &mdash; sessions, a
-          mash-off mode and lobby transport over Steam, plus friends appearing
-          on your island and cheering each other's catches.
-        </p>
-        <p>
-          Most of the recent work has been the parts that decide whether people
-          stay: a day/night cycle across islands that each have their own
-          weather and scenery, decor and photo mode for the aquarium, outfits
-          and dyes, a fish record book, petting and feeding. Underneath that,
-          the unglamorous half &mdash; controller and keyboard navigation,
-          ultrawide support, UI scaling, a rotated local error log, save
-          integrity tests and a soak mode that samples memory over a long fast
-          session.
-        </p>
-        <img
-          src="../img/project/million_fish/mf-islands.jpg"
-          alt="every island, day and night"
-          style="width: 52%; height: auto; display: block; margin: 0 auto"
-        />
-      </div>
-
-      <hr />
-
       <div class="entry-section">
         <img
           class="entry-hero"
@@ -113,7 +56,7 @@
           alt="gat-cha fish"
         />
         <p class="entry-meta">march 27th 2024 [personal project / game jam]</p>
-        <h2 class="entry-title">gat-cha fish.</h2>
+        <h1 class="entry-title">gat-cha fish.</h1>
         <p>
           A game built around the idle-game trend at the time. The idea was
           something you leave running in the background: you hear a little ping,

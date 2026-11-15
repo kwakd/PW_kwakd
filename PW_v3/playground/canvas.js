@@ -6,6 +6,13 @@
   var BRUSH_SIZE = 8;
   var ERASER_SIZE = 12;
 
+  // Pen scale: one multiplier over both brush and eraser, so the eraser stays
+  // proportionally bigger than the pen at every setting.
+  var PEN_MIN = 0.5;
+  var PEN_MAX = 3;
+  var penScale = 1;
+  function brushWidth() { return (erasing ? ERASER_SIZE : BRUSH_SIZE) * penScale; }
+
   var ZOOM_MIN = 1;
   var ZOOM_MAX = 3;
   var ZOOM_STEP = 0.5;
@@ -130,6 +137,19 @@
     guideCtx.lineJoin = 'miter';
   }
 
+  function initPenSize() {
+    var slider = document.getElementById('pg-pen-size');
+    if (!slider) return;
+    slider.min = PEN_MIN;
+    slider.max = PEN_MAX;
+    slider.step = 0.1;
+    slider.value = penScale;
+    slider.addEventListener('input', function () {
+      penScale = parseFloat(slider.value) || 1;
+      updateCursorAppearance();
+    });
+  }
+
   function getPos(evt) {
     var rect = drawCanvas.getBoundingClientRect();
     var clientX = evt.touches ? evt.touches[0].clientX : evt.clientX;
@@ -185,7 +205,7 @@
     var pos = getPos(evt);
     drawCtx.globalCompositeOperation = erasing ? 'destination-out' : 'source-over';
     drawCtx.strokeStyle = currentColor;
-    drawCtx.lineWidth = erasing ? ERASER_SIZE : BRUSH_SIZE;
+    drawCtx.lineWidth = brushWidth();
     drawCtx.lineCap = 'round';
     drawCtx.beginPath();
     drawCtx.moveTo(lastX, lastY);
@@ -214,7 +234,7 @@
   // to look right on screen.
   function updateCursorAppearance() {
     var screenScale = drawCanvas.getBoundingClientRect().width / CANVAS_SIZE;
-    var diameter = (erasing ? ERASER_SIZE : BRUSH_SIZE) * screenScale;
+    var diameter = brushWidth() * screenScale;
     cursorEl.style.width = diameter + 'px';
     cursorEl.style.height = diameter + 'px';
     if (erasing) {
@@ -292,6 +312,7 @@
     drawCtx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
     hasDrawn = false;
     resetZoom();
+    initPenSize();
   }
 
   function isBlank() {
