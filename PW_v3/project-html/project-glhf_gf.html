@@ -51,18 +51,25 @@
 
       <img
         class="entry-hero"
-        src="../img/project/glhf_gf/gatchafishThumbnail.png"
-        alt="gat-cha fish"
+        src="../img/project/million_fish/mf-pier.jpg"
+        alt="million fish — fishing off the island with friends"
       />
 
       <div class="entry-section">
         <p class="entry-meta">november 2026 ~ present [personal project]</p>
         <h1 class="entry-title">million fish <i>[Steam]</i></h1>
         <p>
-          The current take on the same idea: a cosy idle fishing game, in Unity
-          6.3, headed for Steam. The 2022 prototype was thrown out and kept at a
-          tag rather than carried forward.
+          The current take on the same idea: a cosy idle fishing game in Unity
+          6.3, headed for Steam. You fish off an island, the catches swim in
+          your aquarium, and the whole thing ticks along whether or not you are
+          paying attention. The anglers are the same round little characters
+          that turn up in my other projects, which was not planned so much as
+          admitted.
         </p>
+        <img
+          src="../img/project/million_fish/mf-aquarium.jpg"
+          alt="the aquarium, decorated, with friends cheering a catch"
+        />
         <p>
           The core is deliberately plain C# with no engine types in it &mdash;
           one fishing state machine, the mash and reel minigames, and an economy
@@ -77,9 +84,24 @@
           selling, a shiny exchange, achievements and leaderboards, with
           permanent item ids derived from the item names so they survive a
           catalogue reshuffle. Multiplayer is in too &mdash; sessions, a
-          mash-off mode and lobby transport over Steam. The art is all
-          placeholder for now, which is the next real piece of work.
+          mash-off mode and lobby transport over Steam, plus friends appearing
+          on your island and cheering each other's catches.
         </p>
+        <p>
+          Most of the recent work has been the parts that decide whether people
+          stay: a day/night cycle across islands that each have their own
+          weather and scenery, decor and photo mode for the aquarium, outfits
+          and dyes, a fish record book, petting and feeding. Underneath that,
+          the unglamorous half &mdash; controller and keyboard navigation,
+          ultrawide support, UI scaling, a rotated local error log, save
+          integrity tests and a soak mode that samples memory over a long fast
+          session.
+        </p>
+        <img
+          src="../img/project/million_fish/mf-islands.jpg"
+          alt="every island, day and night"
+          style="width: 52%; height: auto; display: block; margin: 0 auto"
+        />
       </div>
 
       <hr />
