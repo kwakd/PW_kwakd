@@ -47,8 +47,22 @@
         <button type="button" id="dl">export texture</button>
       </div>
       <p class="p3-note" id="status">loading three.js…</p>
+
+      <form id="p3-form" style="margin-top: 1.2em">
+        <input type="text" id="p3-title" placeholder="title" maxlength="60" required
+               style="display:block;width:100%;font:inherit;font-size:14px;padding:7px;margin-bottom:0.5em" />
+        <textarea id="p3-message" placeholder="message (optional)" maxlength="280" rows="3"
+               style="display:block;width:100%;font:inherit;font-size:14px;padding:7px"></textarea>
+        <p class="p3-note" id="p3-error" hidden style="color:#c0392b"></p>
+        <button type="submit" id="p3-submit" style="font:inherit;font-size:14px;padding:7px 14px;margin-top:0.6em;cursor:pointer">
+          submit for review
+        </button>
+      </form>
+      <p class="p3-note" id="p3-result" hidden></p>
     </div>
 
+    <script src="../config.js"></script>
+    <script src="../validation.js"></script>
     <script type="importmap">
       { "imports": { "three": "./three.module.min.js" } }
     </script>
@@ -96,6 +110,53 @@
       document.getElementById('pen').addEventListener('input', (e) =>
         p.setPenScale(parseFloat(e.target.value))
       );
+      // Slice 3: submit. Same endpoint, same validation, same pending
+      // flow as the flat canvas -- only the image is a painted skin now.
+      const form = document.getElementById('p3-form');
+      const err = document.getElementById('p3-error');
+      const result = document.getElementById('p3-result');
+      const submitBtn = document.getElementById('p3-submit');
+
+      function fail(msg) { err.textContent = msg; err.hidden = false; }
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        err.hidden = true;
+        const title = document.getElementById('p3-title').value.trim();
+        const message = document.getElementById('p3-message').value.trim();
+        const V = window.PlaygroundValidation;
+
+        const t = V.validateTitle(title);
+        if (!t.valid) return fail(t.error);
+        const m = V.validateMessage(message);
+        if (!m.valid) return fail(m.error);
+        if (!p.hasDrawn()) return fail('Paint something on the egg first.');
+
+        const imageDataUrl = p.toDataURL();
+        const i = V.validateImageDataUrl(imageDataUrl);
+        if (!i.valid) return fail(i.error);
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'sending…';
+        try {
+          const res = await fetch(window.PlaygroundConfig.SUBMIT_ENDPOINT, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ title, message, imageDataUrl }),
+          });
+          const data = await res.json().catch(() => ({}));
+          if (!res.ok) throw new Error(data.error || ('HTTP ' + res.status));
+          form.hidden = true;
+          result.hidden = false;
+          result.textContent =
+            'sent — your egg is waiting for review. id ' + (data.id || '(none)');
+        } catch (e2) {
+          fail(e2.message);
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'submit for review';
+        }
+      });
+
       document.getElementById('dl').addEventListener('click', () => {
         const a = document.createElement('a');
         a.href = p.toDataURL(); a.download = 'egg-skin.png'; a.click();

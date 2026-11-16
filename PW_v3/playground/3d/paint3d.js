@@ -65,6 +65,7 @@ export function createPainter(container, opts = {}) {
     g.scale.setScalar(s);                // normalise to roughly a unit tall
     g.position.multiplyScalar(s);
     scene.add(g);
+    measureTexelScale();
   }
 
   function usePlaceholder() {
@@ -132,6 +133,42 @@ export function createPainter(container, opts = {}) {
   clear();
 
   // --- painting ---------------------------------------------------------
+  // Brush preview: a ring laid flat on the surface wherever the pointer is,
+  // sized to the actual stroke. Without it you are guessing where a stroke
+  // will land, which is the main thing the flat canvas gives you for free.
+  const ringGeo = new THREE.RingGeometry(0.82, 1, 40);
+  const ring = new THREE.Mesh(ringGeo, new THREE.MeshBasicMaterial({
+    color: 0x1a1a1a, side: THREE.DoubleSide, transparent: true,
+    opacity: 0.85, depthTest: false,
+  }));
+  ring.renderOrder = 10;
+  ring.visible = false;
+  scene.add(ring);
+
+  // How much world space one texture pixel covers, so the ring matches the
+  // brush. The body's circumference maps to u 0..1, i.e. TEX pixels across.
+  let worldPerTexel = 0.006;
+  function measureTexelScale() {
+    if (!mesh) return;
+    mesh.geometry.computeBoundingSphere();
+    const r = mesh.geometry.boundingSphere.radius
+      * mesh.getWorldScale(new THREE.Vector3()).x;
+    worldPerTexel = (2 * Math.PI * r) / TEX;
+  }
+
+  function showRing(hit) {
+    if (!hit) { ring.visible = false; return; }
+    ring.position.copy(hit.point);
+    const n = hit.face
+      ? hit.face.normal.clone().transformDirection(hit.object.matrixWorld)
+      : new THREE.Vector3(0, 0, 1);
+    ring.lookAt(hit.point.clone().add(n));
+    ring.position.addScaledVector(n, 0.004);   // lift it off the surface
+    ring.scale.setScalar(Math.max(0.004, (brushWidth() / 2) * worldPerTexel));
+    ring.material.color.set(state.erasing ? 0x888888 : state.color);
+    ring.visible = true;
+  }
+
   const ray = new THREE.Raycaster();
   const ndc = new THREE.Vector2();
   let painting = false, lastUV = null, lastPointer = null;
@@ -148,8 +185,10 @@ export function createPainter(container, opts = {}) {
     // body only -- the face and limbs are not paint targets
     if (!mesh) return null;
     const hit = ray.intersectObject(mesh, false)[0];
+    lastHit = hit || null;
     return hit && hit.uv ? { u: hit.uv.x, v: hit.uv.y } : null;
   }
+  let lastHit = null;
 
   /** A stroke between two UVs, skipped if it jumps a seam. */
   function stroke(a, b) {
@@ -210,8 +249,9 @@ export function createPainter(container, opts = {}) {
       e.preventDefault();
       return;
     }
-    if (!painting) return;
     const uv = uvAt(p.x, p.y);
+    showRing(state.mode === 'paint' ? lastHit : null);
+    if (!painting) return;
     if (uv) { if (lastUV) stroke(lastUV, uv); lastUV = uv; }
     e.preventDefault();
   }
@@ -261,6 +301,7 @@ export function createPainter(container, opts = {}) {
     };
   };
 
+  el.addEventListener('mouseleave', () => { ring.visible = false; });
   el.addEventListener('mousedown', down);
   el.addEventListener('touchstart', down, { passive: false });
   addEventListener('mousemove', move);
