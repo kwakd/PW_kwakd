@@ -70,6 +70,14 @@ export function createPainter(container, opts = {}) {
     g.scale.setScalar(s);                // normalise to roughly a unit tall
     g.position.multiplyScalar(s);
     scene.add(g);
+    // reference: a ray at the body's side, where the mapping is least distorted
+    if (mesh) {
+      scene.updateMatrixWorld(true);
+      const r = new THREE.Raycaster();
+      r.set(new THREE.Vector3(4, 0, 0), new THREE.Vector3(-1, 0, 0));
+      const h = r.intersectObject(mesh, false)[0];
+      if (h) refTexelScale = texelScaleAt(h);
+    }
   }
 
   function usePlaceholder() {
@@ -197,7 +205,7 @@ export function createPainter(container, opts = {}) {
       : new THREE.Vector3(0, 0, 1);
     ring.lookAt(hit.point.clone().add(n));
     ring.position.addScaledVector(n, 0.004);   // lift it off the surface
-    ring.scale.setScalar(Math.max(0.002, (brushPx() / 2) * texelScaleAt(hit)));
+    ring.scale.setScalar(Math.max(0.002, brushTexelsAt(hit) * texelScaleAt(hit)));
     ring.material.color.set(state.erasing ? 0x888888 : state.color);
     ring.visible = true;
   }
@@ -208,6 +216,19 @@ export function createPainter(container, opts = {}) {
 
   function brushPx() {
     return (state.erasing ? ERASER : BRUSH) * state.penScale;
+  }
+
+  // A UV sphere's mapping collapses at the poles: near the top of the head
+  // many texels fold onto the same point, so a brush of a fixed number of
+  // texels covers a wider and wider ARC the higher you paint -- which is why
+  // it would suddenly smear across the whole crown. Keeping the brush a
+  // constant size in WORLD space instead means its texel radius grows where
+  // the mapping is stretched and shrinks where it is packed.
+  let refTexelScale = 0;
+  function brushTexelsAt(hit) {
+    const here = texelScaleAt(hit);
+    if (!refTexelScale || !here) return brushPx() / 2;
+    return Math.min(TEX / 4, (brushPx() / 2) * (refTexelScale / here));
   }
 
   function uvAt(clientX, clientY) {
@@ -223,29 +244,34 @@ export function createPainter(container, opts = {}) {
   }
   let lastHit = null;
 
-  /** A stroke between two UVs, skipped if it jumps a seam. */
-  function stroke(a, b) {
-    tctx.strokeStyle = state.erasing ? BASE : state.color;
-    tctx.fillStyle = tctx.strokeStyle;
-    tctx.lineWidth = brushPx();
-    tctx.lineCap = tctx.lineJoin = 'round';
-    const ax = a.u * TEX, ay = (1 - a.v) * TEX;
-    const bx = b.u * TEX, by = (1 - b.v) * TEX;
+  /**
+   * A stroke, splatted as a run of discs rather than drawn as one line.
+   * A line has a single width, but the right width changes along the path
+   * as the mapping stretches -- most of all near the crown. Splatting lets
+   * every step size itself.
+   */
+  function stroke(a, b, radius) {
     // u wraps at the seam; a jump over half the texture is the pointer
-    // crossing it, not a real stroke, so draw a dot instead of a smear.
-    if (Math.abs(b.u - a.u) > 0.5) { dot(b); return; }
-    tctx.beginPath();
-    tctx.moveTo(ax, ay);
-    tctx.lineTo(bx, by);
-    tctx.stroke();
-    texture.needsUpdate = true;
+    // crossing it, not a real stroke, so do not smear back across the body
+    if (Math.abs(b.u - a.u) > 0.5) { dot(b, radius); return; }
+    const dx = (b.u - a.u) * TEX, dy = (b.v - a.v) * TEX;
+    const steps = Math.max(1, Math.ceil(Math.hypot(dx, dy) / Math.max(1, radius * 0.4)));
+    for (let i = 1; i <= steps; i++) {
+      const t = i / steps;
+      dot({ u: a.u + (b.u - a.u) * t, v: a.v + (b.v - a.v) * t }, radius);
+    }
   }
 
-  function dot(p) {
+  function dot(p, radius) {
     tctx.fillStyle = state.erasing ? BASE : state.color;
+    const r = radius || brushPx() / 2;
+    const x = p.u * TEX, y = (1 - p.v) * TEX;
     tctx.beginPath();
-    tctx.arc(p.u * TEX, (1 - p.v) * TEX, brushPx() / 2, 0, Math.PI * 2);
+    tctx.arc(x, y, r, 0, Math.PI * 2);
     tctx.fill();
+    // paint the wrapped copy too, so a stroke near the seam is continuous
+    if (x < r) { tctx.beginPath(); tctx.arc(x + TEX, y, r, 0, Math.PI * 2); tctx.fill(); }
+    else if (x > TEX - r) { tctx.beginPath(); tctx.arc(x - TEX, y, r, 0, Math.PI * 2); tctx.fill(); }
     texture.needsUpdate = true;
   }
 
@@ -257,7 +283,7 @@ export function createPainter(container, opts = {}) {
     const uv = uvAt(p.x, p.y);
     if (!uv) return;
     painting = true; lastUV = uv; state.dirty = true;
-    dot(uv);
+    dot(uv, brushTexelsAt(lastHit));
     e.preventDefault();
   }
   function move(e) {
@@ -285,7 +311,11 @@ export function createPainter(container, opts = {}) {
     const uv = uvAt(p.x, p.y);
     showRing(state.mode === 'paint' ? lastHit : null);
     if (!painting) return;
-    if (uv) { if (lastUV) stroke(lastUV, uv); lastUV = uv; }
+    if (uv) {
+      const rad = brushTexelsAt(lastHit);
+      if (lastUV) stroke(lastUV, uv, rad); else dot(uv, rad);
+      lastUV = uv;
+    }
     e.preventDefault();
   }
   function up() { painting = false; lastUV = null; lastPointer = null; }
