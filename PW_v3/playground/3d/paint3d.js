@@ -19,10 +19,11 @@ const ERASER = 22;
 const BASE = '#f6f3ea';    // the plain white egg
 
 export function createPainter(container, opts = {}) {
+  const TARGET = new THREE.Vector3(0, 0, 0);
   const state = {
     color: '#1a1a1a', erasing: false, penScale: 1,
-    mode: 'paint',           // 'paint' | 'rotate'
-    azimuth: 0, elevation: 0.12, dirty: false,
+    mode: 'paint',           // 'paint' | 'rotate' | 'pan'
+    azimuth: 0, elevation: 0.12, dist: 3.4, dirty: false,
   };
 
   // --- the skin texture -------------------------------------------------
@@ -127,6 +128,18 @@ export function createPainter(container, opts = {}) {
       e.preventDefault();
       return;
     }
+    if (state.mode === 'pan' && lastPointer) {
+      // move the look-at point in the camera's own plane, scaled by distance
+      // so panning feels the same however far out you are
+      const k = state.dist * 0.0016;
+      const right = new THREE.Vector3().setFromMatrixColumn(camera.matrix, 0);
+      const up = new THREE.Vector3().setFromMatrixColumn(camera.matrix, 1);
+      TARGET.addScaledVector(right, -(p.x - lastPointer.x) * k);
+      TARGET.addScaledVector(up, (p.y - lastPointer.y) * k);
+      lastPointer = p;
+      e.preventDefault();
+      return;
+    }
     if (!painting) return;
     const uv = uvAt(p.x, p.y);
     if (uv) { if (lastUV) stroke(lastUV, uv); lastUV = uv; }
@@ -138,7 +151,46 @@ export function createPainter(container, opts = {}) {
     ? { x: e.touches[0].clientX, y: e.touches[0].clientY }
     : { x: e.clientX, y: e.clientY };
 
+  const ZOOM_MIN = 1.6, ZOOM_MAX = 8;
+  function zoomBy(f) {
+    state.dist = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, state.dist * f));
+  }
+  function resetView() {
+    state.azimuth = 0; state.elevation = 0.12; state.dist = 3.4;
+    TARGET.set(0, 0, 0);
+  }
+
   const el = renderer.domElement;
+  el.addEventListener('wheel', (e) => { zoomBy(e.deltaY > 0 ? 1.1 : 0.9); e.preventDefault(); },
+    { passive: false });
+
+  // two fingers: pinch to zoom, drag to pan -- so touch gets both without
+  // another mode button
+  let pinch = null;
+  el.addEventListener('touchstart', (e) => {
+    if (e.touches.length === 2) { painting = false; pinch = touchPair(e); }
+  }, { passive: false });
+  el.addEventListener('touchmove', (e) => {
+    if (e.touches.length !== 2 || !pinch) return;
+    const now = touchPair(e);
+    zoomBy(pinch.d / now.d);
+    const k = state.dist * 0.0016;
+    const right = new THREE.Vector3().setFromMatrixColumn(camera.matrix, 0);
+    const up = new THREE.Vector3().setFromMatrixColumn(camera.matrix, 1);
+    TARGET.addScaledVector(right, -(now.x - pinch.x) * k);
+    TARGET.addScaledVector(up, (now.y - pinch.y) * k);
+    pinch = now;
+    e.preventDefault();
+  }, { passive: false });
+  el.addEventListener('touchend', () => { pinch = null; });
+  const touchPair = (e) => {
+    const [a, b] = [e.touches[0], e.touches[1]];
+    return {
+      x: (a.clientX + b.clientX) / 2, y: (a.clientY + b.clientY) / 2,
+      d: Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY) || 1,
+    };
+  };
+
   el.addEventListener('mousedown', down);
   el.addEventListener('touchstart', down, { passive: false });
   addEventListener('mousemove', move);
@@ -149,18 +201,19 @@ export function createPainter(container, opts = {}) {
   // --- loop -------------------------------------------------------------
   function resize() {
     const w = container.clientWidth, h = container.clientHeight || w;
-    renderer.setSize(w, h, false);
+    renderer.setSize(w, h);   // updateStyle on: without it the canvas
+                              // renders at devicePixelRatio size and overflows
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
   }
   function frame() {
-    const r = 3.4;
+    const r = state.dist;
     camera.position.set(
-      Math.sin(state.azimuth) * Math.cos(state.elevation) * r,
-      Math.sin(state.elevation) * r,
-      Math.cos(state.azimuth) * Math.cos(state.elevation) * r
+      TARGET.x + Math.sin(state.azimuth) * Math.cos(state.elevation) * r,
+      TARGET.y + Math.sin(state.elevation) * r,
+      TARGET.z + Math.cos(state.azimuth) * Math.cos(state.elevation) * r
     );
-    camera.lookAt(0, 0, 0);
+    camera.lookAt(TARGET);
     renderer.render(scene, camera);
     requestAnimationFrame(frame);
   }
@@ -175,6 +228,9 @@ export function createPainter(container, opts = {}) {
     setErasing: (on) => { state.erasing = on; },
     setPenScale: (n) => { state.penScale = n; },
     setMode: (m) => { state.mode = m; },
+    zoomIn: () => zoomBy(0.85),
+    zoomOut: () => zoomBy(1.18),
+    resetView,
     hasDrawn: () => state.dirty,
     /** The painted skin, for the existing submit flow. */
     toDataURL: () => tex2d.toDataURL('image/png'),

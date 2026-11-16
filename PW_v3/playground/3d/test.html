@@ -24,8 +24,8 @@
       <h1 class="entry-title">3D paint — slice 1</h1>
       <p class="p3-note">
         Placeholder egg, revolved from the same silhouette the 2D sprites use.
-        Drag to paint; switch to rotate to turn it around. Swapping in the real
-        egg.glb changes one line.
+        Drag to paint; <b>rotate</b> turns it, <b>pan</b> moves the view, and
+        the wheel or a pinch zooms. Two fingers pan and zoom at once.
       </p>
       <div class="p3-stage" id="stage"></div>
       <div class="p3-tools" id="tools">
@@ -37,6 +37,10 @@
         <button type="button" id="er">eraser</button>
         <button type="button" id="cl">clear</button>
         <button type="button" id="md">rotate</button>
+        <button type="button" id="pn">pan</button>
+        <button type="button" id="zi" aria-label="zoom in">+</button>
+        <button type="button" id="zo" aria-label="zoom out">&minus;</button>
+        <button type="button" id="rv">reset view</button>
         <label style="font-size:12px;color:var(--dim)">pen
           <input type="range" id="pen" min="0.5" max="3" step="0.1" value="1" style="width:72px" />
         </label>
@@ -52,7 +56,7 @@
       let p;
       try {
         p = createPainter(stage);
-        status.textContent = 'ready — drag on the egg to paint';
+        status.textContent = 'ready — drag on the egg to paint. scroll or pinch to zoom.';
       } catch (e) {
         status.textContent = 'failed: ' + e.message;
         throw e;
@@ -71,12 +75,21 @@
         tools.querySelectorAll('.p3-sw').forEach((x) => x.classList.remove('on'));
       });
       document.getElementById('cl').addEventListener('click', () => p.clear());
-      document.getElementById('md').addEventListener('click', (e) => {
-        const rotate = p.state.mode === 'paint';
-        p.setMode(rotate ? 'rotate' : 'paint');
-        e.target.textContent = rotate ? 'paint' : 'rotate';
-        e.target.classList.toggle('on', rotate);
-      });
+      const md = document.getElementById('md'), pn = document.getElementById('pn');
+      function setMode(m) {
+        p.setMode(m);
+        md.classList.toggle('on', m === 'rotate');
+        pn.classList.toggle('on', m === 'pan');
+        status.textContent =
+          m === 'paint' ? 'drag on the egg to paint'
+          : m === 'rotate' ? 'drag to turn the egg'
+          : 'drag to move the view';
+      }
+      md.addEventListener('click', () => setMode(p.state.mode === 'rotate' ? 'paint' : 'rotate'));
+      pn.addEventListener('click', () => setMode(p.state.mode === 'pan' ? 'paint' : 'pan'));
+      document.getElementById('zi').addEventListener('click', () => p.zoomIn());
+      document.getElementById('zo').addEventListener('click', () => p.zoomOut());
+      document.getElementById('rv').addEventListener('click', () => p.resetView());
       document.getElementById('pen').addEventListener('input', (e) =>
         p.setPenScale(parseFloat(e.target.value))
       );
