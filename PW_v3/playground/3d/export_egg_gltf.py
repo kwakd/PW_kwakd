@@ -18,7 +18,7 @@ import bpy, os, sys
 
 # Only what the meadow and the paint view need. Keeping the clip list short
 # matters: every extra action is bytes on a page that currently costs 0.32 MB.
-CLIPS = ("Anim_Idle", "Anim_Walk")
+CLIPS = ("Anim_Idle", "Anim_Run")   # there is no Anim_Walk; Run slowed down reads as a wander
 
 DEFAULT_OUT = os.path.join(os.path.dirname(bpy.data.filepath or "."), "egg.glb")
 
@@ -37,13 +37,22 @@ def _body_objects():
 
 
 def _only_wanted_actions():
-    """Mute every NLA track that is not a clip we want, so the exporter skips it."""
+    """Drop every action that is not a clip we want.
+
+    export_animation_mode='ACTIONS' exports all 24 of them otherwise, which
+    is most of the file size for a meadow that only idles and walks. This
+    edits the in-memory scene; do not save over egg.blend.
+    """
+    for a in list(bpy.data.actions):
+        if a.name not in CLIPS:
+            bpy.data.actions.remove(a)
     for o in bpy.data.objects:
         ad = getattr(o, "animation_data", None)
         if not ad:
             continue
-        for tr in ad.nla_tracks:
-            tr.mute = tr.name not in CLIPS
+        for tr in list(ad.nla_tracks):
+            if tr.name not in CLIPS:
+                ad.nla_tracks.remove(tr)
 
 
 def export_glb(out=None):

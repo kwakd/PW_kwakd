@@ -1,4 +1,5 @@
 import * as THREE from './three.module.min.js';
+import { GLTFLoader } from './GLTFLoader.js';
 import { makeEggCharacter, addOutline, CREAM } from './egg-geometry.js';
 
 /**
@@ -48,18 +49,54 @@ export function createPainter(container, opts = {}) {
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
   container.appendChild(renderer.domElement);
 
-  // Body + limbs + face, then the ink outline over all of it. Only the body
-  // takes the paint texture; the face is its own geometry so a stroke cannot
-  // wipe it off.
-  const char = makeEggCharacter(new THREE.MeshToonMaterial({ map: texture }));
-  const mesh = char.body;
-  addOutline(char.group);
-  // stand it on the origin so orbiting feels centred on the character
-  const box = new THREE.Box3().setFromObject(char.group);
-  const mid = new THREE.Vector3();
-  box.getCenter(mid);
-  char.group.position.sub(mid);
-  scene.add(char.group);
+  // The real model if it is there, the revolved placeholder if not. Only the
+  // body takes the paint texture; the face is its own mesh either way, so a
+  // stroke cannot wipe it off.
+  const bodyMat = new THREE.MeshToonMaterial({ map: texture });
+  let mesh = null;                       // the paint target
+  let mixer = null;
+
+  function frameGroup(g) {
+    const box = new THREE.Box3().setFromObject(g);
+    const size = new THREE.Vector3(), mid = new THREE.Vector3();
+    box.getSize(size); box.getCenter(mid);
+    g.position.sub(mid);                 // centre it on the origin
+    const s = 1 / Math.max(size.x, size.y, size.z);
+    g.scale.setScalar(s);                // normalise to roughly a unit tall
+    g.position.multiplyScalar(s);
+    scene.add(g);
+  }
+
+  function usePlaceholder() {
+    const char = makeEggCharacter(bodyMat);
+    mesh = char.body;
+    addOutline(char.group);
+    frameGroup(char.group);
+  }
+
+  new GLTFLoader().load(
+    (opts.model || './egg.glb'),
+    (gltf) => {
+      const root = gltf.scene;
+      root.traverse((o) => {
+        if (!o.isMesh) return;
+        // Egg_Body is the paintable surface; Egg_Face keeps its own look
+        if (/body/i.test(o.name)) { o.material = bodyMat; mesh = o; }
+        else o.material = new THREE.MeshToonMaterial({ color: 0x14110f });
+      });
+      if (!mesh) { usePlaceholder(); return; }
+      addOutline(root, 0.02);
+      frameGroup(root);
+      if (gltf.animations && gltf.animations.length) {
+        mixer = new THREE.AnimationMixer(root);
+        const idle = gltf.animations.find((a) => /idle/i.test(a.name)) || gltf.animations[0];
+        mixer.clipAction(idle).play();
+      }
+      if (opts.onReady) opts.onReady('model');
+    },
+    undefined,
+    () => { usePlaceholder(); if (opts.onReady) opts.onReady('placeholder'); }
+  );
 
   // Flat-ish lighting: the art style is an ink outline over flat colour, so
   // heavy shading would fight it.
@@ -85,6 +122,7 @@ export function createPainter(container, opts = {}) {
     ndc.y = -((clientY - r.top) / r.height) * 2 + 1;
     ray.setFromCamera(ndc, camera);
     // body only -- the face and limbs are not paint targets
+    if (!mesh) return null;
     const hit = ray.intersectObject(mesh, false)[0];
     return hit && hit.uv ? { u: hit.uv.x, v: hit.uv.y } : null;
   }
@@ -214,7 +252,9 @@ export function createPainter(container, opts = {}) {
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
   }
+  const clock = new THREE.Clock();
   function frame() {
+    if (mixer) mixer.update(clock.getDelta());
     const r = state.dist;
     camera.position.set(
       TARGET.x + Math.sin(state.azimuth) * Math.cos(state.elevation) * r,
