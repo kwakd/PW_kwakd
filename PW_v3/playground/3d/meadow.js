@@ -13,19 +13,31 @@ import { clone as cloneSkinned } from './SkeletonUtils.js';
  * nothing at runtime.
  */
 
-// How hard the world falls away. This is applied to the square of view
-// DEPTH, so it compounds fast: at 0.045 and a view distance of 11 the drop
-// was already 5.4 units and the whole scene sank out of frame.
-const CURVE = 0.0045;
+// How hard the world falls away.
+//
+// Depth-only curving gives the Animal Crossing horizon, but it stays flat
+// left to right, so it never reads as a globe. Bending RADIALLY - by
+// distance from the camera's own ground point, in every direction - makes
+// the edges fall away all round and the meadow becomes a little planet.
+//
+// The camera's focus point has to be exempt or the whole scene sinks: the
+// drop is measured from the pivot, not from the camera, so the ground under
+// the eggs stays put while everything further out curls down.
+const CURVE = 0.016;
 const FIELD = 26;           // metres across
 const WANDER_SPEED = 0.55;
+
+// Everything curves about this point, so the ground under the camera stays
+// level and the planet falls away around it.
+const pivotWorld = new THREE.Vector3(0, 0, 0);
 
 /** Bend a material's vertices down with distance, in view space. */
 function curveMaterial(mat) {
   mat.onBeforeCompile = (shader) => {
     shader.uniforms.uCurve = { value: CURVE };
+    shader.uniforms.uPivot = { value: pivotWorld };
     shader.vertexShader = shader.vertexShader
-      .replace('#include <common>', '#include <common>\nuniform float uCurve;')
+      .replace('#include <common>', '#include <common>\nuniform float uCurve;\nuniform vec3 uPivot;')
       .replace(
         '#include <project_vertex>',
         `vec4 mvPosition = vec4( transformed, 1.0 );
@@ -33,11 +45,15 @@ function curveMaterial(mat) {
            mvPosition = instanceMatrix * mvPosition;
          #endif
          mvPosition = modelViewMatrix * mvPosition;
-         // the whole trick: drop everything by the square of its DEPTH from
-         // the camera, so the ground curves away instead of running to a
-         // horizon. Depth only -- using xz as well bends it sideways too,
-         // which reads as a dent rather than a planet.
-         mvPosition.y -= uCurve * mvPosition.z * mvPosition.z;
+         // the whole trick: drop every vertex by the square of how far it
+         // is from the pivot ACROSS the ground, in all directions, so the
+         // meadow curls away on every side like a small planet
+         vec4 worldPos = modelMatrix * vec4( transformed, 1.0 );
+         #ifdef USE_INSTANCING
+           worldPos = modelMatrix * instanceMatrix * vec4( transformed, 1.0 );
+         #endif
+         float d = distance( worldPos.xz, uPivot.xz );
+         mvPosition.y -= uCurve * d * d;
          gl_Position = projectionMatrix * mvPosition;`
       );
   };
@@ -48,7 +64,7 @@ function curveMaterial(mat) {
 export function createMeadow(container, opts = {}) {
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0xbfe3f2);
-  scene.fog = new THREE.Fog(0xbfe3f2, 14, 30);
+  scene.fog = new THREE.Fog(0xbfe3f2, 20, 42);
 
   const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 120);
   const renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -56,7 +72,7 @@ export function createMeadow(container, opts = {}) {
   container.appendChild(renderer.domElement);
 
   // an angled, slightly-above view, which is what sells the curvature
-  const view = { azimuth: 0, elevation: 0.62, dist: 11, target: new THREE.Vector3() };
+  const view = { azimuth: 0, elevation: 0.52, dist: 15, target: new THREE.Vector3() };
 
   scene.add(new THREE.HemisphereLight(0xffffff, 0x9fc08a, 2.0));
   const key = new THREE.DirectionalLight(0xffffff, 1.0);
@@ -214,7 +230,7 @@ export function createMeadow(container, opts = {}) {
   });
   el.addEventListener('pointerleave', () => { drag = null; });
   el.addEventListener('wheel', (e) => {
-    view.dist = Math.max(5, Math.min(22, view.dist * (e.deltaY > 0 ? 1.1 : 0.9)));
+    view.dist = Math.max(6, Math.min(30, view.dist * (e.deltaY > 0 ? 1.1 : 0.9)));
     e.preventDefault();
   }, { passive: false });
 
