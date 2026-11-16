@@ -74,6 +74,18 @@
               <button type="button" id="pg-3d-clear">clear</button>
               <button type="button" id="pg-3d-rotate">rotate</button>
               <button type="button" id="pg-3d-pan">pan</button>
+              <label class="pg-pen-size-label">
+                pen
+                <input
+                  type="range"
+                  id="pg-3d-pen"
+                  min="0.5"
+                  max="3"
+                  step="0.1"
+                  value="1"
+                  aria-label="pen size"
+                />
+              </label>
             </div>
 
             <form id="pg-form">
@@ -244,6 +256,8 @@
         };
         rot.addEventListener('click', () => mode(p.state.mode === 'rotate' ? 'paint' : 'rotate'));
         pan.addEventListener('click', () => mode(p.state.mode === 'pan' ? 'paint' : 'pan'));
+        const pen = document.getElementById('pg-3d-pen');
+        pen.addEventListener('input', () => p.setPenScale(parseFloat(pen.value) || 1));
       }
 
       async function start() {
