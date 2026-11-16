@@ -1,5 +1,5 @@
 import * as THREE from './three.module.min.js';
-import { makeEggGeometry } from './egg-geometry.js';
+import { makeEggCharacter, addOutline, CREAM } from './egg-geometry.js';
 
 /**
  * Paint directly on the egg.
@@ -16,7 +16,7 @@ import { makeEggGeometry } from './egg-geometry.js';
 export const TEX = 512;
 const BRUSH = 14;          // in texture pixels at penScale 1
 const ERASER = 22;
-const BASE = '#f6f3ea';    // the plain white egg
+const BASE = CREAM;        // the plain egg, before anyone paints on it
 
 export function createPainter(container, opts = {}) {
   const TARGET = new THREE.Vector3(0, 0, 0);
@@ -48,11 +48,18 @@ export function createPainter(container, opts = {}) {
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
   container.appendChild(renderer.domElement);
 
-  const mesh = new THREE.Mesh(
-    makeEggGeometry(),
-    new THREE.MeshToonMaterial({ map: texture })
-  );
-  scene.add(mesh);
+  // Body + limbs + face, then the ink outline over all of it. Only the body
+  // takes the paint texture; the face is its own geometry so a stroke cannot
+  // wipe it off.
+  const char = makeEggCharacter(new THREE.MeshToonMaterial({ map: texture }));
+  const mesh = char.body;
+  addOutline(char.group);
+  // stand it on the origin so orbiting feels centred on the character
+  const box = new THREE.Box3().setFromObject(char.group);
+  const mid = new THREE.Vector3();
+  box.getCenter(mid);
+  char.group.position.sub(mid);
+  scene.add(char.group);
 
   // Flat-ish lighting: the art style is an ink outline over flat colour, so
   // heavy shading would fight it.
@@ -77,6 +84,7 @@ export function createPainter(container, opts = {}) {
     ndc.x = ((clientX - r.left) / r.width) * 2 - 1;
     ndc.y = -((clientY - r.top) / r.height) * 2 + 1;
     ray.setFromCamera(ndc, camera);
+    // body only -- the face and limbs are not paint targets
     const hit = ray.intersectObject(mesh, false)[0];
     return hit && hit.uv ? { u: hit.uv.x, v: hit.uv.y } : null;
   }
