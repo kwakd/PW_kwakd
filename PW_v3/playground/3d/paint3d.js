@@ -1,5 +1,10 @@
 import * as THREE from './three.module.min.js';
 import { GLTFLoader } from './GLTFLoader.js';
+
+// Assets must resolve against this module, not the page that imported it.
+// From index.html at the site root, './egg-face-atlas.png' meant
+// /egg-face-atlas.png, which 404s -- that is why the face was missing.
+const asset = (p) => new URL(p, import.meta.url).href;
 import { makeEggCharacter, addOutline, CREAM } from './egg-geometry.js';
 
 /**
@@ -75,7 +80,7 @@ export function createPainter(container, opts = {}) {
   }
 
   new GLTFLoader().load(
-    (opts.model || './egg.glb'),
+    (opts.model || asset('./egg.glb')),
     (gltf) => {
       const root = gltf.scene;
 
@@ -83,7 +88,7 @@ export function createPainter(container, opts = {}) {
       // it shows was a Blender node offset that does not survive the glTF
       // export, so the material arrives as flat black. Re-apply the atlas
       // and pick the neutral cell: 3 columns, 2 rows, top-left.
-      const faceTex = new THREE.TextureLoader().load('./egg-face-atlas.png');
+      const faceTex = new THREE.TextureLoader().load(asset('./egg-face-atlas.png'));
       faceTex.colorSpace = THREE.SRGBColorSpace;
       faceTex.flipY = false;          // glTF UVs are top-down; the default
                                       // flip put the mouth above the eyes

@@ -1,5 +1,10 @@
 import * as THREE from './three.module.min.js';
 import { GLTFLoader } from './GLTFLoader.js';
+
+// Assets must resolve against this module, not the page that imported it.
+// From index.html at the site root, './egg-face-atlas.png' meant
+// /egg-face-atlas.png, which 404s -- that is why the face was missing.
+const asset = (p) => new URL(p, import.meta.url).href;
 import { clone as cloneSkinned } from './SkeletonUtils.js';
 
 /**
@@ -80,7 +85,12 @@ export function createMeadow(container, opts = {}) {
   scene.add(key);
 
   const ground = new THREE.Mesh(
-    new THREE.CircleGeometry(FIELD, 96).rotateX(-Math.PI / 2),
+    // RingGeometry, not CircleGeometry: a circle is a fan with a single
+    // ring of triangles, so bending it in the vertex shader can only move
+    // the centre and the rim and the "dome" is really a cone. The eggs,
+    // being small meshes, bent correctly - which is why they floated above
+    // it. 40 radial divisions gives a smooth surface for them to sit on.
+    new THREE.RingGeometry(0.0001, FIELD, 128, 40).rotateX(-Math.PI / 2),
     curveMaterial(new THREE.MeshToonMaterial({ color: 0x94c97a }))
   );
   scene.add(ground);
@@ -93,10 +103,10 @@ export function createMeadow(container, opts = {}) {
   // ---- loading -----------------------------------------------------------
   const loader = new GLTFLoader();
   const modelReady = new Promise((res, rej) =>
-    loader.load(opts.model || './egg.glb', (g) => res(g), undefined, rej)
+    loader.load(opts.model || asset('./egg.glb'), (g) => res(g), undefined, rej)
   );
 
-  const faceTex = new THREE.TextureLoader().load('./egg-face-atlas.png');
+  const faceTex = new THREE.TextureLoader().load(asset('./egg-face-atlas.png'));
   faceTex.colorSpace = THREE.SRGBColorSpace;
   faceTex.flipY = false;
   faceTex.repeat.set(1 / 3, 1 / 2);
