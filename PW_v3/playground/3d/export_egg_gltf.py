@@ -76,8 +76,11 @@ def export_glb(out=None):
         export_animation_mode='ACTIONS',
         export_bake_animation=True,
         export_yup=True,            # glTF is Y-up, same as three.js
-        export_materials='NONE',    # the playground paints its own texture
-        export_image_format='NONE',
+        # Materials ARE needed: Egg_Face carries the face atlas, and without
+        # it the face mesh comes through untextured. The body's material is
+        # replaced at runtime by the paint texture anyway.
+        export_materials='EXPORT',
+        export_image_format='AUTO',
         export_skins=True,
         export_morph=False,
         export_cameras=False,

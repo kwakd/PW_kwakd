@@ -79,13 +79,14 @@ export function createPainter(container, opts = {}) {
     (gltf) => {
       const root = gltf.scene;
       root.traverse((o) => {
-        if (!o.isMesh) return;
-        // Egg_Body is the paintable surface; Egg_Face keeps its own look
-        if (/body/i.test(o.name)) { o.material = bodyMat; mesh = o; }
-        else o.material = new THREE.MeshToonMaterial({ color: 0x14110f });
+        if (!o.isMesh && !o.isSkinnedMesh) return;
+        // Only Egg_Body becomes the paint surface. Everything else keeps the
+        // material it was exported with -- the model carries its own
+        // M_Egg_Outline, so adding an inverted hull here would double it,
+        // and a hull cloned off a SkinnedMesh does not deform with the rig.
+        if (/^Egg_Body/i.test(o.name)) { o.material = bodyMat; mesh = o; }
       });
       if (!mesh) { usePlaceholder(); return; }
-      addOutline(root, 0.02);
       frameGroup(root);
       if (gltf.animations && gltf.animations.length) {
         mixer = new THREE.AnimationMixer(root);
