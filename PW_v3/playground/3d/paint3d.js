@@ -78,6 +78,16 @@ export function createPainter(container, opts = {}) {
     (opts.model || './egg.glb'),
     (gltf) => {
       const root = gltf.scene;
+
+      // The face is a quad whose UVs span the whole atlas; which expression
+      // it shows was a Blender node offset that does not survive the glTF
+      // export, so the material arrives as flat black. Re-apply the atlas
+      // and pick the neutral cell: 3 columns, 2 rows, top-left.
+      const faceTex = new THREE.TextureLoader().load('./egg-face-atlas.png');
+      faceTex.colorSpace = THREE.SRGBColorSpace;
+      faceTex.repeat.set(1 / 3, 1 / 2);
+      faceTex.offset.set(0, 1 / 2);
+
       root.traverse((o) => {
         if (!o.isMesh && !o.isSkinnedMesh) return;
         // Only Egg_Body becomes the paint surface. Everything else keeps the
@@ -85,6 +95,13 @@ export function createPainter(container, opts = {}) {
         // M_Egg_Outline, so adding an inverted hull here would double it,
         // and a hull cloned off a SkinnedMesh does not deform with the rig.
         if (/^Egg_Body/i.test(o.name)) { o.material = bodyMat; mesh = o; }
+        else if (/^Egg_Face/i.test(o.name)) {
+          o.material = new THREE.MeshBasicMaterial({
+            map: faceTex, transparent: true, alphaTest: 0.5,
+            depthWrite: false, color: 0xffffff,
+          });
+          o.renderOrder = 2;
+        }
       });
       if (!mesh) { usePlaceholder(); return; }
       frameGroup(root);
