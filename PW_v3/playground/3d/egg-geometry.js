@@ -36,8 +36,16 @@ function profileCanonical(steps = 16) {
   return pts;
 }
 
+/**
+ * Lathe wants its points ordered bottom-to-top: the winding decides which
+ * way the normals face, and running crown-first turns the whole body
+ * inside out -- which also collapses the outline shell into it, so the
+ * character renders as a black mass.
+ */
 export function eggProfile() {
-  return profileCanonical().map(([x, y]) => new THREE.Vector2(cx(x), cy(y)));
+  return profileCanonical()
+    .map(([x, y]) => new THREE.Vector2(cx(x), cy(y)))
+    .reverse();
 }
 
 /** Body half-width at a canonical height, for seating the face on the surface. */
@@ -54,7 +62,10 @@ export function radiusAt(yCanon) {
 }
 
 export function makeBodyGeometry(segments = 56) {
-  const g = new THREE.LatheGeometry(eggProfile(), segments);
+  // phiStart puts the UV seam at the BACK. At the default 0 it lands on +Z,
+  // straight down the character's face, so every stroke across the front
+  // would break where u wraps.
+  const g = new THREE.LatheGeometry(eggProfile(), segments, Math.PI, Math.PI * 2);
   g.computeVertexNormals();
   return g;
 }
