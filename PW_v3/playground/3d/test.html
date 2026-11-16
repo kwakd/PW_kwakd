@@ -14,6 +14,9 @@
       }
       .p3-tools { display: flex; flex-wrap: wrap; gap: 0.4em; margin-top: 0.8em; align-items: center; }
       .p3-tools button { font: inherit; font-size: 13px; padding: 6px 10px; cursor: pointer; }
+      /* keep - and + adjacent instead of letting the row wrap between them */
+      .p3-zoom { display: inline-flex; gap: 0.3em; }
+      .p3-zoom button { min-width: 32px; }
       .p3-sw { width: 26px; height: 26px; border: 1px solid var(--border); padding: 0; }
       .p3-sw.on, .p3-tools button.on { outline: 2px solid var(--fg); }
       .p3-note { font-size: 13px; color: var(--dim); margin-top: 0.8em; }
@@ -38,8 +41,10 @@
         <button type="button" id="cl">clear</button>
         <button type="button" id="md">rotate</button>
         <button type="button" id="pn">pan</button>
-        <button type="button" id="zi" aria-label="zoom in">+</button>
-        <button type="button" id="zo" aria-label="zoom out">&minus;</button>
+        <span class="p3-zoom">
+          <button type="button" id="zo" aria-label="zoom out">&minus;</button>
+          <button type="button" id="zi" aria-label="zoom in">+</button>
+        </span>
         <button type="button" id="rv">reset view</button>
         <label style="font-size:12px;color:var(--dim)">pen
           <input type="range" id="pen" min="0.5" max="3" step="0.1" value="1" style="width:72px" />

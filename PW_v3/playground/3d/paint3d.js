@@ -65,7 +65,6 @@ export function createPainter(container, opts = {}) {
     g.scale.setScalar(s);                // normalise to roughly a unit tall
     g.position.multiplyScalar(s);
     scene.add(g);
-    measureTexelScale();
   }
 
   function usePlaceholder() {
@@ -145,16 +144,44 @@ export function createPainter(container, opts = {}) {
   ring.visible = false;
   scene.add(ring);
 
-  // How much world space one texture pixel covers, so the ring matches the
-  // brush. The body's circumference maps to u 0..1, i.e. TEX pixels across.
-  let worldPerTexel = 0.006;
-  function measureTexelScale() {
-    if (!mesh) return;
-    scene.updateMatrixWorld(true);   // world scale is stale until this runs
-    mesh.geometry.computeBoundingSphere();
-    const r = mesh.geometry.boundingSphere.radius
-      * mesh.getWorldScale(new THREE.Vector3()).x;
-    worldPerTexel = (2 * Math.PI * r) / TEX;
+  // How much world space one texture pixel covers at a given hit.
+  //
+  // A round brush in UV space paints an ELLIPSE on the surface, because u
+  // and v are stretched differently -- u wraps the circumference, v runs the
+  // profile. A single average overstates the brush almost everywhere, so
+  // measure the hit triangle itself: take its three corners' positions and
+  // UVs, and work out how far a step in u and a step in v actually move.
+  const _pa = new THREE.Vector3(), _pb = new THREE.Vector3(), _pc = new THREE.Vector3();
+  const _ua = new THREE.Vector2(), _ub = new THREE.Vector2(), _uc = new THREE.Vector2();
+  const _e1 = new THREE.Vector3(), _e2 = new THREE.Vector3();
+
+  function texelScaleAt(hit) {
+    const g = hit.object.geometry, f = hit.face;
+    const pos = g.attributes.position, uv = g.attributes.uv;
+    if (!f || !uv) return 0.005;
+    _pa.fromBufferAttribute(pos, f.a).applyMatrix4(hit.object.matrixWorld);
+    _pb.fromBufferAttribute(pos, f.b).applyMatrix4(hit.object.matrixWorld);
+    _pc.fromBufferAttribute(pos, f.c).applyMatrix4(hit.object.matrixWorld);
+    _ua.fromBufferAttribute(uv, f.a);
+    _ub.fromBufferAttribute(uv, f.b);
+    _uc.fromBufferAttribute(uv, f.c);
+
+    _e1.subVectors(_pb, _pa);
+    _e2.subVectors(_pc, _pa);
+    const d1u = _ub.x - _ua.x, d1v = _ub.y - _ua.y;
+    const d2u = _uc.x - _ua.x, d2v = _uc.y - _ua.y;
+    const det = d1u * d2v - d2u * d1v;
+    if (!det) return 0.005;
+
+    // dP/du and dP/dv, in world units per full UV unit
+    const duLen = _e1.clone().multiplyScalar(d2v / det)
+      .addScaledVector(_e2, -d1v / det).length();
+    const dvLen = _e1.clone().multiplyScalar(-d2u / det)
+      .addScaledVector(_e2, d1u / det).length();
+
+    // the brush is round in UV, so the ring is a compromise: the geometric
+    // mean of the two, which sits between the ellipse's axes
+    return Math.sqrt(duLen * dvLen) / TEX;
   }
 
   function showRing(hit) {
@@ -165,7 +192,7 @@ export function createPainter(container, opts = {}) {
       : new THREE.Vector3(0, 0, 1);
     ring.lookAt(hit.point.clone().add(n));
     ring.position.addScaledVector(n, 0.004);   // lift it off the surface
-    ring.scale.setScalar(Math.max(0.004, (brushPx() / 2) * worldPerTexel));
+    ring.scale.setScalar(Math.max(0.002, (brushPx() / 2) * texelScaleAt(hit)));
     ring.material.color.set(state.erasing ? 0x888888 : state.color);
     ring.visible = true;
   }
