@@ -13,7 +13,10 @@ import { clone as cloneSkinned } from './SkeletonUtils.js';
  * nothing at runtime.
  */
 
-const CURVE = 0.045;        // how hard the world falls away
+// How hard the world falls away. This is applied to the square of view
+// DEPTH, so it compounds fast: at 0.045 and a view distance of 11 the drop
+// was already 5.4 units and the whole scene sank out of frame.
+const CURVE = 0.0045;
 const FIELD = 26;           // metres across
 const WANDER_SPEED = 0.55;
 
@@ -30,9 +33,11 @@ function curveMaterial(mat) {
            mvPosition = instanceMatrix * mvPosition;
          #endif
          mvPosition = modelViewMatrix * mvPosition;
-         // the whole trick: drop everything by the square of how far away
-         // it is, so the ground curves off instead of running to a horizon
-         mvPosition.y -= uCurve * dot( mvPosition.xz, mvPosition.xz );
+         // the whole trick: drop everything by the square of its DEPTH from
+         // the camera, so the ground curves away instead of running to a
+         // horizon. Depth only -- using xz as well bends it sideways too,
+         // which reads as a dent rather than a planet.
+         mvPosition.y -= uCurve * mvPosition.z * mvPosition.z;
          gl_Position = projectionMatrix * mvPosition;`
       );
   };
