@@ -85,8 +85,10 @@ export function createPainter(container, opts = {}) {
       // and pick the neutral cell: 3 columns, 2 rows, top-left.
       const faceTex = new THREE.TextureLoader().load('./egg-face-atlas.png');
       faceTex.colorSpace = THREE.SRGBColorSpace;
+      faceTex.flipY = false;          // glTF UVs are top-down; the default
+                                      // flip put the mouth above the eyes
       faceTex.repeat.set(1 / 3, 1 / 2);
-      faceTex.offset.set(0, 1 / 2);
+      faceTex.offset.set(0, 0);       // top-left cell, with flipY off
 
       root.traverse((o) => {
         if (!o.isMesh && !o.isSkinnedMesh) return;
@@ -94,8 +96,12 @@ export function createPainter(container, opts = {}) {
         // material it was exported with -- the model carries its own
         // M_Egg_Outline, so adding an inverted hull here would double it,
         // and a hull cloned off a SkinnedMesh does not deform with the rig.
-        if (/^Egg_Body/i.test(o.name)) { o.material = bodyMat; mesh = o; }
-        else if (/^Egg_Face/i.test(o.name)) {
+        // Egg_Body is TWO primitives - the body and its outline - and
+        // GLTFLoader splits them into two meshes with the same name, so
+        // match on the material instead or the outline gets painted too.
+        const mat = o.material && o.material.name;
+        if (mat === 'M_Egg_Body') { o.material = bodyMat; mesh = o; }
+        else if (mat === 'M_Egg_Face') {
           o.material = new THREE.MeshBasicMaterial({
             map: faceTex, transparent: true, alphaTest: 0.5,
             depthWrite: false, color: 0xffffff,
