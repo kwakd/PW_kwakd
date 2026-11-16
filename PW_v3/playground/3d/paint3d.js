@@ -352,6 +352,9 @@ export function createPainter(container, opts = {}) {
   }
   const clock = new THREE.Clock();
   function frame() {
+    // Both the painter and the meadow live on the same page now; whichever
+    // is hidden should not be burning a render loop.
+    if (container.offsetParent === null) { requestAnimationFrame(frame); return; }
     if (mixer) mixer.update(clock.getDelta());
     const r = state.dist;
     camera.position.set(

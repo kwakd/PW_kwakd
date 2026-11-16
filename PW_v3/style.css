@@ -584,6 +584,54 @@ nav a.here {
   overflow: hidden;
   touch-action: none;   /* the painter handles its own gestures */
 }
+.pg-meadow-stage {
+  aspect-ratio: 16/10;
+  position: relative;
+  cursor: grab;
+}
+.pg-meadow-note {
+  font-size: 13px;
+  color: var(--dim);
+  margin-top: 0.6em;
+}
+.m-card {
+  position: absolute;
+  left: 50%;
+  bottom: 12px;
+  transform: translateX(-50%);
+  min-width: 220px;
+  max-width: 86%;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.8em 1em;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+}
+.m-card h2 {
+  font-size: 15px;
+  margin-bottom: 0.2em;
+}
+.m-card .m-date {
+  font-size: 12px;
+  color: var(--dim);
+}
+.m-card p {
+  font-size: 13px;
+  margin-top: 0.5em;
+  line-height: 1.6;
+}
+.m-card button {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  background: none;
+  border: none;
+  color: var(--dim);
+  font: inherit;
+  font-size: 15px;
+  cursor: pointer;
+}
+
 .pg-3d-tools:not([hidden]) {
   display: flex;
   flex-wrap: wrap;

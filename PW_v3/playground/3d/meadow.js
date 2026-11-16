@@ -253,6 +253,9 @@ export function createMeadow(container, opts = {}) {
   }
   const clock = new THREE.Clock();
   function frame() {
+    // Both the painter and the meadow live on the same page now; whichever
+    // is hidden should not be burning a render loop.
+    if (container.offsetParent === null) { requestAnimationFrame(frame); return; }
     const dt = Math.min(clock.getDelta(), 0.1);
     step(dt);
     const { azimuth, elevation, dist, target } = view;

@@ -60,7 +60,9 @@
         <div class="pg-window" id="pg-window">
           <div class="pg-draw-state" id="pg-draw-state">
             <div class="pg-3d-bar">
-              <a class="pg-link-btn" href="playground/3d/meadow.html">see the meadow →</a>
+              <button type="button" class="pg-link-btn pg-see-meadow">
+                see the meadow &rarr;
+              </button>
             </div>
 
             <div class="pg-3d-stage" id="pg-3d-stage"></div>
@@ -109,16 +111,26 @@
 
           <div class="pg-pending-state" id="pg-pending-state" hidden>
             <p>your character is waiting for review &mdash; check back later!</p>
-            <a class="pg-link-btn" href="playground/3d/meadow.html">
+            <button type="button" class="pg-link-btn pg-see-meadow">
               see the meadow &rarr;
-            </a>
+            </button>
+          </div>
+
+          <div class="pg-meadow-state" id="pg-meadow-state" hidden>
+            <div class="pg-3d-stage pg-meadow-stage" id="pg-meadow-stage"></div>
+            <div class="pg-3d-bar">
+              <button type="button" id="pg-meadow-back" class="pg-link-btn">
+                &larr; draw your own
+              </button>
+            </div>
+            <p class="pg-meadow-note" id="pg-meadow-note"></p>
           </div>
 
           <div class="pg-result-state" id="pg-result-state" hidden>
             <p id="pg-result-message"></p>
-            <a class="pg-link-btn" href="playground/3d/meadow.html">
+            <button type="button" class="pg-link-btn pg-see-meadow">
               see the meadow &rarr;
-            </a>
+            </button>
           </div>
         </div>
       </div>
@@ -239,6 +251,72 @@
           stage.textContent = 'the 3D playground could not load: ' + err.message;
         }
       }
+
+      /* The meadow lives on this page too, as another panel of the same
+         window -- clicking through to it should not feel like leaving. It
+         is built the first time it is asked for, and whichever scene is
+         hidden stops rendering. */
+      const PANELS = ['pg-draw-state', 'pg-pending-state', 'pg-result-state'];
+      const meadowPanel = document.getElementById('pg-meadow-state');
+      const meadowStage = document.getElementById('pg-meadow-stage');
+      const meadowNote = document.getElementById('pg-meadow-note');
+      let meadow = null;
+      let cameFrom = 'pg-draw-state';
+
+      function card(d) {
+        const old = meadowPanel.querySelector('.m-card');
+        if (old) old.remove();
+        if (!d) return;
+        const when = new Date(d.created_at).toLocaleDateString(undefined, {
+          year: 'numeric', month: 'long', day: 'numeric',
+        });
+        const el = document.createElement('div');
+        el.className = 'm-card';
+        el.innerHTML = '<button aria-label="close">&times;</button><h2></h2>' +
+                       '<div class="m-date"></div>' + (d.message ? '<p></p>' : '');
+        el.querySelector('h2').textContent = d.title;
+        el.querySelector('.m-date').textContent = when;
+        if (d.message) el.querySelector('p').textContent = d.message;
+        el.querySelector('button').addEventListener('click', () => card(null));
+        meadowStage.appendChild(el);
+      }
+
+      async function openMeadow() {
+        cameFrom = PANELS.find((id) => !document.getElementById(id).hidden) || 'pg-draw-state';
+        PANELS.forEach((id) => { document.getElementById(id).hidden = true; });
+        meadowPanel.hidden = false;
+        if (meadow) return;
+        meadowNote.textContent = 'loading the meadow…';
+        try {
+          const { createMeadow } = await import('./playground/3d/meadow.js');
+          meadow = createMeadow(meadowStage, { onSelect: card });
+          const c = window.PlaygroundConfig;
+          const res = await fetch(
+            c.SUPABASE_URL + '/rest/v1/characters' +
+            '?select=id,title,message,image_data,created_at' +
+            '&status=eq.approved&order=created_at.desc&limit=50',
+            { headers: { apikey: c.SUPABASE_ANON_KEY } }
+          );
+          const rows = res.ok ? await res.json() : [];
+          const n = await meadow.load(rows);
+          meadowNote.textContent = n
+            ? n + ' character' + (n === 1 ? '' : 's') + ' out there'
+            : 'Nobody is here yet — draw one and it will turn up once approved.';
+        } catch (err) {
+          meadowNote.textContent = 'the meadow could not load: ' + err.message;
+        }
+      }
+
+      function closeMeadow() {
+        card(null);
+        meadowPanel.hidden = true;
+        document.getElementById(cameFrom).hidden = false;
+      }
+
+      document.querySelectorAll('.pg-see-meadow')
+        .forEach((b) => b.addEventListener('click', openMeadow));
+      document.getElementById('pg-meadow-back')
+        .addEventListener('click', closeMeadow);
 
       if ('IntersectionObserver' in window) {
         const io = new IntersectionObserver((entries) => {
