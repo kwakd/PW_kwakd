@@ -3,8 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>the meadow — slice 4</title>
+    <title>the meadow — david kwak</title>
     <link rel="stylesheet" href="../../style.css" />
+    <link rel="icon" href="../../favicon.ico?v=3" />
+    <meta name="description" content="Every character people have drawn and had approved, wandering a little planet. Click one to read what its maker wrote." />
+    <link rel="canonical" href="https://kwakd.netlify.app/playground/3d/meadow.html" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="the meadow — david kwak" />
+    <meta property="og:description" content="Every character people have drawn and had approved, wandering a little planet." />
+    <meta property="og:url" content="https://kwakd.netlify.app/playground/3d/meadow.html" />
+    <meta property="og:image" content="https://kwakd.netlify.app/img/logo/base.png" />
     <style>
       .m-wrap { max-width: 760px; margin: 0 auto; }
       .m-stage {
@@ -36,11 +44,12 @@
   </head>
   <body>
     <div class="page m-wrap">
-      <a class="back" href="./test.html">paint</a>
-      <h1 class="entry-title">the meadow — slice 4</h1>
+      <a class="back" href="../../index.html">about me + playground</a>
+      <h1 class="entry-title">the meadow</h1>
       <p class="m-note">
-        Every approved egg wanders here wearing the skin its maker painted.
-        Drag to look around, scroll to zoom, click an egg to read it.
+        Every character people have drawn and I have approved lives here,
+        wearing the skin its maker painted. Drag to look around, scroll to
+        zoom, and click one to read what they wrote.
       </p>
       <div class="m-stage" id="stage">
         <div class="m-empty" id="empty" hidden></div>
@@ -112,7 +121,7 @@
         if (!n) {
           empty.hidden = false;
           empty.textContent =
-            'No one has been approved yet. Paint an egg, submit it, approve it in Supabase, and it will turn up here.';
+            'Nobody is here yet. Draw a character on the playground and it will turn up once it has been approved.';
         }
       } catch (e) {
         status.textContent = 'could not load: ' + e.message;

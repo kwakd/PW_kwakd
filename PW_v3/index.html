@@ -105,56 +105,20 @@
               <button type="submit" id="pg-submit-btn">submit</button>
             </form>
 
-            <button type="button" id="pg-view-gallery" class="pg-link-btn">
-              see everyone's characters →
-            </button>
           </div>
 
           <div class="pg-pending-state" id="pg-pending-state" hidden>
-            <p>your character is waiting for review — check back later!</p>
-            <button
-              type="button"
-              id="pg-pending-view-gallery"
-              class="pg-link-btn"
-            >
-              see everyone's characters →
-            </button>
+            <p>your character is waiting for review &mdash; check back later!</p>
+            <a class="pg-link-btn" href="playground/3d/meadow.html">
+              see the meadow &rarr;
+            </a>
           </div>
 
           <div class="pg-result-state" id="pg-result-state" hidden>
             <p id="pg-result-message"></p>
-            <button type="button" id="pg-result-ok">
-              see everyone's characters
-            </button>
-          </div>
-
-          <div class="pg-gallery-state" id="pg-gallery-state" hidden>
-            <div class="pg-gallery-tools">
-              <button
-                type="button"
-                id="pg-gallery-zoom-out"
-                aria-label="zoom out"
-              >
-                −
-              </button>
-              <button
-                type="button"
-                id="pg-gallery-zoom-in"
-                aria-label="zoom in"
-              >
-                +
-              </button>
-            </div>
-            <div class="pg-gallery-viewport" id="pg-gallery-viewport">
-              <div class="pg-gallery" id="pg-gallery">
-                <p class="pg-empty-hint" id="pg-empty-hint" hidden>
-                  no one's submitted yet — be the first!
-                </p>
-              </div>
-            </div>
-            <button type="button" id="pg-draw-another" class="pg-link-btn">
-              ← draw your own
-            </button>
+            <a class="pg-link-btn" href="playground/3d/meadow.html">
+              see the meadow &rarr;
+            </a>
           </div>
         </div>
       </div>
@@ -222,7 +186,6 @@
     <script src="playground/validation.js"></script>
     <script src="playground/wander.js"></script>
     <script src="playground/submit.js"></script>
-    <script src="playground/gallery.js"></script>
     <script type="module">
       /* The playground is 3D now. three.js, the loader and the model are
          about 1 MB, so it still is not in the initial payload: it loads when

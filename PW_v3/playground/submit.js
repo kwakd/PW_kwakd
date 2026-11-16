@@ -3,7 +3,7 @@
   var STORAGE_KEY = 'kwakd-pending-character';
 
   function showState(name) {
-    var states = ['pg-draw-state', 'pg-pending-state', 'pg-result-state', 'pg-gallery-state'];
+    var states = ['pg-draw-state', 'pg-pending-state', 'pg-result-state'];
     for (var i = 0; i < states.length; i++) {
       document.getElementById(states[i]).hidden = states[i] !== name;
     }
@@ -123,18 +123,6 @@
 
   function init() {
     document.getElementById('pg-form').addEventListener('submit', handleSubmit);
-    document.getElementById('pg-result-ok').addEventListener('click', function () {
-      showState('pg-gallery-state');
-    });
-    document.getElementById('pg-view-gallery').addEventListener('click', function () {
-      showState('pg-gallery-state');
-    });
-    document.getElementById('pg-pending-view-gallery').addEventListener('click', function () {
-      showState('pg-gallery-state');
-    });
-    document.getElementById('pg-draw-another').addEventListener('click', function () {
-      showState('pg-draw-state');
-    });
     checkPendingStatus();
   }
 
