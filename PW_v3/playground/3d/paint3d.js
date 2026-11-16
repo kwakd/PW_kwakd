@@ -165,7 +165,7 @@ export function createPainter(container, opts = {}) {
       : new THREE.Vector3(0, 0, 1);
     ring.lookAt(hit.point.clone().add(n));
     ring.position.addScaledVector(n, 0.004);   // lift it off the surface
-    ring.scale.setScalar(Math.max(0.004, (brushWidth() / 2) * worldPerTexel));
+    ring.scale.setScalar(Math.max(0.004, (brushPx() / 2) * worldPerTexel));
     ring.material.color.set(state.erasing ? 0x888888 : state.color);
     ring.visible = true;
   }
