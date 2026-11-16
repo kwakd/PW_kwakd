@@ -648,6 +648,11 @@ nav a.here {
   font-size: 13px;
   padding: 6px 10px;
   cursor: pointer;
+  /* these buttons have no ids in the list further down, so without this they
+     fell back to the browser's own light-grey chrome and looked wrong in dark mode */
+  background: var(--bg);
+  color: var(--fg);
+  border: 1px solid var(--border);
 }
 .pg-3d-tools .pg-swatch {
   padding: 0;

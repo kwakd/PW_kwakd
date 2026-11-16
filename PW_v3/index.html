@@ -211,20 +211,6 @@
       let painter = null;
 
       function wire(p) {
-        tools.querySelectorAll('.pg-swatch').forEach((b) =>
-          b.addEventListener('click', () => {
-            tools.querySelectorAll('.pg-swatch').forEach((x) => x.classList.remove('pg-active'));
-            b.classList.add('pg-active');
-            document.getElementById('pg-3d-eraser').classList.remove('pg-active');
-            p.setColor(b.dataset.c);
-          })
-        );
-        document.getElementById('pg-3d-eraser').addEventListener('click', (e) => {
-          p.setErasing(true);
-          e.target.classList.add('pg-active');
-          tools.querySelectorAll('.pg-swatch').forEach((x) => x.classList.remove('pg-active'));
-        });
-        document.getElementById('pg-3d-clear').addEventListener('click', () => p.clear());
         const rot = document.getElementById('pg-3d-rotate');
         const pan = document.getElementById('pg-3d-pan');
         const mode = (m) => {
@@ -234,6 +220,23 @@
         };
         rot.addEventListener('click', () => mode(p.state.mode === 'rotate' ? 'paint' : 'rotate'));
         pan.addEventListener('click', () => mode(p.state.mode === 'pan' ? 'paint' : 'pan'));
+
+        tools.querySelectorAll('.pg-swatch').forEach((b) =>
+          b.addEventListener('click', () => {
+            tools.querySelectorAll('.pg-swatch').forEach((x) => x.classList.remove('pg-active'));
+            b.classList.add('pg-active');
+            document.getElementById('pg-3d-eraser').classList.remove('pg-active');
+            p.setColor(b.dataset.c);
+            mode('paint');   // picking a colour means you want to draw with it
+          })
+        );
+        document.getElementById('pg-3d-eraser').addEventListener('click', (e) => {
+          p.setErasing(true);
+          e.target.classList.add('pg-active');
+          tools.querySelectorAll('.pg-swatch').forEach((x) => x.classList.remove('pg-active'));
+          mode('paint');
+        });
+        document.getElementById('pg-3d-clear').addEventListener('click', () => p.clear());
         const pen = document.getElementById('pg-3d-pen');
         pen.addEventListener('input', () => p.setPenScale(parseFloat(pen.value) || 1));
       }

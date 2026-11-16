@@ -279,7 +279,7 @@ export function createPainter(container, opts = {}) {
   function down(e) {
     const p = pointer(e);
     lastPointer = p;
-    if (state.mode === 'rotate') return;
+    if (state.mode !== 'paint') return;   // pan has to bail here too, or a pan-drag drops a dot
     const uv = uvAt(p.x, p.y);
     if (!uv) return;
     painting = true; lastUV = uv; state.dirty = true;
