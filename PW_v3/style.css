@@ -576,7 +576,7 @@ nav a.here {
   align-items: center;
   margin-bottom: 0.7em;
 }
-.pg-3d-stage {
+.pg-3d-stage:not([hidden]) {
   width: 100%;
   aspect-ratio: 1/1;
   background: var(--border);
@@ -584,7 +584,7 @@ nav a.here {
   overflow: hidden;
   touch-action: none;   /* the painter handles its own gestures */
 }
-.pg-3d-tools {
+.pg-3d-tools:not([hidden]) {
   display: flex;
   flex-wrap: wrap;
   gap: 0.4em;

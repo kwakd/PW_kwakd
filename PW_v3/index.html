@@ -313,7 +313,7 @@
         tools.hidden = !on;
         viewport.hidden = on;
         if (flatTools) flatTools.hidden = on;
-        toggle.hidden = on;
+        toggle.style.display = on ? 'none' : '';
         // submit.js talks to window.PlaygroundCanvas, so point that at
         // whichever surface is active and the submit path needs no changes
         // read `painter` lazily -- show3D runs before it is constructed
