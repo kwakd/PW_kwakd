@@ -686,6 +686,19 @@ nav a.here {
   border-color: var(--fg);
 }
 
+/* The 3D toolbar's buttons were getting .pg-active but nothing styled it --
+   the rule above only names the flat canvas's ids. A border alone is also
+   easy to miss on a mode toggle, so an active mode inverts. */
+.pg-3d-tools button.pg-active:not(.pg-swatch) {
+  background: var(--fg);
+  border-color: var(--fg);
+  color: var(--bg);
+}
+.pg-3d-tools .pg-swatch.pg-active {
+  outline: 2px solid var(--fg);
+  outline-offset: 1px;
+}
+
 #pg-eraser,
 #pg-clear,
 #pg-guide-toggle,
