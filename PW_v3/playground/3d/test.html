@@ -73,6 +73,7 @@
       let p;
       try {
         p = createPainter(stage);
+        window.__painter = p;   // handy for debugging in the console
         status.textContent = 'ready — drag on the egg to paint. scroll or pinch to zoom.';
       } catch (e) {
         status.textContent = 'failed: ' + e.message;

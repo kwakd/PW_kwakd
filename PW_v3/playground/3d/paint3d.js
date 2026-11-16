@@ -150,6 +150,7 @@ export function createPainter(container, opts = {}) {
   let worldPerTexel = 0.006;
   function measureTexelScale() {
     if (!mesh) return;
+    scene.updateMatrixWorld(true);   // world scale is stale until this runs
     mesh.geometry.computeBoundingSphere();
     const r = mesh.geometry.boundingSphere.radius
       * mesh.getWorldScale(new THREE.Vector3()).x;
