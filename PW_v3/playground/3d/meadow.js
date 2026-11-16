@@ -205,20 +205,66 @@ export function createMeadow(container, opts = {}) {
   }
 
   // ---- interaction -------------------------------------------------------
-  function eggAt(clientX, clientY) {
+  /**
+   * Where an egg actually APPEARS, which is not where it is.
+   *
+   * The curve lives in the vertex shader, on the GPU, so the scene graph
+   * still has everything on a flat plane. Raycasting against that missed by
+   * however far the shader had moved it -- up to three metres out at the
+   * edge of the field, which is why a character you could plainly see was
+   * unclickable.
+   */
+  const _p = new THREE.Vector3();
+  function screenOf(egg) {
+    _p.copy(egg.group.position);
+    _p.y += 0.55;                                   // aim at the body, not the feet
+    const d = Math.hypot(_p.x - pivotWorld.x, _p.z - pivotWorld.z);
+    _p.y -= CURVE * d * d;                          // the same bend the shader applies
+    _p.project(camera);
     const r = renderer.domElement.getBoundingClientRect();
-    ndc.x = ((clientX - r.left) / r.width) * 2 - 1;
-    ndc.y = -((clientY - r.top) / r.height) * 2 + 1;
-    raycaster.setFromCamera(ndc, camera);
-    const hits = raycaster.intersectObjects(eggs.map((e) => e.group), true);
-    const id = hits.length && hits[0].object.userData.eggId;
-    return id ? eggs.find((e) => e.data.id === id) : null;
+    return {
+      x: r.left + (_p.x * 0.5 + 0.5) * r.width,
+      y: r.top + (-_p.y * 0.5 + 0.5) * r.height,
+      behind: _p.z > 1,
+    };
+  }
+
+  /** Nearest egg to the pointer, in screen space, within a forgiving radius. */
+  function eggAt(clientX, clientY) {
+    let best = null, bestD = Infinity;
+    for (const e of eggs) {
+      const s = screenOf(e);
+      if (s.behind) continue;
+      const d = Math.hypot(s.x - clientX, s.y - clientY);
+      if (d < bestD) { bestD = d; best = e; }
+    }
+    // generous but not absurd: roughly the on-screen size of an egg
+    const r = renderer.domElement.getBoundingClientRect();
+    const limit = Math.max(28, r.width * 0.06);
+    return bestD <= limit ? best : null;
   }
 
   const el = renderer.domElement;
   let drag = null;
   el.addEventListener('pointerdown', (e) => {
-    drag = { x: e.clientX, y: e.clientY, moved: 0 };
+    // right button, middle button or shift drags the view instead of turning it
+    drag = { x: e.clientX, y: e.clientY, moved: 0,
+             pan: e.button === 1 || e.button === 2 || e.shiftKey };
+  });
+  el.addEventListener('contextmenu', (e) => e.preventDefault());
+
+  // arrow keys and WASD walk around, for anyone who would rather not drag
+  el.tabIndex = 0;
+  el.addEventListener('keydown', (e) => {
+    const step = 34;
+    const moves = {
+      ArrowLeft: [-step, 0], a: [-step, 0], ArrowRight: [step, 0], d: [step, 0],
+      ArrowUp: [0, -step], w: [0, -step], ArrowDown: [0, step], s: [0, step],
+    };
+    const m = moves[e.key];
+    if (!m) return;
+    panBy(-m[0], -m[1]);
+    e.preventDefault();
   });
   el.addEventListener('pointermove', (e) => {
     if (!drag) {
@@ -227,10 +273,26 @@ export function createMeadow(container, opts = {}) {
     }
     const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
     drag.moved += Math.abs(dx) + Math.abs(dy);
-    view.azimuth -= dx * 0.005;
-    view.elevation = Math.max(0.15, Math.min(1.3, view.elevation + dy * 0.004));
+    if (drag.pan) {
+      panBy(dx, dy);
+    } else {
+      view.azimuth -= dx * 0.005;
+      view.elevation = Math.max(0.15, Math.min(1.3, view.elevation + dy * 0.004));
+    }
     drag.x = e.clientX; drag.y = e.clientY;
   });
+
+  /** Walk the view across the meadow, in the camera's own plane. */
+  function panBy(dx, dy) {
+    const k = view.dist * 0.0016;
+    const right = new THREE.Vector3().setFromMatrixColumn(camera.matrix, 0);
+    const fwd = right.clone().cross(new THREE.Vector3(0, 1, 0));
+    view.target.addScaledVector(right, -dx * k);
+    view.target.addScaledVector(fwd, dy * k);
+    const lim = FIELD * 0.5;
+    view.target.x = Math.max(-lim, Math.min(lim, view.target.x));
+    view.target.z = Math.max(-lim, Math.min(lim, view.target.z));
+  }
   el.addEventListener('pointerup', (e) => {
     const wasClick = drag && drag.moved < 6;
     drag = null;
@@ -239,6 +301,27 @@ export function createMeadow(container, opts = {}) {
     if (opts.onSelect) opts.onSelect(hit ? hit.data : null);
   });
   el.addEventListener('pointerleave', () => { drag = null; });
+
+  let pinch = null;
+  el.addEventListener('touchstart', (e) => {
+    if (e.touches.length === 2) { drag = null; pinch = touchPair(e); }
+  }, { passive: false });
+  el.addEventListener('touchmove', (e) => {
+    if (e.touches.length !== 2 || !pinch) return;
+    const now = touchPair(e);
+    view.dist = Math.max(6, Math.min(30, view.dist * (pinch.d / now.d)));
+    panBy(now.x - pinch.x, now.y - pinch.y);
+    pinch = now;
+    e.preventDefault();
+  }, { passive: false });
+  el.addEventListener('touchend', () => { pinch = null; });
+  const touchPair = (e) => {
+    const [a, b] = [e.touches[0], e.touches[1]];
+    return {
+      x: (a.clientX + b.clientX) / 2, y: (a.clientY + b.clientY) / 2,
+      d: Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY) || 1,
+    };
+  };
   el.addEventListener('wheel', (e) => {
     view.dist = Math.max(6, Math.min(30, view.dist * (e.deltaY > 0 ? 1.1 : 0.9)));
     e.preventDefault();
