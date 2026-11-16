@@ -570,6 +570,37 @@ nav a.here {
   z-index: 4;
 }
 
+.pg-3d-bar {
+  display: flex;
+  gap: 0.9em;
+  align-items: center;
+  margin-bottom: 0.7em;
+}
+.pg-3d-stage {
+  width: 100%;
+  aspect-ratio: 1/1;
+  background: var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  touch-action: none;   /* the painter handles its own gestures */
+}
+.pg-3d-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4em;
+  align-items: center;
+  margin: 0.7em 0;
+}
+.pg-3d-tools button {
+  font: inherit;
+  font-size: 13px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+.pg-3d-tools .pg-swatch {
+  padding: 0;
+}
+
 .pg-tools {
   display: flex;
   flex-wrap: wrap;

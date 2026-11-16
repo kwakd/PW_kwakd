@@ -59,6 +59,27 @@
 
         <div class="pg-window" id="pg-window">
           <div class="pg-draw-state" id="pg-draw-state">
+            <div class="pg-3d-bar">
+              <button type="button" id="pg-3d-toggle" class="pg-link-btn">
+                paint in 3D →
+              </button>
+              <a class="pg-link-btn" href="playground/3d/meadow.html">the meadow →</a>
+            </div>
+
+            <div class="pg-3d-stage" id="pg-3d-stage" hidden></div>
+            <div class="pg-3d-tools" id="pg-3d-tools" hidden>
+              <button type="button" class="pg-swatch pg-active" data-c="#1a1a1a" style="background:#1a1a1a"></button>
+              <button type="button" class="pg-swatch" data-c="#e0483e" style="background:#e0483e"></button>
+              <button type="button" class="pg-swatch" data-c="#3e7fe0" style="background:#3e7fe0"></button>
+              <button type="button" class="pg-swatch" data-c="#3ec46d" style="background:#3ec46d"></button>
+              <button type="button" class="pg-swatch" data-c="#e0c53e" style="background:#e0c53e"></button>
+              <button type="button" id="pg-3d-eraser">eraser</button>
+              <button type="button" id="pg-3d-clear">clear</button>
+              <button type="button" id="pg-3d-rotate">rotate</button>
+              <button type="button" id="pg-3d-pan">pan</button>
+              <button type="button" id="pg-3d-back">back to 2D</button>
+            </div>
+
             <div class="pg-canvas-viewport" id="pg-canvas-viewport">
               <div class="pg-canvas-wrap pg-guide-on-top" id="pg-canvas-wrap">
                 <canvas id="pg-guide" width="180" height="180"></canvas>
@@ -264,6 +285,9 @@
       </div>
     </div>
 
+    <script type="importmap">
+      { "imports": { "three": "./playground/3d/three.module.min.js" } }
+    </script>
     <script src="site.js"></script>
     <script src="playground/config.js"></script>
     <script src="playground/validation.js"></script>
@@ -271,5 +295,75 @@
     <script src="playground/canvas.js"></script>
     <script src="playground/submit.js"></script>
     <script src="playground/gallery.js"></script>
+    <script type="module">
+      /* The 3D view is opt-in: three.js, the loader and the model are about
+         1 MB together, and the landing page costs 0.32 MB. Nothing here is
+         fetched until someone actually asks for it. */
+      const toggle = document.getElementById('pg-3d-toggle');
+      const stage = document.getElementById('pg-3d-stage');
+      const tools = document.getElementById('pg-3d-tools');
+      const back = document.getElementById('pg-3d-back');
+      const viewport = document.getElementById('pg-canvas-viewport');
+      const flatTools = document.querySelector('.pg-tools');
+      const flatCanvas = window.PlaygroundCanvas;
+      let painter = null;
+
+      function show3D(on) {
+        stage.hidden = !on;
+        tools.hidden = !on;
+        viewport.hidden = on;
+        if (flatTools) flatTools.hidden = on;
+        toggle.hidden = on;
+        // submit.js talks to window.PlaygroundCanvas, so point that at
+        // whichever surface is active and the submit path needs no changes
+        window.PlaygroundCanvas = on ? {
+          isBlank: () => !painter.hasDrawn(),
+          exportImage: () => painter.toDataURL(),
+          reset: () => painter.clear(),
+        } : flatCanvas;
+      }
+
+      toggle.addEventListener('click', async () => {
+        toggle.disabled = true;
+        toggle.textContent = 'loading 3D…';
+        try {
+          const { createPainter } = await import('./playground/3d/paint3d.js');
+          painter = createPainter(stage, { model: './playground/3d/egg.glb' });
+          show3D(true);
+          tools.querySelectorAll('.pg-swatch').forEach((b) =>
+            b.addEventListener('click', () => {
+              tools.querySelectorAll('.pg-swatch').forEach((x) => x.classList.remove('pg-active'));
+              b.classList.add('pg-active');
+              document.getElementById('pg-3d-eraser').classList.remove('pg-active');
+              painter.setColor(b.dataset.c);
+            })
+          );
+          document.getElementById('pg-3d-eraser').addEventListener('click', (e) => {
+            painter.setErasing(true);
+            e.target.classList.add('pg-active');
+            tools.querySelectorAll('.pg-swatch').forEach((x) => x.classList.remove('pg-active'));
+          });
+          document.getElementById('pg-3d-clear').addEventListener('click', () => painter.clear());
+          const rot = document.getElementById('pg-3d-rotate');
+          const pan = document.getElementById('pg-3d-pan');
+          const mode = (m) => {
+            painter.setMode(m);
+            rot.classList.toggle('pg-active', m === 'rotate');
+            pan.classList.toggle('pg-active', m === 'pan');
+          };
+          rot.addEventListener('click', () => mode(painter.state.mode === 'rotate' ? 'paint' : 'rotate'));
+          pan.addEventListener('click', () => mode(painter.state.mode === 'pan' ? 'paint' : 'pan'));
+        } catch (err) {
+          toggle.disabled = false;
+          toggle.textContent = '3D could not load — ' + err.message;
+        }
+      });
+
+      back.addEventListener('click', () => {
+        show3D(false);
+        toggle.disabled = false;
+        toggle.textContent = 'paint in 3D →';
+      });
+    </script>
   </body>
 </html>
