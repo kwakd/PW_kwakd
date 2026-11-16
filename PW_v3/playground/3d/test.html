@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>3D paint — slice 1</title>
+    <link rel="stylesheet" href="../../style.css" />
+    <style>
+      .p3-wrap { max-width: 520px; margin: 0 auto; }
+      .p3-stage {
+        width: 100%; aspect-ratio: 1/1;
+        background: var(--border); border-radius: 6px; overflow: hidden;
+        touch-action: none;           /* we handle the gestures ourselves */
+      }
+      .p3-tools { display: flex; flex-wrap: wrap; gap: 0.4em; margin-top: 0.8em; align-items: center; }
+      .p3-tools button { font: inherit; font-size: 13px; padding: 6px 10px; cursor: pointer; }
+      .p3-sw { width: 26px; height: 26px; border: 1px solid var(--border); padding: 0; }
+      .p3-sw.on, .p3-tools button.on { outline: 2px solid var(--fg); }
+      .p3-note { font-size: 13px; color: var(--dim); margin-top: 0.8em; }
+    </style>
+  </head>
+  <body>
+    <div class="page p3-wrap">
+      <h1 class="entry-title">3D paint — slice 1</h1>
+      <p class="p3-note">
+        Placeholder egg, revolved from the same silhouette the 2D sprites use.
+        Drag to paint; switch to rotate to turn it around. Swapping in the real
+        egg.glb changes one line.
+      </p>
+      <div class="p3-stage" id="stage"></div>
+      <div class="p3-tools" id="tools">
+        <button class="p3-sw on" data-c="#1a1a1a" style="background:#1a1a1a"></button>
+        <button class="p3-sw" data-c="#e0483e" style="background:#e0483e"></button>
+        <button class="p3-sw" data-c="#3e7fe0" style="background:#3e7fe0"></button>
+        <button class="p3-sw" data-c="#3ec46d" style="background:#3ec46d"></button>
+        <button class="p3-sw" data-c="#e0c53e" style="background:#e0c53e"></button>
+        <button type="button" id="er">eraser</button>
+        <button type="button" id="cl">clear</button>
+        <button type="button" id="md">rotate</button>
+        <label style="font-size:12px;color:var(--dim)">pen
+          <input type="range" id="pen" min="0.5" max="3" step="0.1" value="1" style="width:72px" />
+        </label>
+        <button type="button" id="dl">export texture</button>
+      </div>
+      <p class="p3-note" id="status">loading three.js…</p>
+    </div>
+
+    <script type="module">
+      import { createPainter } from './paint3d.js';
+      const stage = document.getElementById('stage');
+      const status = document.getElementById('status');
+      let p;
+      try {
+        p = createPainter(stage);
+        status.textContent = 'ready — drag on the egg to paint';
+      } catch (e) {
+        status.textContent = 'failed: ' + e.message;
+        throw e;
+      }
+      const tools = document.getElementById('tools');
+      tools.querySelectorAll('.p3-sw').forEach((b) =>
+        b.addEventListener('click', () => {
+          tools.querySelectorAll('.p3-sw').forEach((x) => x.classList.remove('on'));
+          b.classList.add('on');
+          document.getElementById('er').classList.remove('on');
+          p.setColor(b.dataset.c);
+        })
+      );
+      document.getElementById('er').addEventListener('click', (e) => {
+        p.setErasing(true); e.target.classList.add('on');
+        tools.querySelectorAll('.p3-sw').forEach((x) => x.classList.remove('on'));
+      });
+      document.getElementById('cl').addEventListener('click', () => p.clear());
+      document.getElementById('md').addEventListener('click', (e) => {
+        const rotate = p.state.mode === 'paint';
+        p.setMode(rotate ? 'rotate' : 'paint');
+        e.target.textContent = rotate ? 'paint' : 'rotate';
+        e.target.classList.toggle('on', rotate);
+      });
+      document.getElementById('pen').addEventListener('input', (e) =>
+        p.setPenScale(parseFloat(e.target.value))
+      );
+      document.getElementById('dl').addEventListener('click', () => {
+        const a = document.createElement('a');
+        a.href = p.toDataURL(); a.download = 'egg-skin.png'; a.click();
+      });
+    </script>
+  </body>
+</html>
