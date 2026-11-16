@@ -316,10 +316,11 @@
         toggle.hidden = on;
         // submit.js talks to window.PlaygroundCanvas, so point that at
         // whichever surface is active and the submit path needs no changes
+        // read `painter` lazily -- show3D runs before it is constructed
         window.PlaygroundCanvas = on ? {
-          isBlank: () => !painter.hasDrawn(),
+          isBlank: () => !painter || !painter.hasDrawn(),
           exportImage: () => painter.toDataURL(),
-          reset: () => painter.clear(),
+          reset: () => painter && painter.clear(),
         } : flatCanvas;
       }
 
@@ -328,8 +329,10 @@
         toggle.textContent = 'loading 3D…';
         try {
           const { createPainter } = await import('./playground/3d/paint3d.js');
-          painter = createPainter(stage, { model: './playground/3d/egg.glb' });
+          // reveal the stage BEFORE building the painter: it measures the
+          // container on construction, and a hidden one is 0x0
           show3D(true);
+          painter = createPainter(stage, { model: './playground/3d/egg.glb' });
           tools.querySelectorAll('.pg-swatch').forEach((b) =>
             b.addEventListener('click', () => {
               tools.querySelectorAll('.pg-swatch').forEach((x) => x.classList.remove('pg-active'));
