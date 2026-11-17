@@ -245,6 +245,39 @@ export function createPainter(container, opts = {}) {
      * a handful of them, and the texels inside those cells are the only
      * candidates worth measuring.
      */
+    /*
+     * Islands end at a hard edge: a texel whose centre falls just outside the
+     * last triangle has no point on the model, so it never takes paint -- and
+     * because the texture is filtered, those texels bleed back in as pale
+     * seams along the crown and under the body. Grow each island a few texels
+     * outward, giving the new texels their nearest neighbour's position, so
+     * paint carries past the edge and the seam has nothing to show.
+     */
+    for (let pass = 0; pass < 4; pass++) {
+      const add = [];
+      for (let y = 0; y < TEX; y++) {
+        for (let x = 0; x < TEX; x++) {
+          const o = y * TEX + x;
+          if (mask[o]) continue;
+          for (let k = 0; k < 4; k++) {
+            const nx = x + [1, -1, 0, 0][k], ny = y + [0, 0, 1, -1][k];
+            if (nx < 0 || ny < 0 || nx >= TEX || ny >= TEX) continue;
+            const no = ny * TEX + nx;
+            if (!mask[no]) continue;
+            add.push(o, no);
+            break;
+          }
+        }
+      }
+      for (let i = 0; i < add.length; i += 2) {
+        const o = add[i], src = add[i + 1];
+        mask[o] = 1;
+        map[o * 3] = map[src * 3];
+        map[o * 3 + 1] = map[src * 3 + 1];
+        map[o * 3 + 2] = map[src * 3 + 2];
+      }
+    }
+
     const cell = unit * 12;
     const lo = [Infinity, Infinity, Infinity], hi = [-Infinity, -Infinity, -Infinity];
     for (let o = 0; o < TEX * TEX; o++) {
@@ -509,10 +542,16 @@ export function createPainter(container, opts = {}) {
       e.preventDefault();
       return;
     }
-    const from = lastPointer;
+    if (!painting) {
+      // only a drag owns lastPointer. Setting it on hover left rotate and pan
+      // with a stale anchor, so the model span around with the bare pointer.
+      hitAt(p.x, p.y);
+      showRing(state.mode === 'paint' ? lastHit : null);
+      return;
+    }
+    const from = lastPointer || p;
     lastPointer = p;
-    if (!painting) { hitAt(p.x, p.y); showRing(state.mode === 'paint' ? lastHit : null); return; }
-    const path = pathBetween(from || p, p);
+    const path = pathBetween(from, p);
     showRing(lastHit);
     if (path.length) {
       if (lastRest) path.unshift(lastRest);
