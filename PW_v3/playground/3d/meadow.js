@@ -112,10 +112,26 @@ export function createMeadow(container, opts = {}) {
   faceTex.repeat.set(1 / 3, 1 / 2);
   faceTex.offset.set(0, 0);
 
+  /*
+   * A painted skin, set up exactly as the painter had it -- anything else and
+   * the character here does not match what its maker drew.
+   *
+   * No flipY. The face atlas above needs it off because that PNG is authored
+   * top-down to match the glTF UVs, but a skin is a dump of the painter's own
+   * canvas, which is already in the default (flipped) convention. Turning it
+   * off here too mirrored every skin vertically: paint on the head came out
+   * on the belly, and the parts people had covered showed up bare.
+   *
+   * No mipmaps either. The skin is one atlas with empty gaps between the
+   * islands, and characters are small on screen out here, so the lower mip
+   * levels average those gaps back in as pale patches.
+   */
   function skinTexture(dataUrl) {
     const t = new THREE.TextureLoader().load(dataUrl);
     t.colorSpace = THREE.SRGBColorSpace;
-    t.flipY = false;
+    t.generateMipmaps = false;
+    t.minFilter = THREE.LinearFilter;
+    t.anisotropy = 4;
     return t;
   }
 
