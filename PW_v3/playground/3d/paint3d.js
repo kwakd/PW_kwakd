@@ -51,6 +51,13 @@ export function createPainter(container, opts = {}) {
   const texture = new THREE.CanvasTexture(tex2d);
   texture.colorSpace = THREE.SRGBColorSpace;
   texture.anisotropy = 4;
+  // No mipmaps. The skin lives in one atlas with gaps between the islands,
+  // and every mip level averages a wider neighbourhood, so the empty gaps
+  // bleed back into the island edges as pale seams -- most visibly across
+  // the crown, where the unwrap is squeezed hardest. At this size the model
+  // is always close to the camera, so there is nothing to gain from them.
+  texture.generateMipmaps = false;
+  texture.minFilter = THREE.LinearFilter;
 
   // --- scene ------------------------------------------------------------
   const scene = new THREE.Scene();
