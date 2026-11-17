@@ -237,7 +237,47 @@ export function createPainter(container, opts = {}) {
         cnt++;
       }
     }
-    return { pos: map, mask, unit: cnt ? sum / cnt : 0.004 };
+    const unit = cnt ? sum / cnt : 0.004;
+
+    /*
+     * A grid over space, so a stroke does not have to ask all 262,144 texels
+     * whether they are near it. Cells are a dozen texels wide: a dab touches
+     * a handful of them, and the texels inside those cells are the only
+     * candidates worth measuring.
+     */
+    const cell = unit * 12;
+    const lo = [Infinity, Infinity, Infinity], hi = [-Infinity, -Infinity, -Infinity];
+    for (let o = 0; o < TEX * TEX; o++) {
+      if (!mask[o]) continue;
+      for (let k = 0; k < 3; k++) {
+        const v = map[o * 3 + k];
+        if (v < lo[k]) lo[k] = v;
+        if (v > hi[k]) hi[k] = v;
+      }
+    }
+    const dim = lo[0] === Infinity ? [1, 1, 1]
+      : lo.map((v, k) => Math.max(1, Math.ceil((hi[k] - v) / cell) + 1));
+    const nCells = dim[0] * dim[1] * dim[2];
+    const cellOf = (x, y, z) => {
+      const i = Math.min(dim[0] - 1, Math.max(0, Math.floor((x - lo[0]) / cell)));
+      const j = Math.min(dim[1] - 1, Math.max(0, Math.floor((y - lo[1]) / cell)));
+      const k = Math.min(dim[2] - 1, Math.max(0, Math.floor((z - lo[2]) / cell)));
+      return (k * dim[1] + j) * dim[0] + i;
+    };
+    // counting sort: how many texels per cell, then where each cell's run starts
+    const counts = new Int32Array(nCells + 1);
+    for (let o = 0; o < TEX * TEX; o++) {
+      if (!mask[o]) continue;
+      counts[cellOf(map[o * 3], map[o * 3 + 1], map[o * 3 + 2]) + 1]++;
+    }
+    for (let c = 0; c < nCells; c++) counts[c + 1] += counts[c];
+    const items = new Int32Array(counts[nCells]);
+    const fill = counts.slice(0, nCells);
+    for (let o = 0; o < TEX * TEX; o++) {
+      if (!mask[o]) continue;
+      items[fill[cellOf(map[o * 3], map[o * 3 + 1], map[o * 3 + 2])]++] = o;
+    }
+    return { pos: map, mask, unit, cell, lo, dim, starts: counts, items };
   }
 
   /*
@@ -323,32 +363,88 @@ export function createPainter(container, opts = {}) {
    * on the model is within the brush radius of that segment. a may be null
    * for a single dab.
    */
-  function paintSegment(a, b) {
-    if (!surf) return;
+  const stamp = new Int32Array(TEX * TEX);
+  let gen = 0;
+
+  /**
+   * Lay paint along a path across the surface: every texel whose point on
+   * the model is within the brush radius of the path.
+   *
+   * The path is a chain of short segments and not one long one, because a
+   * straight line between two points on a curved body goes THROUGH it --
+   * over the crown, the chord dives so far inside the head that almost
+   * nothing on the surface is near it, which is why a long drag used to
+   * leave only its two ends behind.
+   */
+  function paintPath(pts) {
+    if (!surf || !pts.length) return;
     if (!img) img = tctx.getImageData(0, 0, TEX, TEX);
     parseHex(state.erasing ? BASE : state.color);
     const R = brushRadius();
     // one texel's worth of softness on the rim, so edges are not stair-stepped
     const soft = Math.max(surf.unit, 1e-6);
     const outer = R + soft, outer2 = outer * outer;
-    const ax = a ? a.x : b.x, ay = a ? a.y : b.y, az = a ? a.z : b.z;
-    const ex = b.x - ax, ey = b.y - ay, ez = b.z - az;
-    const len2 = ex * ex + ey * ey + ez * ez;
-    const P = surf.pos, M = surf.mask, D = img.data;
+    const { pos: P, cell, lo, dim, starts, items } = surf;
+    const D = img.data;
 
-    for (let o = 0, n = TEX * TEX; o < n; o++) {
-      if (!M[o]) continue;
-      const o3 = o * 3;
-      // distance from this texel's point to the segment
-      let dx = P[o3] - ax, dy = P[o3 + 1] - ay, dz = P[o3 + 2] - az;
-      if (len2 > 0) {
-        let t = (dx * ex + dy * ey + dz * ez) / len2;
-        t = t < 0 ? 0 : t > 1 ? 1 : t;
-        dx -= ex * t; dy -= ey * t; dz -= ez * t;
+    // 1. collect the texels near the path, once each
+    gen++;
+    const cand = [];
+    const reach = Math.ceil(outer / cell);
+    const gather = (x, y, z) => {
+      const ci = Math.floor((x - lo[0]) / cell);
+      const cj = Math.floor((y - lo[1]) / cell);
+      const ck = Math.floor((z - lo[2]) / cell);
+      for (let k = ck - reach; k <= ck + reach; k++) {
+        if (k < 0 || k >= dim[2]) continue;
+        for (let j = cj - reach; j <= cj + reach; j++) {
+          if (j < 0 || j >= dim[1]) continue;
+          for (let i = ci - reach; i <= ci + reach; i++) {
+            if (i < 0 || i >= dim[0]) continue;
+            const c = (k * dim[1] + j) * dim[0] + i;
+            for (let n = starts[c]; n < starts[c + 1]; n++) {
+              const o = items[n];
+              if (stamp[o] === gen) continue;
+              stamp[o] = gen;
+              cand.push(o);
+            }
+          }
+        }
       }
-      const d2 = dx * dx + dy * dy + dz * dz;
-      if (d2 > outer2) continue;
-      let k = (outer - Math.sqrt(d2)) / soft;     // 1 inside, 0 at the rim
+    };
+    for (let i = 0; i < pts.length; i++) {
+      gather(pts[i].x, pts[i].y, pts[i].z);
+      if (i + 1 < pts.length) {
+        const a = pts[i], b = pts[i + 1];
+        const len = Math.hypot(b.x - a.x, b.y - a.y, b.z - a.z);
+        const steps = Math.floor(len / cell);
+        for (let t = 1; t <= steps; t++) {
+          const f = t / (steps + 1);
+          gather(a.x + (b.x - a.x) * f, a.y + (b.y - a.y) * f, a.z + (b.z - a.z) * f);
+        }
+      }
+    }
+
+    // 2. and paint the ones that are actually within reach of it
+    for (let n = 0; n < cand.length; n++) {
+      const o = cand[n], o3 = o * 3;
+      const px = P[o3], py = P[o3 + 1], pz = P[o3 + 2];
+      let best = Infinity;
+      for (let i = 0; i < pts.length; i++) {
+        const a = pts[i], b = pts[i + 1] || a;
+        let dx = px - a.x, dy = py - a.y, dz = pz - a.z;
+        const ex = b.x - a.x, ey = b.y - a.y, ez = b.z - a.z;
+        const len2 = ex * ex + ey * ey + ez * ez;
+        if (len2 > 0) {
+          let t = (dx * ex + dy * ey + dz * ez) / len2;
+          t = t < 0 ? 0 : t > 1 ? 1 : t;
+          dx -= ex * t; dy -= ey * t; dz -= ez * t;
+        }
+        const d2 = dx * dx + dy * dy + dz * dz;
+        if (d2 < best) best = d2;
+      }
+      if (best > outer2) continue;
+      let k = (outer - Math.sqrt(best)) / soft;    // 1 inside, 0 at the rim
       if (k > 1) k = 1;
       const o4 = o * 4;
       D[o4] += (rgb.r - D[o4]) * k;
@@ -360,6 +456,25 @@ export function createPainter(container, opts = {}) {
     texture.needsUpdate = true;
   }
 
+  /**
+   * The pointer jumps a long way between two move events, and the body
+   * curves between them, so walk the gap in screen space and raycast along
+   * the way. The result is a path that follows the surface instead of
+   * cutting across it.
+   */
+  function pathBetween(from, to) {
+    const px = Math.hypot(to.x - from.x, to.y - from.y);
+    const steps = Math.max(1, Math.min(48, Math.ceil(px / 3)));
+    const out = [];
+    for (let i = 1; i <= steps; i++) {
+      const f = i / steps;
+      const h = hitAt(from.x + (to.x - from.x) * f, from.y + (to.y - from.y) * f);
+      const r = h && restPoint(h);
+      if (r) out.push(r);
+    }
+    return out;
+  }
+
   // --- pointer ----------------------------------------------------------
   function down(e) {
     const p = pointer(e);
@@ -369,7 +484,7 @@ export function createPainter(container, opts = {}) {
     if (!hit) return;
     painting = true; state.dirty = true;
     lastRest = restPoint(hit);
-    if (lastRest) paintSegment(null, lastRest);
+    if (lastRest) paintPath([lastRest]);
     e.preventDefault();
   }
   function move(e) {
@@ -394,12 +509,15 @@ export function createPainter(container, opts = {}) {
       e.preventDefault();
       return;
     }
-    const hit = hitAt(p.x, p.y);
-    showRing(state.mode === 'paint' ? lastHit : null);
-    if (!painting) return;
-    if (hit) {
-      const here = restPoint(hit);
-      if (here) { paintSegment(lastRest, here); lastRest = here; }
+    const from = lastPointer;
+    lastPointer = p;
+    if (!painting) { hitAt(p.x, p.y); showRing(state.mode === 'paint' ? lastHit : null); return; }
+    const path = pathBetween(from || p, p);
+    showRing(lastHit);
+    if (path.length) {
+      if (lastRest) path.unshift(lastRest);
+      paintPath(path);
+      lastRest = path[path.length - 1];
     }
     e.preventDefault();
   }
