@@ -76,7 +76,7 @@ export function createPainter(container, opts = {}) {
       const r = new THREE.Raycaster();
       r.set(new THREE.Vector3(4, 0, 0), new THREE.Vector3(-1, 0, 0));
       const h = r.intersectObject(mesh, false)[0];
-      if (h) refTexelScale = texelScaleAt(h);
+      if (h) refTexelScale = texelMean(texelScaleAt(h));
     }
   }
 
@@ -192,10 +192,14 @@ export function createPainter(container, opts = {}) {
     const dvLen = _e1.clone().multiplyScalar(-d2u / det)
       .addScaledVector(_e2, d1u / det).length();
 
-    // the brush is round in UV, so the ring is a compromise: the geometric
-    // mean of the two, which sits between the ellipse's axes
-    return Math.sqrt(duLen * dvLen) / TEX;
+    // world units per texel along each axis of the mapping, kept separate:
+    // near a pole these differ by an order of magnitude, and collapsing them
+    // to one number is what made the brush balloon up there
+    return { du: duLen / TEX, dv: dvLen / TEX };
   }
+
+  /** The two axes averaged, for anything that just needs one number. */
+  const texelMean = (s) => Math.sqrt(s.du * s.dv);
 
   function showRing(hit) {
     if (!hit) { ring.visible = false; return; }
@@ -205,30 +209,60 @@ export function createPainter(container, opts = {}) {
       : new THREE.Vector3(0, 0, 1);
     ring.lookAt(hit.point.clone().add(n));
     ring.position.addScaledVector(n, 0.004);   // lift it off the surface
-    ring.scale.setScalar(Math.max(0.002, brushTexelsAt(hit) * texelScaleAt(hit)));
+    ring.scale.setScalar(Math.max(0.002, brushWorld()));
     ring.material.color.set(state.erasing ? 0x888888 : state.color);
     ring.visible = true;
   }
 
   const ray = new THREE.Raycaster();
   const ndc = new THREE.Vector2();
-  let painting = false, lastUV = null, lastPointer = null;
+  let painting = false, lastUV = null, lastPointer = null, lastPoint = null;
+
+  /*
+   * The body, the arms and the legs are separate islands in the UV layout, so
+   * two points that are neighbours on the model can sit at opposite ends of
+   * the texture. Interpolating between them in UV space drags the brush
+   * straight across the atlas and paints every island on the way -- which is
+   * the stray line that appeared at the top of the body when you drew from
+   * the body down onto a leg. Compare how far the stroke moved in UV, in
+   * world units, against how far it actually moved in space: an island jump
+   * is many times longer in UV than it is on the model.
+   */
+  function isUVJump(a, b, hit) {
+    if (!a || !lastPoint || !hit) return false;
+    const s = texelScaleAt(hit);
+    const inUV = Math.hypot((b.u - a.u) * TEX * s.du, (b.v - a.v) * TEX * s.dv);
+    return inUV > lastPoint.distanceTo(hit.point) * 3 + brushWorld();
+  }
 
   function brushPx() {
     return (state.erasing ? ERASER : BRUSH) * state.penScale;
   }
 
-  // A UV sphere's mapping collapses at the poles: near the top of the head
-  // many texels fold onto the same point, so a brush of a fixed number of
-  // texels covers a wider and wider ARC the higher you paint -- which is why
-  // it would suddenly smear across the whole crown. Keeping the brush a
-  // constant size in WORLD space instead means its texel radius grows where
-  // the mapping is stretched and shrinks where it is packed.
-  let refTexelScale = 0;
+  /*
+   * A UV sphere's mapping collapses at the poles: near the top of the head
+   * many texels fold onto the same point, so a brush of a fixed number of
+   * texels covers a wider and wider ARC the higher you paint. Keeping the
+   * brush a constant size in WORLD space fixes that, but only if the two
+   * axes are scaled separately. Scaling a circle by the average of the two
+   * was the remaining artefact: at the crown the mapping is stretched
+   * sideways and packed vertically, so one radius has to grow while the
+   * other shrinks. A circle that does both at once grows into a blob --
+   * the splat at the top of the head. The brush is an ELLIPSE in UV space,
+   * which is what a round world-space dab actually projects to.
+   */
+  let refTexelScale = 0;     // world units per texel, measured on the side
+  function brushWorld() {
+    return (brushPx() / 2) * (refTexelScale || 0.005);
+  }
   function brushTexelsAt(hit) {
-    const here = texelScaleAt(hit);
-    if (!refTexelScale || !here) return brushPx() / 2;
-    return Math.min(TEX / 4, (brushPx() / 2) * (refTexelScale / here));
+    const R = brushWorld();
+    const s = hit && texelScaleAt(hit);
+    if (!s || !s.du || !s.dv) return { rx: brushPx() / 2, ry: brushPx() / 2 };
+    // half the texture is the ceiling: at the pole itself a single dab really
+    // does cover every column, and that is a cap, not a smear
+    const fit = (v) => Math.max(0.5, Math.min(TEX / 2, v));
+    return { rx: fit(R / s.du), ry: fit(R / s.dv) };
   }
 
   function uvAt(clientX, clientY) {
@@ -250,28 +284,32 @@ export function createPainter(container, opts = {}) {
    * as the mapping stretches -- most of all near the crown. Splatting lets
    * every step size itself.
    */
-  function stroke(a, b, radius) {
+  function stroke(a, b, rad) {
     // u wraps at the seam; a jump over half the texture is the pointer
     // crossing it, not a real stroke, so do not smear back across the body
-    if (Math.abs(b.u - a.u) > 0.5) { dot(b, radius); return; }
+    if (Math.abs(b.u - a.u) > 0.5) { dot(b, rad); return; }
     const dx = (b.u - a.u) * TEX, dy = (b.v - a.v) * TEX;
-    const steps = Math.max(1, Math.ceil(Math.hypot(dx, dy) / Math.max(1, radius * 0.4)));
+    const step = Math.max(1, Math.min(rad.rx, rad.ry) * 0.4);
+    const steps = Math.max(1, Math.ceil(Math.hypot(dx, dy) / step));
     for (let i = 1; i <= steps; i++) {
       const t = i / steps;
-      dot({ u: a.u + (b.u - a.u) * t, v: a.v + (b.v - a.v) * t }, radius);
+      dot({ u: a.u + (b.u - a.u) * t, v: a.v + (b.v - a.v) * t }, rad);
     }
   }
 
-  function dot(p, radius) {
+  function dot(p, rad) {
+    const { rx, ry } = rad || { rx: brushPx() / 2, ry: brushPx() / 2 };
     tctx.fillStyle = state.erasing ? BASE : state.color;
-    const r = radius || brushPx() / 2;
     const x = p.u * TEX, y = (1 - p.v) * TEX;
-    tctx.beginPath();
-    tctx.arc(x, y, r, 0, Math.PI * 2);
-    tctx.fill();
+    const blob = (cx) => {
+      tctx.beginPath();
+      tctx.ellipse(cx, y, rx, ry, 0, 0, Math.PI * 2);
+      tctx.fill();
+    };
+    blob(x);
     // paint the wrapped copy too, so a stroke near the seam is continuous
-    if (x < r) { tctx.beginPath(); tctx.arc(x + TEX, y, r, 0, Math.PI * 2); tctx.fill(); }
-    else if (x > TEX - r) { tctx.beginPath(); tctx.arc(x - TEX, y, r, 0, Math.PI * 2); tctx.fill(); }
+    if (x < rx) blob(x + TEX);
+    else if (x > TEX - rx) blob(x - TEX);
     texture.needsUpdate = true;
   }
 
@@ -283,6 +321,7 @@ export function createPainter(container, opts = {}) {
     const uv = uvAt(p.x, p.y);
     if (!uv) return;
     painting = true; lastUV = uv; state.dirty = true;
+    lastPoint = lastHit ? lastHit.point.clone() : null;
     dot(uv, brushTexelsAt(lastHit));
     e.preventDefault();
   }
@@ -313,12 +352,14 @@ export function createPainter(container, opts = {}) {
     if (!painting) return;
     if (uv) {
       const rad = brushTexelsAt(lastHit);
-      if (lastUV) stroke(lastUV, uv, rad); else dot(uv, rad);
+      if (lastUV && !isUVJump(lastUV, uv, lastHit)) stroke(lastUV, uv, rad);
+      else dot(uv, rad);
       lastUV = uv;
+      lastPoint = lastHit ? lastHit.point.clone() : null;
     }
     e.preventDefault();
   }
-  function up() { painting = false; lastUV = null; lastPointer = null; }
+  function up() { painting = false; lastUV = null; lastPointer = null; lastPoint = null; }
 
   const pointer = (e) => e.touches && e.touches[0]
     ? { x: e.touches[0].clientX, y: e.touches[0].clientY }
