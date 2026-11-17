@@ -35,7 +35,11 @@ export function createPainter(container, opts = {}) {
   // --- the skin texture -------------------------------------------------
   const tex2d = document.createElement('canvas');
   tex2d.width = tex2d.height = TEX;
-  const tctx = tex2d.getContext('2d', { willReadFrequently: false });
+  const tctx = tex2d.getContext('2d', { willReadFrequently: true });
+  // the texture, as pixels we can write to directly. Painting by distance
+  // means touching scattered texels, which a 2D path cannot express.
+  // Declared up here because clear() runs during setup and resets it.
+  let img = null;
   function clear() {
     tctx.fillStyle = BASE;
     tctx.fillRect(0, 0, TEX, TEX);
@@ -308,9 +312,6 @@ export function createPainter(container, opts = {}) {
     return lastHit;
   }
 
-  // the texture, as pixels we can write to directly. Painting by distance
-  // means touching scattered texels, which a 2D path cannot express.
-  let img = null;
   const rgb = { r: 0, g: 0, b: 0 };
   function parseHex(h) {
     const v = parseInt(h.replace('#', ''), 16);
