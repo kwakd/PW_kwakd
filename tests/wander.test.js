@@ -1,6 +1,6 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const { createWanderState, stepPosition } = require('./wander.js');
+const { createWanderState, stepPosition } = require('../PW_v3/playground/wander.js');
 
 test('createWanderState starts at the given position', () => {
   const state = createWanderState(10, 20, 0.05);

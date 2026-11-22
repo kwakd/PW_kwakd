@@ -7,7 +7,7 @@ const {
   TITLE_MAX_LENGTH,
   MESSAGE_MAX_LENGTH,
   IMAGE_MAX_BYTES
-} = require('./validation.js');
+} = require('../PW_v3/playground/validation.js');
 
 test('validateTitle rejects empty or whitespace-only title', () => {
   assert.equal(validateTitle('').valid, false);

@@ -7,8 +7,9 @@
 #
 # `functions` must point at a directory whose every top-level .js file is a
 # real function -- Netlify derives the function name from the filename and
-# rejects anything with a dot in it, which is why the tests live in
-# netlify/tests/ rather than beside the handlers.
+# rejects anything with a dot in it. The tests live in /tests at the repo
+# root, which keeps them out of the handlers directory AND out of the
+# publish directory, where they were being served to the public.
 [build]
   publish = "PW_v3"
   functions = "PW_v3/netlify/functions"
