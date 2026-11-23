@@ -3,11 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>entry #14: grow / chess / million-fish / racerproto — david kwak</title>
+    <title>entry #14: grow / chess / million-fish / racerproto / portfolio — david kwak</title>
     <meta name="description" content="Four things moved this month, so this one is a tour rather than a deep dive. First glhf grow, a daily journal app where each day you write hatches a…" />
     <link rel="canonical" href="https://kwakd.netlify.app/blog-html/blog-14.html" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="entry #14: grow / chess / million-fish / racerproto — david kwak" />
+    <meta property="og:title" content="entry #14: grow / chess / million-fish / racerproto / portfolio — david kwak" />
     <meta property="og:description" content="Four things moved this month, so this one is a tour rather than a deep dive. First glhf grow, a daily journal app where each day you write hatches a…" />
     <meta property="og:url" content="https://kwakd.netlify.app/blog-html/blog-14.html" />
     <meta property="og:image" content="https://kwakd.netlify.app/img/blog/b14/b14_sc.jpg" />
@@ -60,7 +60,7 @@
       />
       <p class="entry-meta">november-2026</p>
       <h1 class="entry-title">
-        entry #14: <em>grow / chess / million-fish / racerproto</em>
+        entry #14: <em>grow / chess / million-fish / racerproto / portfolio</em>
       </h1>
 
       <div class="entry-section">
@@ -156,6 +156,85 @@
           src="../img/blog/b14/b14_racer.jpg"
           alt="racerproto — the legendary egg skins"
         loading="lazy" decoding="async" />
+      </div>
+
+      <div class="entry-section">
+        <div class="entry-section-head">november-2026 [week 3] [portfolio / playground]</div>
+        <p>
+          The rest of the month went on this site. The playground used to be a
+          flat canvas you drew a character on. It is the <strong>egg itself
+          now, in 3D</strong>, and you paint straight onto it &mdash; the same
+          model as racerproto, exported out of Blender with its face and its
+          inked outline, so what you make here is the same character family as
+          everything else.
+        </p>
+        <img
+          src="../img/blog/b14/b14_paint.jpg"
+          alt="painting on the egg in the 3D playground"
+          loading="lazy" decoding="async"
+        />
+        <p>
+          Painting started the obvious way: fire a ray at the body, read the UV
+          where it lands, stamp a dab into the texture. That is wrong anywhere
+          the unwrap stretches. Near the crown a round stamp came out as a
+          blob, and since the body, arms and legs are separate islands in the
+          atlas, a stroke crossing from one to the next smeared across whatever
+          happened to sit between them.
+        </p>
+        <p>
+          So it stopped thinking in texture space. On load it builds a map of
+          where every texel actually <em>is</em> on the model, and a stroke
+          becomes a path across that surface: a texel takes paint when its
+          point on the body falls within the brush radius of the path. Seams
+          and poles stop mattering, because the layout stops being part of the
+          question. A grid over space keeps it quick &mdash; a stroke asks a
+          few hundred texels rather than all 262,144.
+          <br /><br />
+          One trap worth writing down. A straight line between two points on a
+          curved head goes <em>through</em> it, so a long drag over the crown
+          left only its two ends behind: the chord dived far enough inside the
+          skull that nothing on the surface was near it. It walks the gap in
+          screen space and raycasts along the way now.
+        </p>
+      </div>
+
+      <div class="entry-section">
+        <div class="entry-section-head">november-2026 [week 4] [portfolio / meadow]</div>
+        <p>
+          What you paint goes to Supabase as a pending row, I approve it by
+          hand, and then it <strong>lives in a meadow</strong> on the same page
+          &mdash; wandering around a curved little-planet horizon, and you
+          click one to read the title and message its maker left.
+        </p>
+        <img
+          src="../img/blog/b14/b14_portfolio_meadow.jpg"
+          alt="an approved character wandering the meadow"
+          loading="lazy" decoding="async"
+        />
+        <p>
+          That curve lives in the vertex shader, which caught me out. The scene
+          graph still has every character standing on a flat plane, so clicking
+          tested a position the GPU had already moved &mdash; by up to three
+          metres at the edge of the field, which is why a character you could
+          plainly see was unclickable. Picking happens in screen space now,
+          applying the same bend the shader does.
+        </p>
+        <p>
+          The one I am glad I measured rather than eyeballed: skins came out
+          <strong>mirrored</strong>. The texture setup had been copied from the
+          face atlas, which is drawn top-down to match the model's UVs and
+          needs its vertical flip off &mdash; but a skin is a dump of the
+          painting canvas, which is the other way up. Paint on the head
+          rendered on the belly, and the parts people had covered came out
+          bare. I found it by painting a blue cap, hunting the blue pixels in
+          the exported file and asking which convention put them on the head:
+          0.86 of the way up the body with the flip on, 0.39 with it off.
+          <br /><br />
+          The rest was housekeeping. The blog's gifs were ten megabytes on a
+          bad page and are a third of that now, images below the fold load
+          lazily, and the test files I had been quietly serving to the public
+          are out of the published folder.
+        </p>
       </div>
 
     </div>
