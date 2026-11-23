@@ -3,11 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>entry #14: grow / chess / million-fish / racerproto / portfolio — david kwak</title>
+    <title>entry #14: grow / chess / million-fish / racerproto — david kwak</title>
     <meta name="description" content="Four things moved this month, so this one is a tour rather than a deep dive. First glhf grow, a daily journal app where each day you write hatches a…" />
     <link rel="canonical" href="https://kwakd.netlify.app/blog-html/blog-14.html" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="entry #14: grow / chess / million-fish / racerproto / portfolio — david kwak" />
+    <meta property="og:title" content="entry #14: grow / chess / million-fish / racerproto — david kwak" />
     <meta property="og:description" content="Four things moved this month, so this one is a tour rather than a deep dive. First glhf grow, a daily journal app where each day you write hatches a…" />
     <meta property="og:url" content="https://kwakd.netlify.app/blog-html/blog-14.html" />
     <meta property="og:image" content="https://kwakd.netlify.app/img/blog/b14/b14_sc.jpg" />
@@ -60,7 +60,7 @@
       />
       <p class="entry-meta">november-2026</p>
       <h1 class="entry-title">
-        entry #14: <em>grow / chess / million-fish / racerproto / portfolio</em>
+        entry #14: <em>grow / chess / million-fish / racerproto</em>
       </h1>
 
       <div class="entry-section">
@@ -159,84 +159,70 @@
       </div>
 
       <div class="entry-section">
-        <div class="entry-section-head">november-2026 [week 3] [portfolio / playground]</div>
+        <div class="entry-section-head">november-2026 [week 3] [racerproto]</div>
         <p>
-          The rest of the month went on this site. The playground used to be a
-          flat canvas you drew a character on. It is the <strong>egg itself
-          now, in 3D</strong>, and you paint straight onto it &mdash; the same
-          model as racerproto, exported out of Blender with its face and its
-          inked outline, so what you make here is the same character family as
-          everything else.
+          A full week on <strong>racerproto</strong>, almost all of it on how
+          the thing looks and feels rather than how it moves. Online races went
+          in, along with a slide off a run and down a slope, and then the
+          cosmetics took over: three more rounds of skins and accessories, hero
+          helmets worn as hats, a Blue Hero, air poses, capes that sway, a real
+          griddy instead of my placeholder, and two legendaries in Stained
+          Glass and Seraph Wings.
         </p>
         <img
-          src="../img/blog/b14/b14_paint.jpg"
-          alt="painting on the egg in the 3D playground"
+          src="../img/project/racerproto/racer-cosmetics.jpg"
+          alt="racerproto — skins and accessories"
           loading="lazy" decoding="async"
         />
         <p>
-          Painting started the obvious way: fire a ray at the body, read the UV
-          where it lands, stamp a dab into the texture. That is wrong anywhere
-          the unwrap stretches. Near the crown a round stamp came out as a
-          blob, and since the body, arms and legs are separate islands in the
-          atlas, a stroke crossing from one to the next smeared across whatever
-          happened to sit between them.
-        </p>
-        <p>
-          So it stopped thinking in texture space. On load it builds a map of
-          where every texel actually <em>is</em> on the model, and a stroke
-          becomes a path across that surface: a texel takes paint when its
-          point on the body falls within the brush radius of the path. Seams
-          and poles stop mattering, because the layout stops being part of the
-          question. A grid over space keeps it quick &mdash; a stroke asks a
-          few hundred texels rather than all 262,144.
+          The comfort camera became the default, which it should have been from
+          the start &mdash; the follow camera was doing nobody any favours. A
+          landing marker went in so you can see where a jump is going to put
+          you, and the blade kata got reworked twice: once as its own thing,
+          then again after I made weapons and tools sit nearly level in the
+          hand whichever way you are facing, which invalidated the grip it had
+          been built around.
           <br /><br />
-          One trap worth writing down. A straight line between two points on a
-          curved head goes <em>through</em> it, so a long drag over the crown
-          left only its two ends behind: the chord dived far enough inside the
-          skull that nothing on the surface was near it. It walks the gap in
-          screen space and raycasts along the way now.
+          The least glamorous commit is the one I am happiest about: the egg's
+          design files, the Blender scripts and the notes all moved into the
+          repo. They had been living on my desktop, which is a great way to
+          lose them.
         </p>
       </div>
 
       <div class="entry-section">
-        <div class="entry-section-head">november-2026 [week 4] [portfolio / meadow]</div>
+        <div class="entry-section-head">november-2026 [week 4] [racerproto / grow]</div>
         <p>
-          What you paint goes to Supabase as a pending row, I approve it by
-          hand, and then it <strong>lives in a meadow</strong> on the same page
-          &mdash; wandering around a curved little-planet horizon, and you
-          click one to read the title and message its maker left.
+          <strong>racerproto</strong> got the piece that makes it something you
+          can invite someone to: online <strong>join codes</strong>, and a
+          rematch at the end so a race does not die with the lobby. Plus a
+          round Cannonball pose, because it needed one.
+        </p>
+        <p>
+          The rest went to <strong>glhf grow</strong>, and specifically to
+          making it legible. Everything that had been an unlabelled icon now
+          says what it is &mdash; name tags in the egg picker, captions on the
+          meadow buttons, a key on the calendar, names in rarity-coloured tags
+          on the home screen, doodle chips in the gym &mdash; and the grow-ups
+          collapsed into one card instead of several. Colours mean one thing
+          each now rather than whatever was handy, and notifications actually
+          land somewhere when you tap them.
         </p>
         <img
-          src="../img/blog/b14/b14_portfolio_meadow.jpg"
-          alt="an approved character wandering the meadow"
+          src="../img/project/glhf_grow_ios/grow-collection.jpg"
+          alt="glhf grow — the collection screen"
+          style="width: 45%; height: auto; display: block; margin: 0 auto"
           loading="lazy" decoding="async"
         />
         <p>
-          That curve lives in the vertex shader, which caught me out. The scene
-          graph still has every character standing on a flat plane, so clicking
-          tested a position the GPU had already moved &mdash; by up to three
-          metres at the edge of the field, which is why a character you could
-          plainly see was unclickable. Picking happens in screen space now,
-          applying the same bend the shader does.
-        </p>
-        <p>
-          The one I am glad I measured rather than eyeballed: skins came out
-          <strong>mirrored</strong>. The texture setup had been copied from the
-          face atlas, which is drawn top-down to match the model's UVs and
-          needs its vertical flip off &mdash; but a skin is a dump of the
-          painting canvas, which is the other way up. Paint on the head
-          rendered on the belly, and the parts people had covered came out
-          bare. I found it by painting a blue cap, hunting the blue pixels in
-          the exported file and asking which convention put them on the head:
-          0.86 of the way up the body with the flip on, 0.39 with it off.
-          <br /><br />
-          The rest was housekeeping. The blog's gifs were ten megabytes on a
-          bad page and are a third of that now, images below the fold load
-          lazily, and the test files I had been quietly serving to the public
-          are out of the published folder.
+          Then the unglamorous half of shipping an app: ads in v1, behind an
+          EEA/UK consent form that appears before the first one, with privacy
+          choices in Settings and a privacy policy written and linked from
+          there. AdMob is wired to the real app id and the real rewarded unit
+          in release builds, which is the sort of thing that is obvious right
+          up until you forget it.
         </p>
       </div>
-
     </div>
 
     <script src="../site.js"></script>
